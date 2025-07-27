@@ -1,0 +1,112 @@
+---> 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
+
+--- Extracting Structured Data with anthropic/claude-3-7-sonnet-20250219 ---
+[INIT].... → Crawl4AI 0.7.2 
+[FETCH]... ↓ https://openai.com/api/pricing/                                                                      | ✓ | ⏱: 0.76s 
+[SCRAPE].. ◆ https://openai.com/api/pricing/                                                                      | ✓ | ⏱: 0.03s 
+[EXTRACT]. ■ https://openai.com/api/pricing/                                                                      | ✓ | ⏱: 16.82s 
+[COMPLETE] ● https://openai.com/api/pricing/                                                                      | ✓ | ⏱: 17.61s 
+[
+    {
+        "model_name": "GPT-4.1",
+        "input_fee": "$2.00 / 1M tokens",
+        "output_fee": "$8.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "GPT-4.1 mini",
+        "input_fee": "$0.40 / 1M tokens",
+        "output_fee": "$1.60 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "GPT-4.1 nano",
+        "input_fee": "$0.100 / 1M tokens",
+        "output_fee": "$0.400 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "OpenAI o3",
+        "input_fee": "$2.00 / 1M tokens",
+        "output_fee": "$8.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "OpenAI o4-mini",
+        "input_fee": "$1.100 / 1M tokens",
+        "output_fee": "$4.400 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "GPT-4o",
+        "input_fee": "$5.00 / 1M input tokens",
+        "output_fee": "$20.00 / 1M output tokens",
+        "error": false
+    },
+    {
+        "model_name": "GPT-4o mini",
+        "input_fee": "$0.60 / 1M input tokens",
+        "output_fee": "$2.40 / 1M output tokens",
+        "error": false
+    },
+    {
+        "model_name": "GPT-image-1",
+        "input_fee": "$5.00 / 1M input tokens",
+        "output_fee": "$40.00 / 1M output tokens",
+        "error": false
+    },
+    {
+        "model_name": "o3-deep-research",
+        "input_fee": "$2.00 / 1M tokens",
+        "output_fee": "$8.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "o3-pro-2025-06-10",
+        "input_fee": "$2.00 / 1M tokens",
+        "output_fee": "$8.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "o4-mini-deep-research",
+        "input_fee": "$1.100 / 1M tokens",
+        "output_fee": "$4.400 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "o1",
+        "input_fee": "$2.00 / 1M tokens",
+        "output_fee": "$8.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "o1-pro",
+        "input_fee": "$2.00 / 1M tokens",
+        "output_fee": "$8.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "gpt-4o-2024-05-13",
+        "input_fee": "$5.00 / 1M tokens",
+        "output_fee": "$20.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "computer-use-preview",
+        "input_fee": "$5.00 / 1M tokens",
+        "output_fee": "$20.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "gpt-4.5-preview",
+        "input_fee": "$5.00 / 1M tokens",
+        "output_fee": "$20.00 / 1M tokens",
+        "error": false
+    },
+    {
+        "model_name": "codex-mini-latest",
+        "input_fee": "$0.60 / 1M tokens",
+        "output_fee": "$2.40 / 1M tokens",
+        "error": false
+    }
+]
