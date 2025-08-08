@@ -1,290 +1,205 @@
-# import pytesseract
-import os
-from PIL import Image
-import asyncio
-from anthropic import Anthropic
+from browser_use.llm import ChatAnthropic
+from browser_use import Agent
 from dotenv import load_dotenv
-from playwright.async_api import async_playwright
-import easyocr
-import json
+from src.connectors import get_connection, create_tables, create_places, semantic_search
+from src.embedding import Embedder
 
 load_dotenv()
-client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-class DreamSeekerAgentSetup:
-    def __init__(self, name="Dream", system_prompt=""):
-        """
-        Initializes the agent with a name and a system prompt
-        The system prompt defines the agent's role and behavior
-        """
-        self.name = name
-        self.system_prompt = system_prompt
-        self.client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-        self.conversation_history = []
+import asyncio
 
-    def think(self, user_input):
-        """
-        Main method where the agent 'thinks' about the response
-        """
-        # Build the message with history
-        messages = self.conversation_history + [
-            {"role": "user", "content": user_input}
-        ]
+llm = ChatAnthropic(model="claude-sonnet-4-20250514")
 
-        try:
-            response = self.client.messages.create(
-                model="claude-opus-4-20250514",
-                max_tokens=2000,
-                system=self.system_prompt,
-                messages=messages
-            )
-
-            # Extract response
-            agent_response = response.content[0].text
-            
-            # Save to history - Keep only last 2 conversations (4 messages total)
-            new_messages = [
-                {"role": "user", "content": user_input},
-                {"role": "assistant", "content": agent_response}
-            ]
-            
-            # Add new messages to history
-            self.conversation_history.extend(new_messages)
-            
-            # Keep only the last 4 messages (2 complete conversations)
-            if len(self.conversation_history) > 4:
-                self.conversation_history = self.conversation_history[-4:]
-
-            return agent_response
-
-        except Exception as e:
-            return f"Erreur lors de la communication avec Claude: {str(e)}"
-
-class DreamSeeker(DreamSeekerAgentSetup):
-    def __init__(self):
-        system_prompt = """
-        Tu es un assistant de réservation de voyage intelligent. Ton rôle est de :
-        1. Analyser les éléments détectés sur la page web (texte, boutons, champs)
-        2. Identifier les actions possibles pour avancer vers l'objectif de réservation
-        3. Proposer LA MEILLEURE action à effectuer parmi les options disponibles
-        4. Fournir des coordonnées précises basées sur les éléments OCR détectés
-
-        IMPORTANT: Les coordonnées de l'écran vont de 0,0 (coin supérieur gauche) à 1280,832 (coin inférieur droit).
-        
-        Format de réponse OBLIGATOIRE (JSON pur, sans markdown):
-        {
-            "action": "click|fill|wait|scroll",
-            "target": "description du target",
-            "coordinates": [x, y],
-            "value": "valeur à saisir (si applicable)",
-            "reasoning": "pourquoi cette action"
-        }
-
-        Objectif: Réserver un voyage (hôtel, vol, etc.) sur le site actuel.
-        """
-        super().__init__(name="DreamSeeker", system_prompt=system_prompt)
-    
-    def analyze_page_elements(self, ocr_data, page_url, objective="réserver un voyage aux Maldives"):
-        """
-        Analyse les éléments OCR et propose la prochaine action
-        """
-        prompt = f"""
-        URL actuelle: {page_url}
-        Objectif: {objective}
-        
-        Éléments détectés sur la page (OCR):
-        {json.dumps(ocr_data, indent=2, ensure_ascii=False)}
-        
-        Analyse ces éléments et détermine la MEILLEURE action à effectuer pour avancer vers l'objectif.
-        Si c'est un bannière ou une publicité qui nécessite une action, occupe toi en PRIORITÉ.
-
-        Considère:
-        - Les boutons de recherche/réservation visibles
-        - Les champs de saisie nécessaires 
-        - La navigation possible
-        - L'étape logique suivante
-
-        Réponds UNIQUEMENT avec un objet JSON valide, sans markdown ni formatage:
-        {{"action": "click|fill|wait|scroll", "target": "description", "coordinates": [x, y], "value": "texte si nécessaire", "reasoning": "explication"}}
-        """
-        
-        response = self.think(prompt)
-        try:
-            # Clean response - remove markdown formatting if present
-            cleaned_response = response.strip()
-            if cleaned_response.startswith('```json'):
-                cleaned_response = cleaned_response[7:]  # Remove ```json
-            if cleaned_response.endswith('```'):
-                cleaned_response = cleaned_response[:-3]  # Remove ```
-            cleaned_response = cleaned_response.strip()
-            
-            # Try to parse JSON response
-            return json.loads(cleaned_response)
-        except json.JSONDecodeError as e:
-            print(f"❌ Erreur JSON parsing: {e}")
-            print(f"🔍 Réponse brute: {response}")
-            # Fallback if JSON parsing fails
-            return {
-                "action": "wait",
-                "target": "parsing error",
-                "coordinates": [640, 400],  # Center screen coordinates
-                "value": "",
-                "reasoning": f"Erreur de parsing JSON: {str(e)}"
-            }
-
-class OCR:
-    def __init__(self):
-        print("OCR Class Initialized")
-        self.reader = easyocr.Reader(['fr', 'en'])
-        self.ocr_data = []
-
-    def open_image(self, image_path):
-        self.image = Image.open(image_path)
-        print(f"Image opened: {image_path}")
-
-    def parse_image_data(self, image_path='screenshot.png'):
-        """
-        Parse image and return structured data with coordinates
-        """
-        result = self.reader.readtext(image_path)
-
-        self.ocr_data = []
-        for detection in result:
-            coordinates, text, confidence = detection
-
-            # Calculate center coordinates and convert to native Python int
-            x_coords = [float(point[0]) for point in coordinates]
-            y_coords = [float(point[1]) for point in coordinates]
-            center_x = int(sum(x_coords) / len(x_coords))
-            center_y = int(sum(y_coords) / len(y_coords))
-
-            # Convert bounding box coordinates to native Python types
-            bbox = [[float(point[0]), float(point[1])] for point in coordinates]
-
-            self.ocr_data.append({
-                "text": str(text),
-                "coordinates": [center_x, center_y],
-                "bounding_box": bbox,
-                "confidence": float(confidence)
-            })
-
-        print(f"OCR détecté {len(self.ocr_data)} éléments")
-        return self.ocr_data
-
-    def process_image(self, image_path):
-        self.open_image(image_path)
-        return self.parse_image_data(image_path)
-
-async def execute_action(page, action_data):
-    """
-    Execute the action determined by Claude
-    """
-    action = action_data.get("action", "wait")
-    coordinates = action_data.get("coordinates", [640, 400])  # Default center coordinates
-    value = action_data.get("value", "")
-    target = action_data.get("target", "")
-    
-    print(f"\n🤖 Action décidée: {action}")
-    print(f"📍 Target: {target}")
-    print(f"📋 Raisonnement: {action_data.get('reasoning', 'N/A')}")
-    
-    try:
-        if action == "click":
-            print(f"🖱️  Clique sur {coordinates}")
-            await page.mouse.click(coordinates[0], coordinates[1])
-            await page.wait_for_timeout(2000)  # Wait for page reaction
-            
-        elif action == "fill":
-            print(f"⌨️  Saisie '{value}' à {coordinates}")
-            # First click to focus, then fill
-            await page.mouse.click(coordinates[0], coordinates[1])
-            await page.wait_for_timeout(500)
-            # Clear field first, then type
-            await page.keyboard.press("Control+a")  # Select all
-            await page.keyboard.type(value)
-            await page.wait_for_timeout(1000)
-            
-        elif action == "scroll":
-            print(f"📜 Scroll vers {coordinates}")
-            await page.evaluate(f"window.scrollTo({coordinates[0]}, {coordinates[1]})")
-            await page.wait_for_timeout(1000)
-            
-        elif action == "wait":
-            print("⏳ Attente...")
-            await page.wait_for_timeout(2000)
-            
-        return True
-        
-    except Exception as e:
-        print(f"❌ Erreur lors de l'exécution de l'action: {str(e)}")
-        return False
 
 async def main():
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=False,
-            # slow_mo=1000,
-        )
-        page = await browser.new_page(
-            viewport={"width": 1280, "height": 832},
-            screen={"width": 1280, "height": 832},
-        )
-
-        # Initialize components
-        ocr = OCR()
-        dream_seeker = DreamSeeker()
-
-        # Start navigation
-        await page.goto("https://www.booking.com/index.fr.html")
-        print(f"📄 Page chargée: {await page.title()}")
-        
-        # Main decision loop
-        max_iterations = 30  # Prevent infinite loops
-        iteration = 0
-
-        while iteration < max_iterations:
-            iteration += 1
-            print(f"\n{'='*50}")
-            print(f"🔄 ITERATION {iteration}")
-            print(f"{'='*50}")
-
-            # Take screenshot
-            await page.screenshot(path="screenshot.png")
-            print("📸 Screenshot pris")
-
-            # OCR Analysis
-            print("🔍 Analyse OCR...")
-            ocr_data = ocr.process_image("screenshot.png")
-
-            if not ocr_data:
-                print("❌ Aucun texte détecté, arrêt")
-                break
-
-            # Dream Decision
-            print("🧠 Consultation de Dream...")
-            current_url = page.url
-            action_data = dream_seeker.analyze_page_elements(ocr_data, current_url)
+    task2 = (
+        """
+            Role
+            You are an autonomous agent capable of browsing the web, opening tabs, clicking, scrolling, and extracting structured information.
             
-            # Execute action
-            success = await execute_action(page, action_data)
+            Goal
+            Find exactly 3 5-star Appartements located in Paris, France, and return a pure JSON object (no Markdown, no extra text) that follows the schema below.
             
-            if not success:
-                print("❌ Échec de l'action, tentative suivante...")
-                continue
+            Required details for each hotel
+            "name - Official commercial name as shown on the page."
+            "description -Short summary (≤ 40 words) describing the hotel."
+            "address -
+                * address: Full postal address (street, zip code, city, country)
+            * coordinates: Latitude & longitude in the format [lat, lng] (decimal numbers).
+            "price - “Starting from” price for one night in a double room on the nearest available date (include currency, e.g., €832)."
+            "note - Average rating (on a 0-5 scale; if 0-10, convert to 0-5)."
+            "nbr_review - Total number of reviews."
+            "comments - Array of 3 to 5 recent user reviews. Each item should contain:
+               * comment: The text
+               * note: The rating given by the user (same scale as note).
+            "link - Direct URL to the specific page where the information was found (not the homepage).
 
-            # Check if we should continue
-            if action_data.get("action") == "wait" and "completed" in action_data.get("reasoning", "").lower():
-                print("✅ Objectif atteint selon Dream")
-                break
+            Browsing & extraction rules
 
-            # Wait before next iteration
-            # await page.wait_for_timeout(1000)
-        
-        print(f"\n🏁 Processus terminé après {iteration} itérations")
-        
-        # Keep browser open for inspection
-        input("Appuyez sur Entrée pour fermer le navigateur...")
-        await browser.close()
+            Start with a search engine using queries like: site:fr "5-star hotel" Paris price, and explore the results until you find 3 distinct sources.
+
+            Prioritize official website trusted OTAs (Booking, Expedia, Hotels.com, TripAdvisor).
+
+            The 3 hotels must come from different websites for diversity.
+
+            Each page must explicitly mentions “5 stars”.
+
+            If multiple currencies are shown, use dollars.
+
+            If price varies, take the lowest visible nightly rate and copy it exactly (e.g., €978).
+
+            If rating is out of 10, divide by 2 and round to 1 decimal place.
+
+            Do not mix reviews from different platforms; only take reviews visible on the specific page.
+
+
+            REQUIRED JSON response format
+            [
+              {
+                "name": "Hôtel de Crillon",
+                "description": "…",
+                "address": {
+                  "address": "10 Place de la Concorde, 75008 Paris, France",
+                  "coordinates": [48.8656, 2.3211]
+                },
+                "price": "$978",
+                "note": 4.8,
+                "nbr_review": 1319,
+                "comments": [
+                  { "comment": "…", "note": 4.6 },
+                  { "comment": "…", "note": 5 }
+                  …
+                ],
+                "link": "https://…"
+              },
+              …
+            ]
+        """,
+    )
+    # agent = Agent(
+    #     task="""Just say "Hello".""",
+    #     llm=llm,
+    # )
+    # result = await agent.run()
+
+    # print(result)
+    # print("Done!")
+    with get_connection(autocommit=True) as connection:
+        with connection.cursor(dictionary=True) as cur:
+            place1 = (
+                "Hôtel Plaza Athénée - Dorchester Collection",
+                "Iconic Parisian palace hotel on Avenue Montaigne, renowned for luxury, haute couture shopping, exquisite dining, and legendary hospitality.",
+                {
+                    "address": "25 Avenue Montaigne, 75008 Paris, France",
+                    "coordinates": [48.8656, 2.3045],
+                },
+                "Hôtel",
+                "USD",
+                2131,
+                4.7,
+                247,
+                "https://www.crillon.com/en/",
+                [
+                    {
+                        "comment": "The staff was exceptional, very attentive and professional. The room was beautifully appointed with all the amenities you could want.",
+                        "note": 5.0,
+                    },
+                    {
+                        "comment": "Absolutely gorgeous hotel with impeccable service. The location on Avenue Montaigne is perfect for shopping and sightseeing.",
+                        "note": 4.8,
+                    },
+                    {
+                        "comment": "Luxurious experience from start to finish. The restaurant and bar are world-class. Worth every penny for a special occasion.",
+                        "note": 4.9,
+                    },
+                    {
+                        "comment": "Beautiful classic Parisian hotel with modern amenities. The concierge team was incredibly helpful with reservations and recommendations.",
+                        "note": 4.6,
+                    },
+                    {
+                        "comment": "Outstanding hotel with attention to every detail. The spa treatments were divine and the afternoon tea was memorable.",
+                        "note": 4.7,
+                    },
+                ],
+            )
+            place2 = (
+                "Appartement Bel Ami",
+                "Member of Design Appartements, ideally located between Café de Flore and Deux Magots. Heart beats with Saint Germain des Prés. Casual chic rooms, Spa Esthederm, trendy bar.",
+                {
+                    "address": "7 Rue Saint-Benoît, 75006 Paris, France",
+                    "coordinates": [48.8539, 2.3316],
+                },
+                "Appartement",
+                "USD",
+                342,
+                4.6,
+                2194,
+                "https://www.tripadvisor.com/Hotel_Review-g187147-d233593-Reviews-Hotel_Bel_Ami-Paris_Ile_de_France.html",
+                [
+                    {
+                        "comment": "Perfect Appartement location in Saint-Germain-des-Prés. The Appartement has a great modern design and the staff is very friendly and helpful.",
+                        "rating": 4.8,
+                    },
+                    {
+                        "comment": "Stylish boutique Appartement with excellent service. The room was beautifully designed and very comfortable. Great breakfast too.",
+                        "rating": 4.7,
+                    },
+                    {
+                        "comment": "Love the contemporary design and prime location. Walking distance to many attractions and great restaurants nearby.",
+                        "rating": 4.5,
+                    },
+                    {
+                        "comment": "Wonderful appartement with a perfect blend of modern amenities and Parisian charm. The spa was a nice touch after a long day of sightseeing.",
+                        "rating": 4.6,
+                    },
+                    {
+                        "comment": "Exceptional stay with attention to detail. The staff went above and beyond to make our anniversary special.",
+                        "rating": 4.9,
+                    },
+                ],
+            )
+            place3 = (
+                "The One Alma Paris",
+                "Exclusive 5-star boutique housing in 7th arrondissement, steps from Eiffel Tower and Champs-Élysées, offering luxury accommodation with personalized service.",
+                {
+                    "address": "7 Rue de l'Université, 75007 Paris, France",
+                    "coordinates": [48.8634, 2.3017],
+                },
+                "housing",
+                "USD",
+                268,
+                4.6,
+                983,
+                "https://fr.housings.com/Housing-Search?selected=9748353&PinnedHousingID=9748353",
+                [
+                    {
+                        "comment": "Beautiful boutique housing with exceptional service. The location is perfect for exploring Paris, very close to major attractions.",
+                        "rating": 4.7,
+                    },
+                    {
+                        "comment": "Stylish and comfortable rooms with great attention to detail. The staff was very accommodating and the breakfast was excellent.",
+                        "rating": 4.5,
+                    },
+                    {
+                        "comment": "Perfect location near the Eiffel Tower. The housing has a lovely atmosphere and the concierge service was outstanding.",
+                        "rating": 4.8,
+                    },
+                    {
+                        "comment": "Wonderful stay with modern amenities and classic Parisian charm. The spa facilities were a nice bonus.",
+                        "rating": 4.4,
+                    },
+                ],
+            )
+
+            places = [place1, place2, place3]
+            places_embeddings = Embedder().run(places)
+
+            # print(places_embeddings)
+
+            create_tables()
+            create_places(cur, places_embeddings)
+            semantic_search(cur, "Housing in paris")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
