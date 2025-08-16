@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    container_name: TiDBHackathonBackend
+    restart: always
+    environment:
+      DB_HOST: gateway01.eu-central-1.prod.aws.tidbcloud.com
+      DB_PORT: 4000
+      DB_USER: r37qXLo8c3766cd.root
+      DB_PASSWORD: KhIcf7qvgfuD2FyI
+      DB_NAME: test
+      DB_SSL_CA: /app/certs/isrgrootx1.pem
+      APP_PORT: 8080
+    volumes:
+      - ./.certs/isrgrootx1.pem:/app/certs/isrgrootx1.pem:ro
+    ports:
+      - "8080:8080"

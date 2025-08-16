@@ -1,0 +1,41 @@
+scalar UUID
+scalar DateTime 
+
+type User {
+  id: ID!
+  user_name: String!
+  user_mail: String!
+  user_password: String!
+}
+
+input UserFilter {
+  id: ID
+  user_name: String
+  user_mail: String
+  user_password: String
+}
+
+
+type Query {
+  getUser(filter: UserFilter!): [User!]!
+}
+
+
+input CreateUserInput {
+  user_name: String!
+  user_mail: String!
+  user_password: String!
+}
+
+input UpdateUserInput {
+  user_name: String!
+  user_mail: String!
+  user_password: String!
+  new_user_name: String
+  new_user_password: String
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): Int!
+  updateUser(input: UpdateUserInput!, filter: CreateUserInput!): Boolean!
+}
