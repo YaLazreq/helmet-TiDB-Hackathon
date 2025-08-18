@@ -68,7 +68,7 @@ export default function Home() {
           />
         <div className="flex flex-row justify-between items-center">
           <PromptParameter />
-          <MagnifyingGlassIcon className="h-6 w-6 text-gray-500" onClick={() => window.location.reload()} />
+          <MagnifyingGlassIcon className="h-6 w-6 text-gray-500" onClick={() => router.push("/search")} />
         </div>
         </section>
 
