@@ -1,0 +1,12 @@
+fastapi>=0.116.1
+fastmcp==2.6.1
+google-cloud-aiplatform>=1.71.1
+googlemaps>=4.10.0
+langchain>=0.3.27
+langchain-anthropic>=0.3.18
+langchain-core>=0.3.74
+langchain-xai>=0.2.5
+pydantic>=2.11.7
+python-dotenv
+uvicorn>=0.35.0
+vertexai>=1.71.1

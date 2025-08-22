@@ -1,4 +1,0 @@
-
-
-def agent_scrap():
-    

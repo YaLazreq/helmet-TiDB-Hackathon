@@ -1,0 +1,1101 @@
+[
+    {
+        "address_components": [
+            {
+                "long_name": "5 bis",
+                "short_name": "5 bis",
+                "types": [
+                    "street_number"
+                ]
+            },
+            {
+                "long_name": "Rue du Louvre",
+                "short_name": "Rue du Louvre",
+                "types": [
+                    "route"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "75001",
+                "short_name": "75001",
+                "types": [
+                    "postal_code"
+                ]
+            }
+        ],
+        "formatted_address": "5 bis Rue du Louvre,75001 Paris, France",
+        "geometry": {
+            "location": {
+                "lat": 48.8606111,
+                "lng": 2.337644
+            },
+            "location_type": "ROOFTOP",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.8619600802915,
+                    "lng": 2.338992980291502
+                },
+                "southwest": {
+                    "lat": 48.8592621197085,
+                    "lng": 2.336295019708498
+                }
+            }
+        },
+        "navigation_points": [
+            {
+                "location": {
+                    "latitude": 48.8606325,
+                    "longitude": 2.3375469
+                },
+                "restricted_travel_modes": [
+                    "DRIVE"
+                ]
+            },
+            {
+                "location": {
+                    "latitude": 48.8616534,
+                    "longitude": 2.3384315
+                },
+                "restricted_travel_modes": [
+                    "WALK"
+                ]
+            }
+        ],
+        "place_id": "ChIJ7zBGCK1v5kcR9ELK4osnz_Q",
+        "plus_code": {
+            "compound_code": "V86Q+63 Paris, France",
+            "global_code": "8FW4V86Q+63"
+        },
+        "types": [
+            "establishment",
+            "point_of_interest"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "160",
+                "short_name": "160",
+                "types": [
+                    "street_number"
+                ]
+            },
+            {
+                "long_name": "Rue Saint-Honoré",
+                "short_name": "Rue Saint-Honoré",
+                "types": [
+                    "route"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "75001",
+                "short_name": "75001",
+                "types": [
+                    "postal_code"
+                ]
+            }
+        ],
+        "formatted_address": "160 Rue Saint-Honoré,75001 Paris, France",
+        "geometry": {
+            "location": {
+                "lat": 48.8610225,
+                "lng": 2.3369645
+            },
+            "location_type": "ROOFTOP",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.8623714802915,
+                    "lng": 2.338313480291502
+                },
+                "southwest": {
+                    "lat": 48.8596735197085,
+                    "lng": 2.335615519708498
+                }
+            }
+        },
+        "navigation_points": [
+            {
+                "location": {
+                    "latitude": 48.8610497,
+                    "longitude": 2.3368541
+                },
+                "restricted_travel_modes": [
+                    "DRIVE"
+                ]
+            },
+            {
+                "location": {
+                    "latitude": 48.8622632,
+                    "longitude": 2.3365796
+                },
+                "restricted_travel_modes": [
+                    "WALK"
+                ]
+            }
+        ],
+        "place_id": "ChIJ15guJFNv5kcRjTKBHUQR9oY",
+        "plus_code": {
+            "compound_code": "V86P+CQ Paris, France",
+            "global_code": "8FW4V86P+CQ"
+        },
+        "types": [
+            "street_address"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Cour Carrée",
+                "short_name": "Cour Carrée",
+                "types": [
+                    "premise"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "75001",
+                "short_name": "75001",
+                "types": [
+                    "postal_code"
+                ]
+            }
+        ],
+        "formatted_address": "Cour Carrée,75001 Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.8613047,
+                    "lng": 2.3400309
+                },
+                "southwest": {
+                    "lat": 48.8593791,
+                    "lng": 2.3371008
+                }
+            },
+            "location": {
+                "lat": 48.8606111,
+                "lng": 2.337644
+            },
+            "location_type": "ROOFTOP",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.86169088029149,
+                    "lng": 2.3400309
+                },
+                "southwest": {
+                    "lat": 48.8589929197085,
+                    "lng": 2.3371008
+                }
+            }
+        },
+        "navigation_points": [
+            {
+                "location": {
+                    "latitude": 48.8606325,
+                    "longitude": 2.3375469
+                },
+                "restricted_travel_modes": [
+                    "DRIVE"
+                ]
+            },
+            {
+                "location": {
+                    "latitude": 48.8616534,
+                    "longitude": 2.3384315
+                },
+                "restricted_travel_modes": [
+                    "WALK"
+                ]
+            }
+        ],
+        "place_id": "ChIJ9UoWtyZu5kcRWuoIyUV70T8",
+        "types": [
+            "premise",
+            "street_address"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "V86Q+93",
+                "short_name": "V86Q+93",
+                "types": [
+                    "plus_code"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "V86Q+93 Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.861,
+                    "lng": 2.33775
+                },
+                "southwest": {
+                    "lat": 48.860875,
+                    "lng": 2.337625
+                }
+            },
+            "location": {
+                "lat": 48.8609016,
+                "lng": 2.3376544
+            },
+            "location_type": "GEOMETRIC_CENTER",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.8622864802915,
+                    "lng": 2.339036480291502
+                },
+                "southwest": {
+                    "lat": 48.8595885197085,
+                    "lng": 2.336338519708498
+                }
+            }
+        },
+        "place_id": "GhIJe4kMBjJuSEAR1M1qJoSzAkA",
+        "plus_code": {
+            "compound_code": "V86Q+93 Paris, France",
+            "global_code": "8FW4V86Q+93"
+        },
+        "types": [
+            "plus_code"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Route Sans Nom",
+                "short_name": "Route Sans Nom",
+                "types": [
+                    "route"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "75001",
+                "short_name": "75001",
+                "types": [
+                    "postal_code"
+                ]
+            }
+        ],
+        "formatted_address": "Route Sans Nom,75001 Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.8613081,
+                    "lng": 2.3376888
+                },
+                "southwest": {
+                    "lat": 48.8606298,
+                    "lng": 2.3368986
+                }
+            },
+            "location": {
+                "lat": 48.8611279,
+                "lng": 2.3376632
+            },
+            "location_type": "GEOMETRIC_CENTER",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.86231793029149,
+                    "lng": 2.338642680291502
+                },
+                "southwest": {
+                    "lat": 48.85961996970849,
+                    "lng": 2.335944719708499
+                }
+            }
+        },
+        "place_id": "ChIJaewHmyZu5kcRPudXxXDICWE",
+        "types": [
+            "route"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Louvre - Tuileries",
+                "short_name": "Louvre - Tuileries",
+                "types": [
+                    "neighborhood",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "Louvre - Tuileries, Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.869787,
+                    "lng": 2.3412555
+                },
+                "southwest": {
+                    "lat": 48.8587669,
+                    "lng": 2.3199536
+                }
+            },
+            "location": {
+                "lat": 48.8639081,
+                "lng": 2.3262008
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.869787,
+                    "lng": 2.3412555
+                },
+                "southwest": {
+                    "lat": 48.8587669,
+                    "lng": 2.3199536
+                }
+            }
+        },
+        "place_id": "ChIJZQmajy5u5kcRTMLpoys-mJs",
+        "types": [
+            "neighborhood",
+            "political"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Saint-Germain-l'Auxerrois",
+                "short_name": "Saint-Germain-l'Auxerrois",
+                "types": [
+                    "neighborhood",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "Saint-Germain-l'Auxerrois, Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.866566,
+                    "lng": 2.3481827
+                },
+                "southwest": {
+                    "lat": 48.85380929999999,
+                    "lng": 2.319196
+                }
+            },
+            "location": {
+                "lat": 48.86156159999999,
+                "lng": 2.3337187
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.866566,
+                    "lng": 2.3481827
+                },
+                "southwest": {
+                    "lat": 48.85380929999999,
+                    "lng": 2.319196
+                }
+            }
+        },
+        "place_id": "ChIJVbPGPyZu5kcRowB3csohtWw",
+        "types": [
+            "neighborhood",
+            "political"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "75001",
+                "short_name": "75001",
+                "types": [
+                    "postal_code"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "75001 Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.86990900000001,
+                    "lng": 2.3509552
+                },
+                "southwest": {
+                    "lat": 48.8540202,
+                    "lng": 2.3209301
+                }
+            },
+            "location": {
+                "lat": 48.8640493,
+                "lng": 2.3310526
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.86990900000001,
+                    "lng": 2.3509552
+                },
+                "southwest": {
+                    "lat": 48.8540202,
+                    "lng": 2.3209301
+                }
+            }
+        },
+        "place_id": "ChIJPStI0CVu5kcRAFHY4caCCxw",
+        "types": [
+            "postal_code"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "1st arrondissement",
+                "short_name": "1st arrondissement",
+                "types": [
+                    "political",
+                    "sublocality",
+                    "sublocality_level_1"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "75001",
+                "short_name": "75001",
+                "types": [
+                    "postal_code"
+                ]
+            }
+        ],
+        "formatted_address": "1st arrondissement,75001 Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.8699211,
+                    "lng": 2.3509551
+                },
+                "southwest": {
+                    "lat": 48.8540885,
+                    "lng": 2.3209333
+                }
+            },
+            "location": {
+                "lat": 48.8640396,
+                "lng": 2.3311563
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.8699211,
+                    "lng": 2.3509551
+                },
+                "southwest": {
+                    "lat": 48.8540885,
+                    "lng": 2.3209333
+                }
+            }
+        },
+        "place_id": "ChIJPStI0CVu5kcRUBqUaMOCCwU",
+        "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.9021476,
+                    "lng": 2.4698511
+                },
+                "southwest": {
+                    "lat": 48.8155622,
+                    "lng": 2.2242171
+                }
+            },
+            "location": {
+                "lat": 48.8763337,
+                "lng": 2.3461207
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.9021476,
+                    "lng": 2.4698511
+                },
+                "southwest": {
+                    "lat": 48.8155622,
+                    "lng": 2.2242171
+                }
+            }
+        },
+        "place_id": "ChIJD7fiBh9u5kcRMCqLaMOCCwM",
+        "types": [
+            "administrative_area_level_2",
+            "political"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.9021476,
+                    "lng": 2.4698511
+                },
+                "southwest": {
+                    "lat": 48.8155622,
+                    "lng": 2.2242171
+                }
+            },
+            "location": {
+                "lat": 48.8575475,
+                "lng": 2.3513765
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.9021476,
+                    "lng": 2.4698511
+                },
+                "southwest": {
+                    "lat": 48.8155622,
+                    "lng": 2.2242171
+                }
+            }
+        },
+        "place_id": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
+        "types": [
+            "locality",
+            "political"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Arrondissement of Paris",
+                "short_name": "Arrondissement of Paris",
+                "types": [
+                    "administrative_area_level_3",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Paris",
+                "short_name": "Paris",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "Arrondissement of Paris, Paris, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 48.9021476,
+                    "lng": 2.4698511
+                },
+                "southwest": {
+                    "lat": 48.8155622,
+                    "lng": 2.2242171
+                }
+            },
+            "location": {
+                "lat": 48.8575475,
+                "lng": 2.3513765
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 48.9021476,
+                    "lng": 2.4698511
+                },
+                "southwest": {
+                    "lat": 48.8155622,
+                    "lng": 2.2242171
+                }
+            }
+        },
+        "place_id": "ChIJI_9plh9u5kcR2_W0ku7uxk0",
+        "types": [
+            "administrative_area_level_3",
+            "political"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "Île-de-France",
+                "short_name": "IDF",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "Île-de-France, France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 49.2414877,
+                    "lng": 3.5590271
+                },
+                "southwest": {
+                    "lat": 48.1200772,
+                    "lng": 1.4463002
+                }
+            },
+            "location": {
+                "lat": 48.8499198,
+                "lng": 2.6370411
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 49.2414877,
+                    "lng": 3.5590271
+                },
+                "southwest": {
+                    "lat": 48.1200772,
+                    "lng": 1.4463002
+                }
+            }
+        },
+        "place_id": "ChIJF4ymA8Th5UcRcCWLaMOCCwE",
+        "types": [
+            "administrative_area_level_1",
+            "political"
+        ]
+    },
+    {
+        "address_components": [
+            {
+                "long_name": "France",
+                "short_name": "FR",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            }
+        ],
+        "formatted_address": "France",
+        "geometry": {
+            "bounds": {
+                "northeast": {
+                    "lat": 51.1241999,
+                    "lng": 9.6624999
+                },
+                "southwest": {
+                    "lat": 10.2676819,
+                    "lng": -109.2967524
+                }
+            },
+            "location": {
+                "lat": 46.227638,
+                "lng": 2.213749
+            },
+            "location_type": "APPROXIMATE",
+            "viewport": {
+                "northeast": {
+                    "lat": 51.1241999,
+                    "lng": 9.6624999
+                },
+                "southwest": {
+                    "lat": 10.2676819,
+                    "lng": -109.2967524
+                }
+            }
+        },
+        "place_id": "ChIJMVd4MymgVA0R99lHx5Y__Ws",
+        "types": [
+            "country",
+            "political"
+        ]
+    }
+]

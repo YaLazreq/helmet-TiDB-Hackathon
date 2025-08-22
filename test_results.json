@@ -1,0 +1,122 @@
+[
+  {
+    "test_id": 1,
+    "query": "How long does it take to drive from Paris to Lyon?",
+    "expected_tool": "distance_matrix",
+    "used_tools": [],
+    "response": [
+      {
+        "text": "Based on the distance matrix results, the drive from Paris to Lyon takes approximately 4 hours and 39 minutes. The total distance is about 465 kilometers (around 289 miles). This estimated time can vary depending on traffic conditions, route taken, and time of day, but it provides a good general guideline for your travel planning.",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "distance",
+    "correct_tool_used": false
+  },
+  {
+    "test_id": 2,
+    "query": "What's the distance between Eiffel Tower and Arc de Triomphe?",
+    "expected_tool": "distance_matrix",
+    "used_tools": [],
+    "response": [
+      {
+        "text": "Based on the results, the distance between the Eiffel Tower and the Arc de Triomphe is:\n- Distance: 2.5 kilometers (2,536 meters)\n- Driving time: Approximately 11 minutes\n\nThis is the driving distance and time, which might slightly differ from a direct walking route. The two iconic Parisian landmarks are relatively close to each other, making it easy to visit both during a trip to Paris.",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "distance",
+    "correct_tool_used": false
+  },
+  {
+    "test_id": 3,
+    "query": "Find restaurants near the Louvre Museum",
+    "expected_tool": "places_nearby",
+    "used_tools": [],
+    "response": [
+      {
+        "text": "Here are some restaurants near the Louvre Museum:\n\n1. Saint Laurent Sushi Park Paris\n   - Address: 8 Rue du 29 Juillet, Paris\n   - Rating: 4.1/5 (70 reviews)\n   - Type: Sushi Restaurant\n\n2. Paris Seine\n   - Location: Port Solferino, Paris\n   - Rating: 4.4/5 (1,868 reviews)\n   - Seems to be a restaurant with a scenic location\n\n3. Park Yoon Sou\n   - Address: 12 Rue Gomboust, Paris\n   - No rating information available\n\nThese restaurants are all within 500 meters of the Louvre Museum, offering a variety of dining options. The Paris Seine restaurant appears to have the highest number of reviews and rating. I recommend checking their current operating hours and making a reservation if possible, especially during peak tourist seasons.\n\nWould you like more information about any of these restaurants or would you like me to search for more options?",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "places",
+    "correct_tool_used": false
+  },
+  {
+    "test_id": 4,
+    "query": "Show me parks around Champs-\u00c9lys\u00e9es within 500m",
+    "expected_tool": "places_nearby",
+    "used_tools": [],
+    "response": [
+      {
+        "text": "Here are the parks I found within 500 meters of the Champs-\u00c9lys\u00e9es:\n\n1. Jardin des Champs-\u00c9lys\u00e9es\n   - Located at 10 Avenue des Champs-\u00c9lys\u00e9es\n   - Highly rated (4.5/5 with 2,398 reviews)\n   - Directly associated with the Champs-\u00c9lys\u00e9es area\n\n2. Square Marigny\n   - Located near Avenue de Marigny\n   - Rated 4.4/5 with 309 reviews\n\n3. Square Berlin\n   - Located at 1 Avenue de Selves\n   - Rated 4/5 with 23 reviews\n\n4. Berges de Seine\n   - Located along Quai d'Orsay\n   - Rated 4.5/5 with 592 reviews\n\n5. Archipel des Berges de Seine Niki de Saint-Phalle\n   - Located along Quai d'Orsay\n   - Rated 4.5/5 with 223 reviews\n\nThe Jardin des Champs-\u00c9lys\u00e9es is particularly notable as it's directly associated with the famous avenue. The Berges de Seine offers a nice riverside park experience, and the other squares provide pleasant green spaces in the area.\n\nWould you like more details about any of these parks?",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "places",
+    "correct_tool_used": false
+  },
+  {
+    "test_id": 5,
+    "query": "What are the coordinates of 5 Place Jules Massenet, Paris?",
+    "expected_tool": "geocode",
+    "used_tools": [],
+    "response": [
+      {
+        "text": "The coordinates for 5 Place Jules Massenet in Paris are:\n- Latitude: 48.8575475\n- Longitude: 2.3513765\n\nThe geocoding result provides the general location in Paris. If you need more precise coordinates, you might want to verify the exact location with a local map or additional sources.",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "geocoding",
+    "correct_tool_used": false
+  },
+  {
+    "test_id": 6,
+    "query": "What's the address at coordinates 48.8566, 2.3522?",
+    "expected_tool": "reverse_geocoding",
+    "used_tools": [],
+    "response": [
+      {
+        "text": "The address for the coordinates 48.8566, 2.3522 is:\nBridge Street, 61 Kington, 70123 Paris, France\n\nThese coordinates are located in Paris, France, and specifically seem to be near a Bridge Street in the 70123 postal code area. This is very close to the center of Paris, near the famous landmarks and the heart of the city.",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "reverse_geocoding",
+    "correct_tool_used": false
+  },
+  {
+    "test_id": 7,
+    "query": "What's the weather like in Paris?",
+    "expected_tool": null,
+    "used_tools": [],
+    "response": [
+      {
+        "text": "I apologize, but I do not have a tool available to check the current weather conditions. The tools I have access to are related to location and mapping services, such as finding distances between locations, searching for nearby places, and geocoding addresses. \n\nIf you'd like to use any of those location-based services, I'd be happy to help you. For example, I could help you find the coordinates of Paris, locate nearby restaurants or attractions, or calculate the distance between Paris and another city. Would you like assistance with any of those?",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "invalid",
+    "correct_tool_used": true
+  },
+  {
+    "test_id": 8,
+    "query": "Book me a restaurant reservation",
+    "expected_tool": null,
+    "used_tools": [],
+    "response": [
+      {
+        "text": "I apologize, but I cannot directly book a restaurant reservation for you. The tools I have access to are location-based services like finding nearby restaurants, getting distances between locations, or geocoding addresses. \n\nHowever, I can help you find restaurants near a specific location. Would you like me to:\n1. Find restaurants near a particular address or area\n2. Show you nearby restaurant options\n\nTo do this, I would need you to provide:\n- A specific location (address or landmark)\n- Any preferences you might have (type of cuisine, etc.)\n\nIf you're looking to actually book a reservation, I recommend:\n- Using a restaurant reservation app like OpenTable\n- Calling the restaurant directly\n- Checking the restaurant's website for online booking options\n\nWould you like me to help you find some restaurant options nearby?",
+        "type": "text",
+        "index": 0
+      }
+    ],
+    "category": "invalid",
+    "correct_tool_used": true
+  }
+]
