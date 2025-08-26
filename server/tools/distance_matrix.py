@@ -1,13 +1,9 @@
 from datetime import datetime
-import logging
 
 # Import centralized Google Maps client
-from services.google_maps_client import maps_client
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
+from services.gmaps_init import maps_client
+from services.logger_init import logger
+from services.fastmcp_init import mcp
 
 # class DistanceMatrixArgs(BaseModel):
 #     origin: str = Field(description="Starting location address")
@@ -18,7 +14,8 @@ logger = logging.getLogger(__name__)
 #     )
 
 
-def run(origin: str, destination: str, mode: str = "driving") -> dict:
+@mcp.tool()
+def distance_matrix(origin: str, destination: str, mode: str = "driving") -> dict:
     """
     Get the distance and duration between two locations.
 

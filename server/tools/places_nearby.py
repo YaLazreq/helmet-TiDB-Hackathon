@@ -1,122 +1,55 @@
-from typing import Literal, Optional
-import logging
+from typing import Optional
 
-# Import centralized Google Maps client
-from services.google_maps_client import maps_client, API_KEY
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-types = Literal[
-    "accounting",
-    "airport",
-    "amusement_park",
-    "aquarium",
-    "art_gallery",
-    "atm",
-    "bakery",
-    "bank",
-    "bar",
-    "beauty_salon",
-    "bicycle_store",
-    "book_store",
-    "bowling_alley",
-    "bus_station",
-    "cafe",
-    "campground",
-    "car_dealer",
-    "car_rental",
-    "car_repair",
-    "car_wash",
-    "casino",
-    "cemetery",
-    "church",
-    "city_hall",
-    "clothing_store",
-    "convenience_store",
-    "courthouse",
-    "dentist",
-    "department_store",
-    "doctor",
-    "drugstore",
-    "electrician",
-    "electronics_store",
-    "embassy",
-    "fire_station",
-    "florist",
-    "funeral_home",
-    "furniture_store",
-    "gas_station",
-    "gym",
-    "hair_care",
-    "hardware_store",
-    "hindu_temple",
-    "home_goods_store",
-    "hospital",
-    "insurance_agency",
-    "jewelry_store",
-    "laundry",
-    "lawyer",
-    "library",
-    "light_rail_station",
-    "liquor_store",
-    "local_government_office",
-    "locksmith",
-    "lodging",
-    "meal_delivery",
-    "meal_takeaway",
-    "mosque",
-    "movie_rental",
-    "movie_theater",
-    "moving_company",
-    "museum",
-    "night_club",
-    "painter",
-    "park",
-    "parking",
-    "pet_store",
-    "pharmacy",
-    "physiotherapist",
-    "plumber",
-    "police",
-    "post_office",
-    "primary_school",
-    "real_estate_agency",
-    "restaurant",
-    "roofing_contractor",
-    "rv_park",
-    "school",
-    "secondary_school",
-    "shoe_store",
-    "shopping_mall",
-    "spa",
-    "stadium",
-    "storage",
-    "store",
-    "subway_station",
-    "supermarket",
-    "synagogue",
-    "taxi_stand",
-    "tourist_attraction",
-    "train_station",
-    "transit_station",
-    "travel_agency",
-    "university",
-    "veterinary_care",
-    "zoo",
-]
+from services.gmaps_init import maps_client
+from services.logger_init import logger
+from services.fastmcp_init import mcp
 
 
-def run(
+import tools.place_types as place_types_module
+
+types = place_types_module.types
+
+
+@mcp.tool()
+def place_nearby(
     location: str,
     radius: int = 1000,
     type: Optional[types] = None,
     open_now: bool = False,
     language: Optional[str] = None,
-):
+) -> list:
     """
-    A Find Place request takes a text input, and returns a place.
+    Google Places Nearby Search API tool for finding places of a specific type within a defined radius.
+
+    WHEN TO USE:
+        Find all businesses of a specific type nearby: "All hospitals within 5km"
+        Location-centered searches: "Gas stations within 2 miles of this address"
+        Type-specific discovery: "What parks are around here?"
+        Quick proximity checks: "Any pharmacies open nearby?"
+
+        NOT for broad discovery searches (use places() instead)
+        NOT for finding specific named businesses (use find_place() instead)
+        NOT for complex multi-criteria searches
+
+    PARAMETERS:
+        - location: Center point for search (required) - address, lat/lng, or place name
+        - radius: Search radius in meters (default 1000, max 50,000)
+        - type: Specific business category (restaurant, hospital, gas_station, etc.)
+        - open_now: Only return currently open businesses (default False)
+        - language: Language for results (optional)
+
+    RETURNS: List of places within the specified radius, ranked by prominence/distance
+
+    KEY DIFFERENCES:
+        - place_nearby: Focused radius-based search for specific types
+        - places(): Broad discovery with complex filtering and text search
+        - find_place: Lookup specific known businesses by name/address
+
+    BEST PRACTICES:
+        - Use when you know the area and want a specific type of business
+        - Combine with open_now=True for immediate needs
+        - Start with smaller radius (500-2000m) for dense urban areas
+        - Use larger radius (5000-10000m) for suburban/rural areas
     """
     logger.info(
         f"🗺️ Places Nearby API called: {location} (radius: {radius}m, type: {type})"
@@ -151,10 +84,10 @@ def run(
 
     except ValueError as e:
         logger.error(f"❌ Places Nearby validation error: {str(e)}")
-        return {"error": str(e), "status": "ERROR"}
+        return [{"error": str(e), "status": "ERROR"}]
     except Exception as e:
         logger.error(f"❌ Places Nearby API error: {str(e)}")
-        return {"error": f"Exception occurred: {str(e)}", "status": "ERROR"}
+        return [{"error": f"Exception occurred: {str(e)}", "status": "ERROR"}]
 
 
 def clean_response(result) -> list:

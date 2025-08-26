@@ -73,7 +73,6 @@ raw_response = agent_executor.invoke(
     }
 )
 
-
 # safely extract the agent output text
 outputs = raw_response.get("output", []) or []
 if not outputs:

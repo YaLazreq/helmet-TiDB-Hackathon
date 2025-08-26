@@ -2,5 +2,17 @@
     "editor.formatOnSave": true,
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
-    }
+    },
+     // point VS Code to your project's venv
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  // Windows alternative:
+  // "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+
+  "python.analysis.typeCheckingMode": "basic",
+  "python.terminal.activateEnvironment": true,
+
+  // helpful for imports like `from app import ...`
+  "terminal.integrated.env.linux": { "PYTHONPATH": "${workspaceFolder}" },
+  "terminal.integrated.env.osx":   { "PYTHONPATH": "${workspaceFolder}" },
+  "terminal.integrated.env.windows": { "PYTHONPATH": "${workspaceFolder}" }
 }
