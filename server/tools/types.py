@@ -1,7 +1,7 @@
 from typing import Literal
 
 
-types = Literal[
+place_types = Literal[
     "accounting",
     "airport",
     "amusement_park",
@@ -99,3 +99,5 @@ types = Literal[
     "veterinary_care",
     "zoo",
 ]
+
+input_types = Literal["textquery", "phonenumber"]

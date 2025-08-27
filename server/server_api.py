@@ -1,10 +1,10 @@
-import os
-
-from services.logger_init import logger
 from services.fastmcp_init import mcp
+from services.logger_init import logger
+import os
 
 # Import all tools so their decorators get executed
 import tools.distance_matrix
+import tools.find_place
 import tools.places_nearby
 import tools.places_search
 import tools.geocode

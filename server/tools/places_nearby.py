@@ -3,11 +3,9 @@ from typing import Optional
 from services.gmaps_init import maps_client
 from services.logger_init import logger
 from services.fastmcp_init import mcp
+from . import types
 
-
-import tools.place_types as place_types_module
-
-types = place_types_module.types
+types = types.place_types
 
 
 @mcp.tool()

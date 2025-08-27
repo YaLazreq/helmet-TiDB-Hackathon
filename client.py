@@ -37,7 +37,7 @@ async def main():
 
     logger.info("Fetching tools from server 'api-server'...")
     tools = await client.get_tools(server_name="api-server")
-    logger.info("Retrieved %d tools from 'api-server'", len(tools))
+    logger.info("Retrieved %d tools from  'api-server'", len(tools))
     # logger.info("Tools: %s", tools)
 
     logger.info("Initializing ChatAnthropic model...")
@@ -57,24 +57,24 @@ async def main():
             (
                 "system",
                 """
-            You are a helpful assistant that provides information about:
-            - maps
-            - locations
-            - geocoding
-            - places
-            - directions
-            - points of interest
+                You are a helpful assistant that provides information about:
+                    - maps
+                    - locations
+                    - geocoding
+                    - places
+                    - directions
+                    - points of interest
+                
+                CRITICAL RULES:
+                    - If you don't have access to real-time data or tools, explicitly say so
+                    - Never claim to use tools that aren't available to you
+                    - If you're unsure about information, clearly state your uncertainty
+                    - Distinguish between general knowledge and real-time/precise data
+                    - When providing estimates, clearly label them as estimates
+                    - If you cannot provide accurate information, say "I don't know" or "I cannot access that information"
             
-            CRITICAL RULES:
-            - If you don't have access to real-time data or tools, explicitly say so
-            - Never claim to use tools that aren't available to you
-            - If you're unsure about information, clearly state your uncertainty
-            - Distinguish between general knowledge and real-time/precise data
-            - When providing estimates, clearly label them as estimates
-            - If you cannot provide accurate information, say "I don't know" or "I cannot access that information"
-        
-            Wrap the output in this format and provide no other text:\n{format_instructions}
-            
+                Wrap the output in this format and provide no other text:\n{format_instructions}
+
             """,
             ),
             ("placeholder", "{chat_history}"),
