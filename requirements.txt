@@ -6,6 +6,7 @@ langchain>=0.3.27
 langchain-anthropic>=0.3.18
 langchain-core>=0.3.74
 langchain-xai>=0.2.5
+langchain-mcp-adapters>=0.1.0
 pydantic>=2.11.7
 python-dotenv
 uvicorn>=0.35.0
