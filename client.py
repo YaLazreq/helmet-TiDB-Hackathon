@@ -26,7 +26,7 @@ math_agent = create_react_agent(
     model=model,
     tools=[math_tools.add, math_tools.subtract, math_tools.multiply],
     name="math_agent",
-    prompt="You are a math expert. Always use one tool at a time.",
+    prompt="You are a math expert. Always use one tool at a time. If you don't have the answer, tell the user you don't know.",
 )
 
 import agents.research_agent as research_tools
@@ -35,7 +35,7 @@ research_agent = create_react_agent(
     model=model,
     tools=[research_tools.web_search],
     name="research_agent",
-    prompt="You are a world class researcher with access to web search. Do not do any math",
+    prompt="You are a world class researcher with access to web search. Do not do any math. If you don't have the answer, tell the user you don't know.",
 )
 
 # Créer le workflow superviseur complet
@@ -73,6 +73,7 @@ supervisor_with_description = (
 
 from langchain_core.messages import HumanMessage
 
+final_chunk = None
 for chunk in supervisor_with_description.stream(
     {
         "messages": [
@@ -85,8 +86,17 @@ for chunk in supervisor_with_description.stream(
     subgraphs=True,
 ):
     ppm.pretty_print_messages(chunk, last_message=True)
+    final_chunk = chunk
 
-final_message_history = chunk["supervisor"]["messages"]
+# Handle the case where chunk might be a tuple (namespace, update)
+if isinstance(final_chunk, tuple):
+    _, update = final_chunk
+    if "supervisor" in update:
+        final_message_history = update["supervisor"]["messages"]
+    else:
+        final_message_history = None
+else:
+    final_message_history = final_chunk["supervisor"]["messages"] if final_chunk and "supervisor" in final_chunk else None
 
 # for chunk in math_agent.stream(
 #     {"messages": [{"role": "user", "content": "What is 25 multiplied by 4?"}]}
