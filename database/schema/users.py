@@ -56,7 +56,9 @@ class UserQueries:
             last_name VARCHAR(50),
             phone VARCHAR(20),
             is_active BOOLEAN DEFAULT TRUE,
-            is_admin BOOLEAN DEFAULT FALSE
+            is_admin BOOLEAN DEFAULT FALSE,
+            role VARCHAR(20),
+            specialization VARCHAR(50)
         )
         """
 

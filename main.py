@@ -26,10 +26,44 @@ def main():
         user = UserRepository.create_user(
             conn,
             UserCreate(
-                email="google2@example.com",
-                first_name="Goo",
-                last_name="Gle",
+                email="yanis.lazreq@gmail.com",
+                first_name="Yanis",
+                last_name="Lazreq",
                 password="password123",
+                phone="0123456789",
+                role="technician",
+                specialization="plumber",
+                is_active=True,
+                is_admin=False,
+            ),
+        )
+        # 3. Ajouter quelques utilisateurs
+        user2 = UserRepository.create_user(
+            conn,
+            UserCreate(
+                email="ylianeGenteleme@gmail.com",
+                first_name="Yliane",
+                last_name="GEntelemnt",
+                password="password123",
+                phone="0123456789",
+                role="admin",
+                specialization="electrician",
+                is_active=True,
+                is_admin=False,
+            ),
+        )
+        user3 = UserRepository.create_user(
+            conn,
+            UserCreate(
+                email="renault@example.com",
+                first_name="jean",
+                last_name="grodo",
+                password="password123",
+                phone="0123456789",
+                role="admin",
+                specialization="electrician",
+                is_active=True,
+                is_admin=False,
             ),
         )
         print(user)
