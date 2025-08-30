@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "MCP server on Cloud Run"
 requires-python = ">=3.11"
 dependencies = [
+    "aiomysql>=0.2.0",
+    "cryptography>=45.0.6",
     "fastapi>=0.116.1",
     "fastmcp==2.6.1",
     "google-cloud-aiplatform>=1.71.1",
@@ -16,7 +18,20 @@ dependencies = [
     "langgraph>=0.6.6",
     "langgraph-supervisor>=0.0.29",
     "pydantic>=2.11.7",
+    "pydantic-settings>=2.10.1",
+    "pymysql>=1.1.2",
     "python-dotenv>=1.1.1",
+    "sqlalchemy[asyncio]>=2.0.43",
     "uvicorn>=0.35.0",
+    "uvloop>=0.21.0",
     "vertexai>=1.71.1",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "mypy>=1.17.1",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
 ]
