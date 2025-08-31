@@ -164,7 +164,9 @@ class UserRepository:
                 new_id = cursor.lastrowid
 
                 print(f"✅ Utilisateur créé avec l'ID : {new_id}")
-                return UserResponse(id=new_id, **create_data)
+
+                # Récupérer l'utilisateur complet avec created_at et updated_at
+                return UserRepository.get_user_by_id(connection, new_id)
 
         except Exception as e:
             connection.rollback()
@@ -193,7 +195,9 @@ class UserRepository:
             return []
 
     @staticmethod
-    def get_user_by_id(connection: pymysql.Connection, user_id):
+    def get_user_by_id(
+        connection: pymysql.Connection, user_id
+    ) -> Optional[UserResponse]:
         """Get a user by ID"""
         try:
             with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -213,7 +217,9 @@ class UserRepository:
             return None
 
     @staticmethod
-    def update_user(connection: pymysql.Connection, user: UserCreate, user_id: int):
+    def update_user(
+        connection: pymysql.Connection, user: UserCreate, user_id: int
+    ) -> bool:
         """Update a user using UserCreate schema"""
         try:
             with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -236,8 +242,7 @@ class UserRepository:
                     print("❌ Aucun champ à mettre à jour")
                     return False
 
-                # Ajouter updated_at automatiquement
-                updates.append("updated_at = NOW()")
+                # updated_at est géré automatiquement par la DB avec ON UPDATE CURRENT_TIMESTAMP
                 values.append(user_id)
 
                 # Construire et exécuter la requête

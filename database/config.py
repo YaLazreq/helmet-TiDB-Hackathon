@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # =============================================================================
-# 1. CONFIGURATION SIMPLE
+# 1. SIMPLE CONFIGURATION
 # =============================================================================
 # Connexion config for TiDB
 DB_CONFIG = {
