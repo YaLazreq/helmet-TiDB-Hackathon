@@ -23,7 +23,7 @@ def main():
         # 2. Créer la table
         base.create_table(conn, User.__tablename__, UserQueries.sql_create_table)
         base.create_table(conn, Task.__tablename__, TaskQueries.sql_create_table)
-        print()
+        print("✅ Tables créées avec succès !")
 
         # UserRepository.delete_user(conn, 30001)
 
@@ -73,26 +73,26 @@ def main():
         # # print(user)
 
         # 4. Afficher tous les utilisateurs
-        UserRepository.get_all_users(conn)
-        print()
+        # UserRepository.get_all_users(conn)
+        # print()
 
-        # # 5. Créer 3 tâches avec valeurs aléatoires
-        task1 = TaskRepository.create_task(
-            conn,
-            TaskCreate(
-                title="Réparation plomberie urgente",
-                description="Fuite importante dans la salle de bain principale, intervention immédiate requise.",
-                assigned_to=1,
-                status="in_progress",
-                priority=3,
-                start_date=dt.datetime.now(),
-                due_date=dt.datetime.now() + dt.timedelta(days=2),
-                created_by=2,
-                completion_percentage=20,
-                estimated_time=120,
-            ),
-        )
-        print(task1)
+        # # # 5. Créer 3 tâches avec valeurs aléatoires
+        # task1 = TaskRepository.create_task(
+        #     conn,
+        #     TaskCreate(
+        #         title="Réparation plomberie urgente",
+        #         description="Fuite importante dans la salle de bain principale, intervention immédiate requise.",
+        #         assigned_to=1,
+        #         status="in_progress",
+        #         priority=3,
+        #         start_date=dt.datetime.now(),
+        #         due_date=dt.datetime.now() + dt.timedelta(days=2),
+        #         created_by=2,
+        #         completion_percentage=20,
+        #         estimated_time=120,
+        #     ),
+        # )
+        # print(task1)
         # task2 = TaskRepository.create_task(
         #     conn,
         #     TaskCreate(
@@ -124,15 +124,15 @@ def main():
         #     ),
         # )
 
-        TaskRepository.update_task(
-            conn,
-            TaskCreate(
-                title="nananinananère",
-            ),
-            task_id=1,
-        )
+        # TaskRepository.update_task(
+        #     conn,
+        #     TaskCreate(
+        #         title="nananinananère",
+        #     ),
+        #     task_id=1,
+        # )
 
-        print(TaskRepository.get_task_by_id(conn, 1))
+        # print(TaskRepository.get_task_by_id(conn, 1))
 
         # Tas.get_all_users(conn)
         # print()
