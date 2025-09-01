@@ -25,6 +25,39 @@ class Base(DeclarativeBase):
     )
 
 
+def drop_all_tables(connection: pymysql.Connection):
+    """Supprimer toutes les tables dans l'ordre inverse des dépendances"""
+    tables_to_drop = [
+        "tasks",  # Références users
+        "products",  # Références suppliers, orders, sites
+        "orders",  # Références suppliers, users
+        "sites",  # Références users
+        "suppliers",  # Aucune dépendance
+        "users",  # Aucune dépendance
+    ]
+
+    try:
+        with connection.cursor() as cursor:
+            # Désactiver les contraintes de clés étrangères temporairement
+            cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+
+            for table_name in tables_to_drop:
+                try:
+                    cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+                    print(f"🗑️  Table '{table_name}' supprimée")
+                except Exception as e:
+                    print(f"⚠️  Impossible de supprimer la table '{table_name}': {e}")
+
+            # Réactiver les contraintes de clés étrangères
+            cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+            connection.commit()
+            print("✅ Toutes les tables ont été nettoyées !")
+
+    except Exception as e:
+        connection.rollback()
+        print(f"❌ Erreur lors du nettoyage des tables : {e}")
+
+
 def create_table(
     connection: pymysql.Connection,
     sql_table_name: str,

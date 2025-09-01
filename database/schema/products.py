@@ -66,7 +66,7 @@ class ProductQueries:
             stock_site_id INT,
             FOREIGN KEY (supplier_id) REFERENCES suppliers(id),
             FOREIGN KEY (order_id) REFERENCES orders(id),
-            FOREIGN KEY (stock_site_id) REFERENCES stock_sites(id)
+            FOREIGN KEY (stock_site_id) REFERENCES sites(id)
         )
         """
 
@@ -154,6 +154,11 @@ class ProductRepository:
                     print("❌ Aucune données pour créer un produit")
                     return None
 
+                # Sérialiser les dictionnaires JSON
+                for key, value in create_data.items():
+                    if key == "specifications" and isinstance(value, dict):
+                        create_data[key] = json.dumps(value)
+                
                 # Séparer les noms de colonnes et les valeurs
                 field_names = list(create_data.keys())
                 field_values = list(create_data.values())

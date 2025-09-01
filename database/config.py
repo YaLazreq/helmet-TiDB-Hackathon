@@ -6,7 +6,7 @@ load_dotenv()
 # =============================================================================
 # 1. SIMPLE CONFIGURATION
 # =============================================================================
-# Connexion config for TiDB
+# Connexion config for TiDBhttps://langchain-ai.github.io/langgraph/tutorials/sql/sql-agent/
 DB_CONFIG = {
     "host": os.getenv("TIDB_HOST"),
     "port": 4000,
