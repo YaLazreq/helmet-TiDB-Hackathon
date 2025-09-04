@@ -1,7 +1,7 @@
 from typing import Annotated
-from langchain_core.tools import tool, InjectedToolCallId
+from langchain_core.tools import tool
 from langgraph.prebuilt import InjectedState
-from langgraph.graph import StateGraph, START, MessagesState
+from langgraph.graph import MessagesState
 from langgraph.types import Command, Send
 
 
@@ -31,13 +31,16 @@ def create_task_description_handoff_tool(
     return handoff_tool
 
 
-# Handoffs
-assign_to_research_agent_with_description = create_task_description_handoff_tool(
-    agent_name="research_agent",
-    description="Assign task to a researcher agent.",
+################
+### Handoffs ###
+################
+
+assign_to_planning_agent_with_description = create_task_description_handoff_tool(
+    agent_name="planning_agent",
+    description="Assign task to a planning agent.",
 )
 
-assign_to_math_agent_with_description = create_task_description_handoff_tool(
-    agent_name="math_agent",
-    description="Assign task to a math agent.",
+assign_to_conflict_agent_with_description = create_task_description_handoff_tool(
+    agent_name="conflict_agent",
+    description="Assign task to a conflict agent.",
 )
