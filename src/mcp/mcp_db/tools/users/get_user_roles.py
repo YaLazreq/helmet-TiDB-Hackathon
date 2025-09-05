@@ -1,22 +1,23 @@
 from mcp_init import mcp
 import json
 
-@mcp.tool() 
+
+@mcp.tool()
 def get_user_roles() -> str:
     """
-    Liste tous les rôles possibles dans le système.
-    
-    Utile pour connaître les valeurs exactes acceptées par le paramètre 'role' 
-    de l'outil search_users().
+    Lists all possible roles in the system.
+
+    Useful to know the exact values accepted by the 'role' parameter
+    of the search_users() tool.
     """
     roles = {
         "available_roles": ["worker", "chief", "manager", "admin"],
         "descriptions": {
-            "worker": "Ouvrier",
-            "chief": "Chef d'équipe ou responsable de chantier", 
-            "manager": "Manager/superviseur",
-            "admin": "Administrateur système"
-        }
+            "worker": "Worker",
+            "chief": "Team leader or site supervisor",
+            "manager": "Manager/supervisor",
+            "admin": "System administrator",
+        },
     }
-    
+
     return json.dumps(roles, indent=2, ensure_ascii=False)

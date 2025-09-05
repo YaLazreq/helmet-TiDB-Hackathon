@@ -6,10 +6,10 @@ import tools.other.get_current_datetime
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("MCP_PORT", 8080))    
+    port = int(os.getenv("MCP_PORT", 8081))
 
     mcp.run(
         transport="streamable-http",
         host="0.0.0.0",
-        port=port, 
+        port=port,
     )

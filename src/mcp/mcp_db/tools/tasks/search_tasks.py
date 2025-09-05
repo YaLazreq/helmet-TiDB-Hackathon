@@ -6,58 +6,58 @@ from datetime import datetime
 @mcp.tool()
 def search_tasks(id: Optional[str] = None, title: Optional[str] = None, description: Optional[str] = None, assigned_to: Optional[str] = None, created_by: Optional[str] = None, priority: Optional[str] = None, status: Optional[str] = None, start_date: Optional[str] = None, due_date: Optional[str] = None, min_estimated_hours: Optional[float] = None, max_estimated_hours: Optional[float] = None, min_completion: Optional[int] = None, max_completion: Optional[int] = None, overdue_only: Optional[bool] = None, limit: Optional[int] = 20) -> str:
     """
-    Recherche des tâches selon différents critères.
+    Search for tasks based on various criteria.
     
-    PARAMÈTRES DISPONIBLES:
+    AVAILABLE PARAMETERS:
     
     IDENTIFICATION:
-    - id: Identifiant unique de la tâche (string)
-    - title: Titre de la tâche (string, recherche partielle possible)
-    - description: Description de la tâche (string, recherche partielle possible)
+    - id: Unique task identifier (string)
+    - title: Task title (string, partial search allowed)
+    - description: Task description (string, partial search allowed)
     
-    ASSIGNATION:
-    - assigned_to: ID ou nom de l'utilisateur assigné (string)
-    - created_by: ID ou nom de l'utilisateur créateur (string)
+    ASSIGNMENT:
+    - assigned_to: ID or name of assigned user (string)
+    - created_by: ID or name of creator user (string)
     
-    PRIORITÉ:
-    - priority: Niveau de priorité (1=Low, 2=Medium, 3=High)
+    PRIORITY:
+    - priority: Priority level (1=Low, 2=Medium, 3=High)
     
-    STATUT:
-    - status: État d'avancement de la tâche (string)
-      EXEMPLES: 'pending', 'in_progress', 'completed', 'cancelled'
+    STATUS:
+    - status: Task progress status (string)
+      EXAMPLES: 'pending', 'in_progress', 'completed', 'cancelled'
     
     DATES:
-    - start_date: Date de début (format: 'YYYY-MM-DD')
-    - due_date: Date d'échéance (format: 'YYYY-MM-DD')
-    - overdue_only: Uniquement les tâches en retard (boolean: true/false)
+    - start_date: Start date (format: 'YYYY-MM-DD')
+    - due_date: Due date (format: 'YYYY-MM-DD')
+    - overdue_only: Only overdue tasks (boolean: true/false)
     
-    ESTIMATION & AVANCEMENT:
-    - min_estimated_hours: Durée estimée minimum (heures, calculée depuis estimated_time en minutes)
-    - max_estimated_hours: Durée estimée maximum (heures, calculée depuis estimated_time en minutes)
-    - min_completion: Pourcentage d'avancement minimum (0-100)
-    - max_completion: Pourcentage d'avancement maximum (0-100)
+    ESTIMATION & PROGRESS:
+    - min_estimated_hours: Minimum estimated duration (hours, calculated from estimated_time in minutes)
+    - max_estimated_hours: Maximum estimated duration (hours, calculated from estimated_time in minutes)
+    - min_completion: Minimum completion percentage (0-100)
+    - max_completion: Maximum completion percentage (0-100)
     
-    AUTRES:
-    - limit: Nombre max de résultats (défaut: 20)
+    OTHER:
+    - limit: Maximum number of results (default: 20)
     
-    EXEMPLES D'UTILISATION:
-    - Tâches d'un utilisateur: search_tasks(assigned_to="1")
-    - Tâches prioritaires: search_tasks(priority="3")
-    - Tâches en cours: search_tasks(status="in_progress")
-    - Tâches en retard: search_tasks(overdue_only=true)
-    - Tâches presque finies: search_tasks(min_completion=80)
-    - Grosses tâches: search_tasks(min_estimated_hours=10)
-    - Recherche par titre: search_tasks(title="réparation")
+    USAGE EXAMPLES:
+    - User tasks: search_tasks(assigned_to="1")
+    - High priority tasks: search_tasks(priority="3")
+    - Tasks in progress: search_tasks(status="in_progress")
+    - Overdue tasks: search_tasks(overdue_only=true)
+    - Nearly finished tasks: search_tasks(min_completion=80)
+    - Big tasks: search_tasks(min_estimated_hours=10)
+    - Search by title: search_tasks(title="repair")
     
-    RETOUR:
-    JSON avec la liste des tâches trouvées + leurs informations complètes.
+    RETURN:
+    JSON with list of found tasks and their complete information.
     """
     
     if min_completion is not None and (min_completion < 0 or min_completion > 100):
-        return f"Erreur. min_completion doit être entre 0 et 100, reçu: {min_completion}"
+        return f"Error: min_completion must be between 0 and 100, received: {min_completion}"
         
     if max_completion is not None and (max_completion < 0 or max_completion > 100):
-        return f"Erreur. max_completion doit être entre 0 et 100, reçu: {max_completion}"
+        return f"Error: max_completion must be between 0 and 100, received: {max_completion}"
     
     conditions = []
     params = []
@@ -100,11 +100,11 @@ def search_tasks(id: Optional[str] = None, title: Optional[str] = None, descript
         
     if min_estimated_hours is not None:
         conditions.append("t.estimated_time >= %s")
-        params.append(min_estimated_hours * 60)  # Convertir heures en minutes
+        params.append(min_estimated_hours * 60)  # Convert hours to minutes
         
     if max_estimated_hours is not None:
         conditions.append("t.estimated_time <= %s")
-        params.append(max_estimated_hours * 60)  # Convertir heures en minutes
+        params.append(max_estimated_hours * 60)  # Convert hours to minutes
         
     if min_completion is not None:
         conditions.append("t.completion_percentage >= %s")
@@ -160,7 +160,7 @@ def search_tasks(id: Optional[str] = None, title: Optional[str] = None, descript
         columns = [desc[0] for desc in cursor.description]
         results = cursor.fetchall()
         
-        # Convertir en dictionnaires avec gestion des datetime
+        # Convert to dictionaries with datetime handling
         tasks_list = []
         for row in results:
             task_dict = {}
@@ -170,7 +170,7 @@ def search_tasks(id: Optional[str] = None, title: Optional[str] = None, descript
                 else:
                     task_dict[columns[i]] = value
             
-            # Calculer les heures estimées depuis les minutes
+            # Calculate estimated hours from minutes
             if 'estimated_time' in task_dict and task_dict['estimated_time']:
                 task_dict['estimated_hours'] = round(task_dict['estimated_time'] / 60, 2)
             else:
@@ -179,14 +179,14 @@ def search_tasks(id: Optional[str] = None, title: Optional[str] = None, descript
             tasks_list.append(task_dict)
         
     except Exception as e:
-        return f"Erreur base de données: {str(e)}"
+        return f"Database error: {str(e)}"
     finally:
         cursor.close()
     
     if not tasks_list:
-        return "❌ Aucune tâche trouvée avec ces critères."
+        return "❌ No tasks found with these criteria."
     
-    # Calculs de statistiques
+    # Statistics calculations
     total_estimated_hours = sum(task.get("estimated_hours", 0) for task in tasks_list)
     avg_completion = sum(task.get("completion_percentage", 0) for task in tasks_list) / len(tasks_list)
     

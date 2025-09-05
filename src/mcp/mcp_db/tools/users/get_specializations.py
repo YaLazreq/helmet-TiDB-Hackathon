@@ -1,25 +1,26 @@
 from mcp_init import mcp
 import json
 
+
 @mcp.tool()
 def get_specializations() -> str:
     """
-    Liste les spécialisations les plus courantes dans le système.
-    
-    Aide à connaître les valeurs typiques pour le paramètre 'specialization'
-    de l'outil search_users().
+    Lists the most common specializations in the system.
+
+    Helps to know the typical values for the 'specialization' parameter
+    of the search_users() tool.
     """
     specializations = {
         "common_specializations": [
             "electrician",
-            "plumber", 
+            "plumber",
             "mason",
             "painter",
             "roofer",
             "carpenter",
             "hvac_technician",
-            "welder"
+            "welder",
         ]
     }
-    # ON POURRAIT AUSSI LES CHERCHER DANS LA DB DIRECT COMME çA C COMPLET GENERIQUEMENT
+    # WE COULD ALSO SEARCH THEM DIRECTLY IN THE DB FOR COMPLETE GENERIC COVERAGE
     return json.dumps(specializations, indent=2, ensure_ascii=False)

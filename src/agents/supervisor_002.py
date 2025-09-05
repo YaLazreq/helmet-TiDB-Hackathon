@@ -19,6 +19,8 @@ prompt = """
 
     AVAILABLE AGENTS AND THEIR CAPABILITIES:
     - Planning Agent: Schedules construction tasks, assigns workers, books equipment, resolves conflicts
+      Planning Agent has direct SQL access and can check conflicts internally.
+
     - Conflict Agent: Detects scheduling overlaps, zone conflicts
 
     DECISION FLOW:

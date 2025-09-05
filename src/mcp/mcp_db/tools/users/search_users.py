@@ -6,38 +6,38 @@ from datetime import datetime
 @mcp.tool()
 def search_users(id: Optional[str] = None, first_name: Optional[str] = None, last_name: Optional[str] = None, email: Optional[str] = None, phone: Optional[str] = None, role: Optional[str] = None, specialization: Optional[str] = None, is_active: Optional[bool] = None, limit: Optional[int] = 1000) -> str:
     """
-    Recherche des utilisateurs selon différents critères.
-    
-    PARAMÈTRES DISPONIBLES:
-    
+    Search for users based on various criteria.
+
+    AVAILABLE PARAMETERS:
+
     IDENTIFICATION:
-    - id: Identifiant unique de l'utilisateur (string)
-    - first_name: Prénom de l'utilisateur (string, recherche partielle possible)
-    - last_name: Nom de famille de l'utilisateur (string, recherche partielle possible)
-    - email: Adresse email (string, recherche partielle possible)  
-    - phone: Numéro de téléphone (string)
-    
-    RÔLE & FONCTION:
-    - role: Rôle dans l'entreprise (enum)
-      OPTIONS EXACTES: voir la fonction get_user_roles()
-    - specialization: Métier/spécialisation (string)
-      EXEMPLES: 'electrician', 'plumber', 'mason', 'painter', 'roofer', 'carpenter'
-    
-    STATUT:
-    - is_active: Utilisateur actif ou non (boolean: true/false)
-    
-    AUTRES:
-    - limit: Nombre max de résultats (défaut: 1000)
-    
-    EXEMPLES D'UTILISATION:
-    - Trouver un utilisateur par ID: search_users(id="user123")
-    - Tous les électriciens actifs: search_users(role="worker", specialization="electrician", is_active=true)
-    - Chercher par nom partiel: search_users(name="Jean")
-    - Tous les managers: search_users(role="manager")
-    - Utilisateurs inactifs: search_users(is_active=false)
-    
-    RETOUR:
-    JSON avec la liste des utilisateurs trouvés + leurs informations complètes.
+    - id: Unique user identifier (string)
+    - first_name: User's first name (string, partial search allowed)
+    - last_name: User's last name (string, partial search allowed)
+    - email: Email address (string, partial search allowed)
+    - phone: Phone number (string)
+
+    ROLE & FUNCTION:
+    - role: Role in the company (enum)
+      EXACT OPTIONS: see the get_user_roles() function
+    - specialization: Trade/specialization (string)
+      EXAMPLES: 'electrician', 'plumber', 'mason', 'painter', 'roofer', 'carpenter'
+
+    STATUS:
+    - is_active: Whether the user is active (boolean: true/false)
+
+    OTHER:
+    - limit: Maximum number of results (default: 1000)
+
+    USAGE EXAMPLES:
+    - Find a user by ID: search_users(id="user123")
+    - All active electricians: search_users(role="worker", specialization="electrician", is_active=true)
+    - Search by partial name: search_users(name="Jean")
+    - All managers: search_users(role="manager")
+    - Inactive users: search_users(is_active=false)
+
+    RETURN:
+    JSON with the list of found users and their complete information.
     """
     
     conditions = []
@@ -66,7 +66,7 @@ def search_users(id: Optional[str] = None, first_name: Optional[str] = None, las
     if role:
         valid_roles = ['worker', 'chief', 'manager', 'admin']
         if role not in valid_roles:
-            return f"Erreur. Rôle '{role}' invalide. Rôles possibles: {valid_roles}"
+            return f"❌ Error: Invalid role '{role}'. Valid roles: {valid_roles}"
         conditions.append("role = %s")
         params.append(role)
         
@@ -115,12 +115,12 @@ def search_users(id: Optional[str] = None, first_name: Optional[str] = None, las
             users_list.append(user_dict)
         
     except Exception as e:
-        return f"Erreur base de données: {str(e)}"
+        return f"❌ Database error: {str(e)}"
     finally:
         cursor.close()
 
     if not users_list:
-        return "❌ Aucun utilisateur trouvé avec ces critères."
+        return "❌ No users found with these criteria."
     
     result = {
         "total_found": len(users_list),

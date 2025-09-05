@@ -1,12 +1,14 @@
-from server.services.fastmcp_init import mcp
+# from server.services.fastmcp_init import mcp
 from src.config.llm_init import model
 from src.config.db import create_database_connection
 
 from langchain_community.agent_toolkits.sql.base import create_sql_agent
 from langchain.agents.agent_types import AgentType
+from langchain.agents import AgentExecutor
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 # SQL Agent Prompt
 prompt = """
@@ -25,47 +27,45 @@ prompt = """
 
     CRITICAL: You should receive natural language requests, NOT SQL code!
     If you receive a direct SQL query (starting with SELECT, INSERT, etc.), 
-    respond with: {"message": "Please provide a natural language description of what data you need instead of SQL code."}
+    respond with: 
+    ```json
+    {
+        "message": "Please provide a natural language description of what data you need instead of SQL code."
+    }
+    ```
 
     CRITICAL: RETURN JSON ONLY
     - Always be explicit about empty results
     - Don't suggest endless alternative searches if core data doesn't exist
-    - After 3 failed searches, conclude that the requested data doesn't exist
-
+    
     Remember: This database may have custom table structures, so always verify the schema first!
     Remember: It's better to say "data not found" than to search indefinitely!
 """
 
-# Singleton pour l'agent SQL
-# _sql_agent_instance = None
+# - After 3 failed searches, conclude that the requested data doesn't exist
 
 
-def create_sql_agent_instance():
+def create_sql_agent_instance() -> AgentExecutor:
     global _sql_agent_instance
 
-    # Si l'agent existe déjà, le retourner
-    # if _sql_agent_instance is not None:
-    #     return _sql_agent_instance
+    try:
+        db = create_database_connection()
 
-    db = create_database_connection()
-
-    agent_executor = create_sql_agent(
-        llm=model,
-        db=db,
-        agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-        verbose=True,
-        handle_parsing_errors=True,
-        max_iterations=10,
-        max_execution_time=60,
-    )
-
-    # Sauvegarder l'agent pour réutilisation
-    # _sql_agent_instance = agent_executor
-
-    return agent_executor
+        agent_executor = create_sql_agent(
+            llm=model,
+            db=db,
+            agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+            verbose=True,
+            handle_parsing_errors=True,
+            max_iterations=10,
+            max_execution_time=60,
+        )
+        return agent_executor
+    except Exception as e:
+        print(f"❌ Erreur lors de la création de SQL Agents: {str(e)}")
+        raise e
 
 
-@mcp.tool()
 def sql_agent(natural_language_request: str) -> str:
     """
     Receive natural language request from other agents, convert it to SQL and execute it via SQL Agent.

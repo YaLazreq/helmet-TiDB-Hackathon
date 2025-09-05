@@ -6,64 +6,64 @@ from datetime import datetime
 @mcp.tool()
 def create_task(title: str, description: str, assigned_to: int, created_by: int, estimated_time: Optional[int] = None, start_date: Optional[str] = None, due_date: Optional[str] = None, priority: int = 2, status: str = "pending", completion_percentage: int = 0) -> str:
     """
-    Crée une nouvelle tâche dans la base de données.
+    Creates a new task in the database.
     
-    PARAMÈTRES OBLIGATOIRES:
-    - title: Titre de la tâche (string, non vide)
-    - description: Description détaillée de la tâche (string, non vide)
-    - assigned_to: ID de l'utilisateur assigné (int, doit exister dans users)
-    - created_by: ID de l'utilisateur créateur (int, doit exister dans users)
+    REQUIRED PARAMETERS:
+    - title: Task title (string, not empty)
+    - description: Detailed task description (string, not empty)
+    - assigned_to: ID of the assigned user (int, must exist in users)
+    - created_by: ID of the creator user (int, must exist in users)
     
-    PARAMÈTRES OPTIONNELS:
-    - estimated_time: Temps estimé en minutes (int, optionnel)
-    - start_date: Date/heure de début (string format: "YYYY-MM-DD HH:MM:SS" ou "YYYY-MM-DD", optionnel)
-    - due_date: Date/heure d'échéance (string format: "YYYY-MM-DD HH:MM:SS" ou "YYYY-MM-DD", optionnel)
-    - priority: Niveau de priorité (int, 1=haute, 2=normale, 3=basse, défaut: 2)
-    - status: Statut de la tâche (string, défaut: "pending")
+    OPTIONAL PARAMETERS:
+    - estimated_time: Estimated time in minutes (int, optional)
+    - start_date: Start date/time (string format: "YYYY-MM-DD HH:MM:SS" or "YYYY-MM-DD", optional)
+    - due_date: Due date/time (string format: "YYYY-MM-DD HH:MM:SS" or "YYYY-MM-DD", optional)
+    - priority: Priority level (int, 1=high, 2=normal, 3=low, default: 2)
+    - status: Task status (string, default: "pending")
       OPTIONS: 'pending', 'in_progress', 'completed', 'cancelled', 'on_hold'
-    - completion_percentage: Pourcentage d'achèvement (int 0-100, défaut: 0)
+    - completion_percentage: Completion percentage (int 0-100, default: 0)
     
-    VALIDATIONS AUTOMATIQUES:
-    - Titre et description non vides
-    - assigned_to et created_by existent dans la table users
-    - Dates au format correct
-    - Priorité entre 1 et 5
-    - Pourcentage entre 0 et 100
-    - Horodatage automatique (created_at, updated_at)
+    AUTOMATIC VALIDATIONS:
+    - Title and description not empty
+    - assigned_to and created_by exist in users table
+    - Dates in correct format
+    - Priority between 1 and 5
+    - Percentage between 0 and 100
+    - Automatic timestamps (created_at, updated_at)
     
-    EXEMPLES D'UTILISATION:
-    - Tâche simple: create_task("Réparer robinet", "Changer le joint", assigned_to=3, created_by=1)
-    - Tâche complète: create_task("Plomberie salle de bain", "Réparer fuite et changer robinet", assigned_to=3, created_by=1, estimated_time=240, start_date="2024-12-01 14:00:00", due_date="2024-12-01 18:00:00", priority=3)
-    - Avec statut: create_task("Peinture salon", "Peindre les murs en blanc", assigned_to=5, created_by=2, status="in_progress", completion_percentage=25)
+    USAGE EXAMPLES:
+    - Simple task: create_task("Fix faucet", "Change the gasket", assigned_to=3, created_by=1)
+    - Complete task: create_task("Bathroom plumbing", "Fix leak and change faucet", assigned_to=3, created_by=1, estimated_time=240, start_date="2024-12-01 14:00:00", due_date="2024-12-01 18:00:00", priority=3)
+    - With status: create_task("Living room painting", "Paint walls white", assigned_to=5, created_by=2, status="in_progress", completion_percentage=25)
     
-    RETOUR:
-    JSON avec les informations de la tâche créée ou message d'erreur.
+    RETURN:
+    JSON with created task information or error message.
     """
     
     if not title or not title.strip():
-        return "❌ Erreur: Le titre est obligatoire et ne peut pas être vide."
+        return "❌ Error: Title is required and cannot be empty."
     
     if not description or not description.strip():
-        return "❌ Erreur: La description est obligatoire et ne peut pas être vide."
+        return "❌ Error: Description is required and cannot be empty."
     
     if not isinstance(assigned_to, int) or assigned_to <= 0:
-        return "❌ Erreur: assigned_to doit être un ID utilisateur valide (entier positif)."
+        return "❌ Error: assigned_to must be a valid user ID (positive integer)."
     
     if not isinstance(created_by, int) or created_by <= 0:
-        return "❌ Erreur: created_by doit être un ID utilisateur valide (entier positif)."
+        return "❌ Error: created_by must be a valid user ID (positive integer)."
     
     if priority not in [1, 2, 3, 4, 5]:
-        return "❌ Erreur: La priorité doit être entre 1 (haute) et 5 (très basse)."
+        return "❌ Error: Priority must be between 1 (high) and 5 (very low)."
     
     valid_statuses = ['pending', 'in_progress', 'completed', 'cancelled', 'on_hold']
     if status not in valid_statuses:
-        return f"❌ Erreur: Statut '{status}' invalide. Statuts possibles: {valid_statuses}"
+        return f"❌ Error: Invalid status '{status}'. Valid statuses: {valid_statuses}"
     
     if not isinstance(completion_percentage, int) or completion_percentage < 0 or completion_percentage > 100:
-        return "❌ Erreur: Le pourcentage d'achèvement doit être entre 0 et 100."
+        return "❌ Error: Completion percentage must be between 0 and 100."
     
     if estimated_time is not None and (not isinstance(estimated_time, int) or estimated_time <= 0):
-        return "❌ Erreur: Le temps estimé doit être un nombre de minutes positif."
+        return "❌ Error: Estimated time must be a positive number of minutes."
     
     start_date_obj = None
     due_date_obj = None
@@ -75,9 +75,9 @@ def create_task(title: str, description: str, assigned_to: int, created_by: int,
             elif len(start_date) == 19:
                 start_date_obj = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
             else:
-                return "❌ Erreur: Format de start_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+                return "❌ Error: Invalid start_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
         except ValueError:
-            return "❌ Erreur: Format de start_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+            return "❌ Error: Invalid start_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
     
     if due_date:
         try:
@@ -86,12 +86,12 @@ def create_task(title: str, description: str, assigned_to: int, created_by: int,
             elif len(due_date) == 19:
                 due_date_obj = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
             else:
-                return "❌ Erreur: Format de due_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+                return "❌ Error: Invalid due_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
         except ValueError:
-            return "❌ Erreur: Format de due_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+            return "❌ Error: Invalid due_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
     
     if start_date_obj and due_date_obj and start_date_obj >= due_date_obj:
-        return "❌ Erreur: La date de début doit être antérieure à la date d'échéance."
+        return "❌ Error: Start date must be before due date."
     
     title = title.strip()
     description = description.strip()
@@ -100,11 +100,11 @@ def create_task(title: str, description: str, assigned_to: int, created_by: int,
     try:
         cursor.execute("SELECT id FROM users WHERE id = %s", (assigned_to,))
         if not cursor.fetchone():
-            return f"❌ Erreur: L'utilisateur assigné (ID: {assigned_to}) n'existe pas."
+            return f"❌ Error: Assigned user (ID: {assigned_to}) does not exist."
         
         cursor.execute("SELECT id FROM users WHERE id = %s", (created_by,))
         if not cursor.fetchone():
-            return f"❌ Erreur: L'utilisateur créateur (ID: {created_by}) n'existe pas."
+            return f"❌ Error: Creator user (ID: {created_by}) does not exist."
         
         current_time = datetime.now()
         
@@ -145,15 +145,15 @@ def create_task(title: str, description: str, assigned_to: int, created_by: int,
             
             success_result = {
                 "success": True,
-                "message": f"✅ Tâche '{title}' créée avec succès (ID: {task_id}).",
+                "message": f"✅ Task '{title}' created successfully (ID: {task_id}).",
                 "task": task_dict
             }
             return json.dumps(success_result, indent=2, ensure_ascii=False)
         else:
-            return "❌ Erreur: Tâche créée mais impossible de la récupérer."
+            return "❌ Error: Task created but unable to retrieve it."
             
     except Exception as e:
         db.rollback()
-        return f"❌ Erreur base de données: {str(e)}"
+        return f"❌ Database error: {str(e)}"
     finally:
         cursor.close()

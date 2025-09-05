@@ -10,104 +10,104 @@ def update_task(task_id: int, title: Optional[str] = None, description: Optional
                 priority: Optional[int] = None, status: Optional[str] = None, 
                 completion_percentage: Optional[int] = None) -> str:
     """
-    Modifie une tâche existante dans la base de données.
+    Modifies an existing task in the database.
     
-    PARAMÈTRES OBLIGATOIRES:
-    - task_id: ID de la tâche à modifier (int, doit exister dans tasks)
+    REQUIRED PARAMETERS:
+    - task_id: ID of the task to modify (int, must exist in tasks)
     
-    PARAMÈTRES OPTIONNELS (seuls les paramètres fournis seront modifiés):
-    - title: Nouveau titre de la tâche (string, non vide si fourni)
-    - description: Nouvelle description détaillée (string, non vide si fourni)
-    - assigned_to: Nouvel ID de l'utilisateur assigné (int, doit exister dans users)
-    - estimated_time: Nouveau temps estimé en minutes (int, positif ou null)
-    - start_date: Nouvelle date/heure de début (string format: "YYYY-MM-DD HH:MM:SS" ou "YYYY-MM-DD", null pour supprimer)
-    - due_date: Nouvelle date/heure d'échéance (string format: "YYYY-MM-DD HH:MM:SS" ou "YYYY-MM-DD", null pour supprimer)
-    - priority: Nouveau niveau de priorité (int, 1=haute, 2=normale, 3=basse, 4=très basse, 5=critique)
-    - status: Nouveau statut de la tâche (string)
+    OPTIONAL PARAMETERS (only provided parameters will be modified):
+    - title: New task title (string, not empty if provided)
+    - description: New detailed description (string, not empty if provided)
+    - assigned_to: New ID of assigned user (int, must exist in users)
+    - estimated_time: New estimated time in minutes (int, positive or null)
+    - start_date: New start date/time (string format: "YYYY-MM-DD HH:MM:SS" or "YYYY-MM-DD", null to remove)
+    - due_date: New due date/time (string format: "YYYY-MM-DD HH:MM:SS" or "YYYY-MM-DD", null to remove)
+    - priority: New priority level (int, 1=high, 2=normal, 3=low, 4=very low, 5=critical)
+    - status: New task status (string)
       OPTIONS: 'pending', 'in_progress', 'completed', 'cancelled', 'on_hold'
-    - completion_percentage: Nouveau pourcentage d'achèvement (int 0-100)
+    - completion_percentage: New completion percentage (int 0-100)
     
-    VALIDATIONS AUTOMATIQUES:
-    - task_id doit exister dans la base
-    - Titre et description non vides si fournis
-    - assigned_to doit exister dans users si fourni
-    - Dates au format correct si fournies
-    - Priorité entre 1 et 5 si fournie
-    - Pourcentage entre 0 et 100 si fourni
-    - Mise à jour automatique de updated_at
+    AUTOMATIC VALIDATIONS:
+    - task_id must exist in database
+    - Title and description not empty if provided
+    - assigned_to must exist in users if provided
+    - Dates in correct format if provided
+    - Priority between 1 and 5 if provided
+    - Percentage between 0 and 100 if provided
+    - Automatic update of updated_at
     
-    EXEMPLES D'UTILISATION:
-    - Changer titre: update_task(1, title="Nouveau titre")
-    - Changer statut: update_task(1, status="in_progress", completion_percentage=50)
-    - Modification complète: update_task(1, title="Nouveau titre", description="Nouvelle description", assigned_to=2, priority=1, status="in_progress")
-    - Supprimer dates: update_task(1, start_date=None, due_date=None)
-    - Mettre à jour dates: update_task(1, start_date="2024-12-02", due_date="2024-12-03 17:00:00")
+    USAGE EXAMPLES:
+    - Change title: update_task(1, title="New title")
+    - Change status: update_task(1, status="in_progress", completion_percentage=50)
+    - Complete modification: update_task(1, title="New title", description="New description", assigned_to=2, priority=1, status="in_progress")
+    - Remove dates: update_task(1, start_date=None, due_date=None)
+    - Update dates: update_task(1, start_date="2024-12-02", due_date="2024-12-03 17:00:00")
     
-    RETOUR:
-    JSON avec les informations de la tâche modifiée ou message d'erreur.
+    RETURN:
+    JSON with modified task information or error message.
     """
     
     if not isinstance(task_id, int) or task_id <= 0:
-        return "❌ Erreur: task_id doit être un ID de tâche valide (entier positif)."
+        return "❌ Error: task_id must be a valid task ID (positive integer)."
     
     update_params = [title, description, assigned_to, estimated_time, start_date, due_date, priority, status, completion_percentage]
     if all(param is None for param in update_params):
-        return "❌ Erreur: Au moins un paramètre à modifier doit être fourni."
+        return "❌ Error: At least one parameter to modify must be provided."
     
     cursor = db.cursor(buffered=True)
     try:
         cursor.execute("SELECT id FROM tasks WHERE id = %s", (task_id,))
         if not cursor.fetchone():
-            return f"❌ Erreur: La tâche avec l'ID {task_id} n'existe pas."
+            return f"❌ Error: Task with ID {task_id} does not exist."
         
         update_fields = []
         update_values = []
         
         if title is not None:
             if not title or not title.strip():
-                return "❌ Erreur: Le titre ne peut pas être vide."
+                return "❌ Error: Title cannot be empty."
             update_fields.append("title = %s")
             update_values.append(title.strip())
         
         if description is not None:
             if not description or not description.strip():
-                return "❌ Erreur: La description ne peut pas être vide."
+                return "❌ Error: Description cannot be empty."
             update_fields.append("description = %s")
             update_values.append(description.strip())
         
         if assigned_to is not None:
             if not isinstance(assigned_to, int) or assigned_to <= 0:
-                return "❌ Erreur: assigned_to doit être un ID utilisateur valide (entier positif)."
+                return "❌ Error: assigned_to must be a valid user ID (positive integer)."
             
             cursor.execute("SELECT id FROM users WHERE id = %s", (assigned_to,))
             if not cursor.fetchone():
-                return f"❌ Erreur: L'utilisateur assigné (ID: {assigned_to}) n'existe pas."
+                return f"❌ Error: Assigned user (ID: {assigned_to}) does not exist."
             
             update_fields.append("assigned_to = %s")
             update_values.append(assigned_to)
         
         if estimated_time is not None:
             if not isinstance(estimated_time, int) or estimated_time <= 0:
-                return "❌ Erreur: Le temps estimé doit être un nombre de minutes positif."
+                return "❌ Error: Estimated time must be a positive number of minutes."
             update_fields.append("estimated_time = %s")
             update_values.append(estimated_time)
         
         if priority is not None:
             if priority not in [1, 2, 3, 4, 5]:
-                return "❌ Erreur: La priorité doit être entre 1 (haute) et 5 (très basse)."
+                return "❌ Error: Priority must be between 1 (high) and 5 (very low)."
             update_fields.append("priority = %s")
             update_values.append(priority)
         
         if status is not None:
             valid_statuses = ['pending', 'in_progress', 'completed', 'cancelled', 'on_hold']
             if status not in valid_statuses:
-                return f"❌ Erreur: Statut '{status}' invalide. Statuts possibles: {valid_statuses}"
+                return f"❌ Error: Invalid status '{status}'. Valid statuses: {valid_statuses}"
             update_fields.append("status = %s")
             update_values.append(status)
         
         if completion_percentage is not None:
             if not isinstance(completion_percentage, int) or completion_percentage < 0 or completion_percentage > 100:
-                return "❌ Erreur: Le pourcentage d'achèvement doit être entre 0 et 100."
+                return "❌ Error: Completion percentage must be between 0 and 100."
             update_fields.append("completion_percentage = %s")
             update_values.append(completion_percentage)
         
@@ -125,11 +125,11 @@ def update_task(task_id: int, title: Optional[str] = None, description: Optional
                     elif len(start_date) == 19:
                         start_date_obj = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
                     else:
-                        return "❌ Erreur: Format de start_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+                        return "❌ Error: Invalid start_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
                     update_fields.append("start_date = %s")
                     update_values.append(start_date_obj)
                 except ValueError:
-                    return "❌ Erreur: Format de start_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+                    return "❌ Error: Invalid start_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
         
         if due_date is not None:
             if due_date == "":
@@ -145,11 +145,11 @@ def update_task(task_id: int, title: Optional[str] = None, description: Optional
                     elif len(due_date) == 19:
                         due_date_obj = datetime.strptime(due_date, "%Y-%m-%d %H:%M:%S")
                     else:
-                        return "❌ Erreur: Format de due_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+                        return "❌ Error: Invalid due_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
                     update_fields.append("due_date = %s")
                     update_values.append(due_date_obj)
                 except ValueError:
-                    return "❌ Erreur: Format de due_date invalide. Utilisez 'YYYY-MM-DD' ou 'YYYY-MM-DD HH:MM:SS'."
+                    return "❌ Error: Invalid due_date format. Use 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'."
         
         if start_date is not None and due_date is not None and start_date and due_date:
             current_start = None
@@ -169,7 +169,7 @@ def update_task(task_id: int, title: Optional[str] = None, description: Optional
             check_due = due_date_obj if 'due_date_obj' in locals() else current_due
             
             if check_start and check_due and check_start >= check_due:
-                return "❌ Erreur: La date de début doit être antérieure à la date d'échéance."
+                return "❌ Error: Start date must be before due date."
         
         if update_fields:
             update_fields.append("updated_at = %s")
@@ -200,18 +200,18 @@ def update_task(task_id: int, title: Optional[str] = None, description: Optional
                 
                 success_result = {
                     "success": True,
-                    "message": f"✅ Tâche ID {task_id} modifiée avec succès.",
+                    "message": f"✅ Task ID {task_id} modified successfully.",
                     "task": task_dict,
-                    "fields_updated": len(update_fields) - 1  # -1 pour ne pas compter updated_at
+                    "fields_updated": len(update_fields) - 1  # -1 to not count updated_at
                 }
                 return json.dumps(success_result, indent=2, ensure_ascii=False)
             else:
-                return "❌ Erreur: Tâche modifiée mais impossible de la récupérer."
+                return "❌ Error: Task modified but unable to retrieve it."
         else:
-            return "❌ Erreur: Aucun champ valide à mettre à jour."
+            return "❌ Error: No valid fields to update."
             
     except Exception as e:
         db.rollback()
-        return f"❌ Erreur base de données: {str(e)}"
+        return f"❌ Database error: {str(e)}"
     finally:
         cursor.close()
