@@ -1,14 +1,12 @@
 import asyncio
 from server.services.logger_init import logger
 import pretty_print_message as ppm
-from src.agents.supervisor_002 import supervisor
 
 from src.mcp.db_client import connect_db_mcp
 from src.mcp.api_client import connect_api_mcp
 
 
 async def main():
-    print("🔄 Starting MCP SERVER...")
     await connect_db_mcp()
     # await connect_api_mcp()
 
@@ -25,13 +23,15 @@ async def main():
         logger.info(f"✅ {len(db_mcp_tools)} DB MCP tool(s) cached")
         # logger.info(f"✅ {len(api_mcp_tools)} API MCP tool(s) cached")
 
+    from src.agents.supervisor_002 import supervisor
+
     final_chunk = None
     for chunk in supervisor.stream(
         {
             "messages": [
                 {
                     "role": "user",
-                    "content": "Change l'heure pour l'installation de caméras de sécurité à 15h le lendemain",
+                    "content": "Change the time for installing security cameras to 3 p.m. the next day",
                     # "content": "Changer le numéroe de téléphone du travailleur Yanis Dupont à 0606060606",
                 }
             ]

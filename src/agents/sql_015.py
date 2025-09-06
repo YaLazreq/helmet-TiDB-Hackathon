@@ -2,6 +2,7 @@
 from src.config.llm_init import model
 from src.config.db import create_database_connection
 
+from langchain.tools import tool
 from langchain_community.agent_toolkits.sql.base import create_sql_agent
 from langchain.agents.agent_types import AgentType
 from langchain.agents import AgentExecutor
@@ -57,8 +58,8 @@ def create_sql_agent_instance() -> AgentExecutor:
             agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
             verbose=True,
             handle_parsing_errors=True,
-            max_iterations=10,
-            max_execution_time=60,
+            max_iterations=50,
+            max_execution_time=150,
         )
         return agent_executor
     except Exception as e:
@@ -66,17 +67,25 @@ def create_sql_agent_instance() -> AgentExecutor:
         raise e
 
 
-def sql_agent(natural_language_request: str) -> str:
+def sql_agent_core(natural_language_request: str) -> str:
+    """Core SQL agent functionality"""
+    try:
+        agent = create_sql_agent_instance()
+        response = agent.invoke({"input": natural_language_request})
+        return response["output"]
+    except Exception as e:
+        return f"❌ Erreur lors de l'exécution de l'agent SQL: {str(e)}"
+
+
+@tool
+def sql_agent_tool(natural_language_request: str) -> str:
     """
     Receive natural language request from other agents, convert it to SQL and execute it via SQL Agent.
     Execute an SQL Request via SQL Agent for GET everything we want to retrieve from the database.
     """
+    return sql_agent_core(natural_language_request)
 
-    try:
-        agent = create_sql_agent_instance()
 
-        response = agent.invoke({"input": natural_language_request})
-        return response["output"]
-
-    except Exception as e:
-        return f"❌ Erreur lors de l'exécution de l'agent SQL: {str(e)}"
+# Gardez aussi la fonction originale si d'autres parties du code l'utilisent
+def sql_agent(natural_language_request: str) -> str:
+    return sql_agent_core(natural_language_request)

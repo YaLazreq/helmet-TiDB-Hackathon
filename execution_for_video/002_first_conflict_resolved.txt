@@ -1,0 +1,421 @@
+
+        Update from node agent:
+
+
+        ================================== Ai Message ==================================
+        Name: conflict_agent
+
+        ```json
+        {
+            "feasible": true,
+            "conflicts": [
+                {
+                    "type": "worker_conflict",
+                    "severity": "critical", 
+                    "description": "Yanis Dupont is overallocated with 13 total hours on Sept 4 (8h network installation + 5h security cameras) exceeding daily capacity",
+                    "affected": ["task_1", "task_7"]
+                }
+            ],
+            "solution": {
+                "recommended": true,
+                "steps": [
+                    {
+                        "action": "update_task",
+                        "parameters": {
+                            "task_id": 7,
+                            "new_start_time": "15:00",
+                            "new_date": "2025-09-04"
+                        },
+                        "reason": "Reschedule to requested time slot"
+                    },
+                    {
+                        "action": "assign_worker", 
+                        "parameters": {
+                            "task_id": 7,
+                            "worker_id": "Marie_Martin"
+                        },
+                        "reason": "Marie Martin has electrical expertise matching security camera installation needs and is completely available on Sept 4"
+                    }
+                ]
+            },
+            "alternatives": [
+                {
+                    "description": "Keep Yanis but reschedule to Sept 5 at 15:00",
+                    "steps": [
+                        {
+                            "action": "update_task",
+                            "parameters": {
+                                "task_id": 7,
+                                "new_start_time": "15:00",
+                                "new_date": "2025-09-05"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "description": "Use Marie Martin but start earlier at 13:00 on Sept 4",
+                    "steps": [
+                        {
+                            "action": "update_task",
+                            "parameters": {
+                                "task_id": 7,
+                                "new_start_time": "13:00",
+                                "new_date": "2025-09-04"
+                            }
+                        },
+                        {
+                            "action": "assign_worker",
+                            "parameters": {
+                                "task_id": 7,
+                                "worker_id": "Marie_Martin"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "analysis": "Critical worker overallocation conflict resolved by reassigning task to Marie Martin who has ideal electrical skills and full availability. The 15:00 time slot on Sept 4 is feasible with only Isabelle Simon working on office supplies (different zone/task type). Marie's electrical expertise makes her better suited than Yanis for security camera installation."
+        }
+        ```
+
+
+Update from subgraph planning_agent:
+
+
+        Update from node tools:
+
+
+        ================================= Tool Message =================================
+        Name: conflict_agent_as_tool
+
+        ```json
+        {
+            "feasible": true,
+            "conflicts": [
+                {
+                    "type": "worker_conflict",
+                    "severity": "critical", 
+                    "description": "Yanis Dupont is overallocated with 13 total hours on Sept 4 (8h network installation + 5h security cameras) exceeding daily capacity",
+                    "affected": ["task_1", "task_7"]
+                }
+            ],
+            "solution": {
+                "recommended": true,
+                "steps": [
+                    {
+                        "action": "update_task",
+                        "parameters": {
+                            "task_id": 7,
+                            "new_start_time": "15:00",
+                            "new_date": "2025-09-04"
+                        },
+                        "reason": "Reschedule to requested time slot"
+                    },
+                    {
+                        "action": "assign_worker", 
+                        "parameters": {
+                            "task_id": 7,
+                            "worker_id": "Marie_Martin"
+                        },
+                        "reason": "Marie Martin has electrical expertise matching security camera installation needs and is completely available on Sept 4"
+                    }
+                ]
+            },
+            "alternatives": [
+                {
+                    "description": "Keep Yanis but reschedule to Sept 5 at 15:00",
+                    "steps": [
+                        {
+                            "action": "update_task",
+                            "parameters": {
+                                "task_id": 7,
+                                "new_start_time": "15:00",
+                                "new_date": "2025-09-05"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "description": "Use Marie Martin but start earlier at 13:00 on Sept 4",
+                    "steps": [
+                        {
+                            "action": "update_task",
+                            "parameters": {
+                                "task_id": 7,
+                                "new_start_time": "13:00",
+                                "new_date": "2025-09-04"
+                            }
+                        },
+                        {
+                            "action": "assign_worker",
+                            "parameters": {
+                                "task_id": 7,
+                                "worker_id": "Marie_Martin"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "analysis": "Critical worker overallocation conflict resolved by reassigning task to Marie Martin who has ideal electrical skills and full availability. The 15:00 time slot on Sept 4 is feasible with only Isabelle Simon working on office supplies (different zone/task type). Marie's electrical expertise makes her better suited than Yanis for security camera installation."
+        }
+        ```
+
+
+INFO:httpx:HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+Update from subgraph planning_agent:
+
+
+        Update from node agent:
+
+
+        ================================== Ai Message ==================================
+        Name: planning_agent
+
+        [{'text': "Now I'll execute the recommended solution. First, I'll update the task schedule to the requested time:", 'type': 'text'}, {'id': 'toolu_01WR2iQBexVyksAjCKmM4Co6', 'input': {'task_id': 7, 'start_date': '2025-09-04 15:00:00'}, 'name': 'update_task', 'type': 'tool_use'}]
+        Tool Calls:
+          update_task (toolu_01WR2iQBexVyksAjCKmM4Co6)
+         Call ID: toolu_01WR2iQBexVyksAjCKmM4Co6
+          Args:
+            task_id: 7
+            start_date: 2025-09-04 15:00:00
+
+
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:mcp.client.streamable_http:Received session ID: cdf3cb2e161742b6afcda9bc1b3f4c0a
+INFO:mcp.client.streamable_http:Negotiated protocol version: 2025-06-18
+INFO:httpx:HTTP Request: GET http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: GET http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 202 Accepted"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: DELETE http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: DELETE http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+Update from subgraph planning_agent:
+
+
+        Update from node tools:
+
+
+        ================================= Tool Message =================================
+        Name: update_task
+
+        {
+          "success": true,
+          "message": "✅ Task ID 7 modified successfully.",
+          "task": {
+            "id": 7,
+            "title": "Installation caméras sécurité",
+            "description": "Pose du système de vidéosurveillance",
+            "estimated_time": 300,
+            "start_date": "2025-09-04T15:00:00",
+            "due_date": "2025-09-06T20:24:26",
+            "priority": 4,
+            "status": "pending",
+            "completion_percentage": 0,
+            "assigned_to": 2,
+            "created_by": 1,
+            "created_at": "2025-09-01T18:24:26",
+            "updated_at": "2025-09-06T17:09:21"
+          },
+          "fields_updated": 1
+        }
+
+
+INFO:httpx:HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+Update from subgraph planning_agent:
+
+
+        Update from node agent:
+
+
+        ================================== Ai Message ==================================
+        Name: planning_agent
+
+        [{'text': "Now I'll reassign the task to Marie Martin (ID 3) who has the appropriate electrical expertise and availability:", 'type': 'text'}, {'id': 'toolu_01FX8xR5pgVf8CMAa5eckFeh', 'input': {'task_id': 7, 'assigned_to': 3}, 'name': 'update_task', 'type': 'tool_use'}]
+        Tool Calls:
+          update_task (toolu_01FX8xR5pgVf8CMAa5eckFeh)
+         Call ID: toolu_01FX8xR5pgVf8CMAa5eckFeh
+          Args:
+            task_id: 7
+            assigned_to: 3
+
+
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:mcp.client.streamable_http:Received session ID: 6486f573eb9d422c8ed5d287d0ae74fc
+INFO:mcp.client.streamable_http:Negotiated protocol version: 2025-06-18
+INFO:httpx:HTTP Request: GET http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: GET http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 202 Accepted"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: POST http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: DELETE http://localhost:8080/mcp "HTTP/1.1 307 Temporary Redirect"
+INFO:httpx:HTTP Request: DELETE http://localhost:8080/mcp/ "HTTP/1.1 200 OK"
+Update from subgraph planning_agent:
+
+
+        Update from node tools:
+
+
+        ================================= Tool Message =================================
+        Name: update_task
+
+        {
+          "success": true,
+          "message": "✅ Task ID 7 modified successfully.",
+          "task": {
+            "id": 7,
+            "title": "Installation caméras sécurité",
+            "description": "Pose du système de vidéosurveillance",
+            "estimated_time": 300,
+            "start_date": "2025-09-04T15:00:00",
+            "due_date": "2025-09-06T20:24:26",
+            "priority": 4,
+            "status": "pending",
+            "completion_percentage": 0,
+            "assigned_to": 3,
+            "created_by": 1,
+            "created_at": "2025-09-01T18:24:26",
+            "updated_at": "2025-09-06T17:09:24"
+          },
+          "fields_updated": 1
+        }
+
+
+INFO:httpx:HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+Update from subgraph planning_agent:
+
+
+        Update from node agent:
+
+
+        ================================== Ai Message ==================================
+        Name: planning_agent
+
+        [{'text': 'Let me verify the changes and check for any remaining conflicts:', 'type': 'text'}, {'id': 'toolu_016WoJ1qMaw7MkT7zMxfwVVP', 'input': {'natural_language_request': 'Verify the security camera installation task (ID 7) has been successfully updated - show the new schedule with worker details and confirm no conflicts remain for September 4, 2025 at 15:00'}, 'name': 'sql_agent_tool', 'type': 'tool_use'}]
+        Tool Calls:
+          sql_agent_tool (toolu_016WoJ1qMaw7MkT7zMxfwVVP)
+         Call ID: toolu_016WoJ1qMaw7MkT7zMxfwVVP
+          Args:
+            natural_language_request: Verify the security camera installation task (ID 7) has been successfully updated - show the new schedule with worker details and confirm no conflicts remain for September 4, 2025 at 15:00
+
+
+
+
+> Entering new SQL Agent Executor chain...
+
+**Task Details:**
+- **Task ID:** 7
+- **Title:** Installation caméras sécurité  
+- **Description:** Pose du système de vidéosurveillance
+- **Status:** pending
+- **Last Updated:** September 6, 2025 at 17:09:24
+
+**Current Schedule:**
+- **Start Date:** September 4, 2025 at 15:00 (3:00 PM)
+- **Due Date:** September 6, 2025 at 20:24
+
+**Assigned Worker Details:**
+- **Name:** Marie Martin
+- **Email:** tech2@company.com
+- **Role:** technician
+- **Specialization:** electrician
+
+**Conflict Analysis for September 4, 2025 at 15:00:**
+✅ **NO CONFLICTS DETECTED** - Marie Martin has no other tasks scheduled that would conflict with the security camera installation on September 4, 2025 at 15:00.
+
+**Nearby Schedule Context:**
+- Task #1 (Installation réseau informatique) assigned to Yanis Dupont ends on Sep 4 at 20:24
+- Task #4 (Commande fournitures bureau) assigned to Isabelle Simon starts on Sep 3 at 15:00
+- No overlapping assignments for Marie Martin during this time slot
+
+The task has been successfully updated and is ready for execution with no scheduling conflicts.
+
+> Finished chain.
+Update from subgraph planning_agent:
+
+
+        Update from node tools:
+
+
+        ================================= Tool Message =================================
+        Name: sql_agent_tool
+
+        ✅ **Security Camera Installation Task (ID 7) Verification Complete**
+
+        **Task Details:**
+        - **Task ID:** 7
+        - **Title:** Installation caméras sécurité  
+        - **Description:** Pose du système de vidéosurveillance
+        - **Status:** pending
+        - **Last Updated:** September 6, 2025 at 17:09:24
+
+        **Current Schedule:**
+        - **Start Date:** September 4, 2025 at 15:00 (3:00 PM)
+        - **Due Date:** September 6, 2025 at 20:24
+
+        **Assigned Worker Details:**
+        - **Name:** Marie Martin
+        - **Email:** tech2@company.com
+        - **Role:** technician
+        - **Specialization:** electrician
+
+        **Conflict Analysis for September 4, 2025 at 15:00:**
+        ✅ **NO CONFLICTS DETECTED** - Marie Martin has no other tasks scheduled that would conflict with the security camera installation on September 4, 2025 at 15:00.
+
+        **Nearby Schedule Context:**
+        - Task #1 (Installation réseau informatique) assigned to Yanis Dupont ends on Sep 4 at 20:24
+        - Task #4 (Commande fournitures bureau) assigned to Isabelle Simon starts on Sep 3 at 15:00
+        - No overlapping assignments for Marie Martin during this time slot
+
+        The task has been successfully updated and is ready for execution with no scheduling conflicts.
+
+
+INFO:httpx:HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+Update from subgraph planning_agent:
+
+
+        Update from node agent:
+
+
+        ================================== Ai Message ==================================
+        Name: planning_agent
+
+        ```json
+        {
+            "success": true,
+            "actions": ["Retrieved comprehensive data", "Got solution from conflict_agent", "Executed solution"],
+            "schedule_updates": [
+                {
+                    "task_id": "7", 
+                    "old_time": "2025-09-03 20:24:26", 
+                    "new_time": "2025-09-04 15:00:00", 
+                    "reason": "Rescheduled to requested 3:00 PM time slot and reassigned to Marie Martin to resolve worker overallocation conflict"
+                }
+            ],
+            "metrics": {
+                "conflicts_resolved": 1,
+                "time_saved_min": 0
+            },
+            "summary": "Security camera installation successfully rescheduled to September 4, 2025 at 3:00 PM and reassigned to Marie Martin (electrician) to resolve critical worker overallocation"
+        }
+        ```
+
+
+INFO:httpx:HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+Update from subgraph supervisor:
+
+
+        Update from node agent:
+
+
+        ================================== Ai Message ==================================
+        Name: supervisor
+
+        []

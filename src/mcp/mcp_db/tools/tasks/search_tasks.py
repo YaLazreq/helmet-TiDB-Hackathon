@@ -1,4 +1,4 @@
-from mcp_init import mcp, db
+from mcp_init import mcp, get_db_connection
 from typing import Optional
 import json
 from datetime import datetime
@@ -154,6 +154,10 @@ def search_tasks(id: Optional[str] = None, title: Optional[str] = None, descript
     LIMIT {limit or 20}
     """
 
+    db = get_db_connection()
+    if not db:
+        return "❌ Database connection failed"
+        
     cursor = db.cursor(buffered=True)
     try:
         cursor.execute(query, params)

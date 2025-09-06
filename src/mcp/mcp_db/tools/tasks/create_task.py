@@ -1,4 +1,4 @@
-from mcp_init import mcp, db
+from mcp_init import mcp, get_db_connection
 from typing import Optional
 import json
 from datetime import datetime
@@ -96,6 +96,10 @@ def create_task(title: str, description: str, assigned_to: int, created_by: int,
     title = title.strip()
     description = description.strip()
     
+    db = get_db_connection()
+    if not db:
+        return "❌ Database connection failed"
+        
     cursor = db.cursor(buffered=True)
     try:
         cursor.execute("SELECT id FROM users WHERE id = %s", (assigned_to,))
