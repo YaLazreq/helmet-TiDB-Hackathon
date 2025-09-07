@@ -1,12 +1,18 @@
 from mcp_init import mcp
 import os
 
+# Users
+import tools.users.get_users
 import tools.users.get_user_roles
 import tools.users.get_specializations
 import tools.users.create_user
 import tools.users.update_user
+
+# Tasks
+import tools.tasks.get_tasks
 import tools.tasks.create_task
 import tools.tasks.update_task
+
 # import tools.sql_agent.sql_agent
 
 
@@ -16,5 +22,5 @@ if __name__ == "__main__":
     mcp.run(
         transport="streamable-http",
         host="0.0.0.0",
-        port=port, 
+        port=port,
     )

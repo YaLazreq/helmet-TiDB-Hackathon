@@ -12,9 +12,9 @@ from langchain_core.tools import BaseTool
 
 class AsyncToSyncTool(BaseTool):
     """Wrapper to make async MCP tools work synchronously with LangGraph"""
-    
+
     async_tool: BaseTool
-    
+
     def __init__(self, async_tool: BaseTool):
         super().__init__(
             name=async_tool.name,
@@ -22,12 +22,12 @@ class AsyncToSyncTool(BaseTool):
             args_schema=async_tool.args_schema,
             async_tool=async_tool,
         )
-    
+
     def _run(self, **kwargs) -> str:
         """Convert async call to sync using asyncio.run"""
         # LangChain tools expect input as a dictionary
         input_data = kwargs
-        
+
         try:
             asyncio.get_running_loop()
         except RuntimeError:
@@ -36,10 +36,10 @@ class AsyncToSyncTool(BaseTool):
         else:
             # Event loop is running, we need to run in a thread
             import concurrent.futures
-            
+
             def run_async():
                 return asyncio.run(self.async_tool.ainvoke(input_data))
-            
+
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(run_async)
                 return future.result()
@@ -75,10 +75,10 @@ async def connect_db_mcp():
 
     print("🔄 Fetching DB MCP tools...")
     tools_result = await db_mcp_client.get_tools()
-    
+
     # Wrap async tools to make them sync-compatible
     db_mcp_tools = [AsyncToSyncTool(tool) for tool in tools_result]
-    
+
     db_mcp_tools_for_prompt = "\n".join(
         [
             f"- {tool.name}: {tool.description.split('.')[0].strip()}."
