@@ -4,7 +4,8 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 from src.config.llm_init import model
 
 from .conflict_008 import conflict_agent_as_tool
-from .sql_015 import sql_agent_tool
+
+# from .sql_015 import sql_agent_tool
 
 from src.config.db import table_schema
 from src.config.specifications import working_hours
@@ -152,7 +153,7 @@ def create_planning_agent():
 
     return create_react_agent(
         model=model,
-        tools=[*get_db_mcp_tools(), conflict_agent_as_tool, sql_agent_tool],
+        tools=[*get_db_mcp_tools(), conflict_agent_as_tool],
         prompt=prompt.format(
             tables_schema=table_schema,
             working_hours=working_hours,

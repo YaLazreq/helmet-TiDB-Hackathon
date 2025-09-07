@@ -29,6 +29,7 @@ def create_user(
     certifications: Optional[List[str]] = None,
     safety_training: Optional[List[str]] = None,
     last_training_date: Optional[str] = None,
+    vector: Optional[str] = None,
 ) -> str:
     """
     🔧 ADVANCED USER CREATION TOOL - Create Users with Full Skill Profiles
@@ -67,6 +68,7 @@ def create_user(
     certifications: Certifications (List[str], e.g., ["crane_license", "electrical_permit"])
     safety_training: Safety training (List[str], e.g., ["fall_prevention", "first_aid"])
     last_training_date: Last training date (string, format: "YYYY-MM-DD")
+    vector: Vector representation (string, optional for embeddings/vectorization)
 
     USAGE EXAMPLES:
     ==============
@@ -171,9 +173,9 @@ def create_user(
             role, is_active, hire_date,
             primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
             work_preferences, equipment_mastery, project_experience,
-            certifications, safety_training, last_training_date,
+            certifications, safety_training, last_training_date, vector,
             created_at, updated_at
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         params = (
@@ -197,6 +199,7 @@ def create_user(
             json.dumps(certifications),
             json.dumps(safety_training),
             last_training_date_obj,
+            vector,
             current_time,
             current_time,
         )
@@ -211,7 +214,7 @@ def create_user(
                    role, is_active, hire_date,
                    primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
                    work_preferences, equipment_mastery, project_experience,
-                   certifications, safety_training, last_training_date,
+                   certifications, safety_training, last_training_date, vector,
                    created_at, updated_at
             FROM users WHERE id = %s
         """,

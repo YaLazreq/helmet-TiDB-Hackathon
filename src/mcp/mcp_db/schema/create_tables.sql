@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     noise_level ENUM('low', 'medium', 'high') NOT NULL,
     safety_requirements JSON, -- Safety requirements
     notes TEXT NOT NULL,
+    vector TEXT,
     
     -- Timestamps
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -172,6 +173,7 @@ CREATE TABLE users (
    certifications JSON, -- ["crane_license", "electrical_permit_B1V"]
    safety_training JSON, -- ["fall_prevention", "first_aid"]
    last_training_date DATE,
+   vector TEXT,
    
    -- Metadata
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

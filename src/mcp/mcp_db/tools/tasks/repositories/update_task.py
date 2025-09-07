@@ -35,6 +35,7 @@ def update_task(
     noise_level: Optional[str] = None,
     safety_requirements: Optional[List[str]] = None,
     notes: Optional[str] = None,
+    vector: Optional[str] = None,
 ) -> str:
     """
     Modifies an existing task in the database with comprehensive field support.
@@ -127,6 +128,7 @@ def update_task(
         noise_level,
         safety_requirements,
         notes,
+        vector,
     ]
     if all(param is None for param in update_params):
         return "❌ Error: At least one parameter to modify must be provided."
@@ -287,6 +289,10 @@ def update_task(
             update_fields.append("notes = %s")
             update_values.append(notes.strip())
 
+        if vector is not None:
+            update_fields.append("vector = %s")
+            update_values.append(vector)
+
         if priority is not None:
             if priority not in [0, 1, 2, 3]:
                 return "❌ Error: Priority must be 0 (low), 1 (normal), 2 (high), or 3 (critical)."
@@ -396,7 +402,7 @@ def update_task(
                        created_by, supervisor_id, priority, status, start_date, due_date,
                        min_estimated_hours, max_estimated_hours, actual_hours, completion_percentage,
                        dependencies, blocks_tasks, required_materials, required_equipment,
-                       weather_dependent, noise_level, safety_requirements, notes,
+                       weather_dependent, noise_level, safety_requirements, notes, vector,
                        created_at, updated_at
                 FROM tasks WHERE id = %s
             """,

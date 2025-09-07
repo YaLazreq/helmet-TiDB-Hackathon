@@ -318,6 +318,7 @@ def get_users(
         certifications,
         safety_training,
         last_training_date,
+        vector,
         created_at,
         updated_at
     FROM users 

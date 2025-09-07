@@ -2,18 +2,19 @@ from mcp_init import mcp
 import os
 
 # Users
-import tools.users.get_users
-import tools.users.get_user_roles
-import tools.users.get_specializations
-import tools.users.create_user
-import tools.users.update_user
+import tools.users.repositories.get_users
+import tools.users.repositories.create_user
+import tools.users.repositories.update_user
+
+import tools.users.others.get_user_roles
+import tools.users.others.get_specializations
+import tools.users.others.get_trade_categories
+import tools.users.others.get_skill_categories
 
 # Tasks
-import tools.tasks.get_tasks
-import tools.tasks.create_task
-import tools.tasks.update_task
-
-# import tools.sql_agent.sql_agent
+import tools.tasks.repositories.get_tasks
+import tools.tasks.repositories.create_task
+import tools.tasks.repositories.update_task
 
 
 if __name__ == "__main__":

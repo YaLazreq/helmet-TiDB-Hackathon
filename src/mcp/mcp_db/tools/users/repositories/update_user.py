@@ -28,6 +28,7 @@ def update_user(
     certifications: Optional[List[str]] = None,
     safety_training: Optional[List[str]] = None,
     last_training_date: Optional[str] = None,
+    vector: Optional[str] = None,
 ) -> str:
     """
     🔧 ADVANCED USER UPDATE TOOL - Update User Profiles with Full Skill Management
@@ -67,6 +68,7 @@ def update_user(
     certifications: New certifications (List[str])
     safety_training: New safety training (List[str])
     last_training_date: New last training date (string, format: "YYYY-MM-DD")
+    vector: New vector representation (string, optional for embeddings/vectorization)
     
     USAGE EXAMPLES:
     ==============
@@ -99,7 +101,7 @@ def update_user(
         first_name, last_name, email, phone, address, role, is_active, hire_date,
         primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
         work_preferences, equipment_mastery, project_experience,
-        certifications, safety_training, last_training_date
+        certifications, safety_training, last_training_date, vector
     ]
     if all(param is None for param in update_params):
         return "❌ Error: At least one parameter to modify must be provided."
@@ -244,6 +246,10 @@ def update_user(
             update_fields.append("last_training_date = %s")
             update_values.append(last_training_date_obj)
 
+        if vector is not None:
+            update_fields.append("vector = %s")
+            update_values.append(vector)
+
         if update_fields:
             update_fields.append("updated_at = %s")
             update_values.append(datetime.now())
@@ -260,7 +266,7 @@ def update_user(
                        role, is_active, hire_date,
                        primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
                        work_preferences, equipment_mastery, project_experience,
-                       certifications, safety_training, last_training_date,
+                       certifications, safety_training, last_training_date, vector,
                        created_at, updated_at
                 FROM users WHERE id = %s
             """,

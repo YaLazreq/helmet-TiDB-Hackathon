@@ -330,6 +330,7 @@ def get_tasks(
         t.min_estimated_hours,
         t.max_estimated_hours,
         t.completion_percentage,
+        t.vector,
         t.created_at,
         t.updated_at
     FROM tasks t

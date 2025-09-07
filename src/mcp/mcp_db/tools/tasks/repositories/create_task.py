@@ -1,5 +1,5 @@
 from mcp_init import mcp, get_db_connection
-from typing import List
+from typing import List, Optional
 import json
 from datetime import datetime
 from decimal import Decimal
@@ -35,6 +35,7 @@ def create_task(
     noise_level: str,
     safety_requirements: List[str],
     notes: str,
+    vector: Optional[str] = None,
 ) -> str:
     """
     Creates a new task in the database with comprehensive field requirements.
@@ -84,6 +85,9 @@ def create_task(
     - weather_dependent: Whether task depends on weather (bool)
     - noise_level: Noise level (string, "low", "medium", "high")
     - safety_requirements: Safety requirements (List[str])
+
+    OPTIONAL:
+    - vector: Vector representation (string, optional for embeddings/vectorization)
 
     RETURN:
     JSON with created task information or error message.
@@ -217,9 +221,9 @@ def create_task(
             created_by, supervisor_id, priority, status, start_date, due_date,
             min_estimated_hours, max_estimated_hours, actual_hours, completion_percentage,
             dependencies, blocks_tasks, required_materials, required_equipment,
-            weather_dependent, noise_level, safety_requirements, notes,
+            weather_dependent, noise_level, safety_requirements, notes, vector,
             created_at, updated_at
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         params = (
@@ -251,6 +255,7 @@ def create_task(
             noise_level,
             json.dumps(safety_requirements),
             notes,
+            vector,
             current_time,
             current_time,
         )
@@ -266,7 +271,7 @@ def create_task(
                    created_by, supervisor_id, priority, status, start_date, due_date,
                    min_estimated_hours, max_estimated_hours, actual_hours, completion_percentage,
                    dependencies, blocks_tasks, required_materials, required_equipment,
-                   weather_dependent, noise_level, safety_requirements, notes,
+                   weather_dependent, noise_level, safety_requirements, notes, vector,
                    created_at, updated_at
             FROM tasks WHERE id = %s
         """,
