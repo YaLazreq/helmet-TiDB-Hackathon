@@ -1,5 +1,5 @@
 from mcp_init import mcp, get_db_connection
-from typing import List, Optional
+from typing import List, Optional, Union
 import json
 from datetime import datetime
 from decimal import Decimal
@@ -13,12 +13,12 @@ def create_task(
     floor: int,
     building_section: str,
     zone_type: str,
-    assigned_workers: List[str],
+    assigned_workers: List[Union[str, int]],
     required_worker_count: int,
     skill_requirements: List[str],
     trade_category: str,
-    created_by: str,
-    supervisor_id: str,
+    created_by: Union[str, int],
+    supervisor_id: Union[str, int],
     priority: int,
     status: str,
     start_date: str,
@@ -106,9 +106,9 @@ def create_task(
         return "❌ Error: Zone type is required and cannot be empty."
     if not trade_category or not trade_category.strip():
         return "❌ Error: Trade category is required and cannot be empty."
-    if not created_by or not created_by.strip():
+    if not created_by:
         return "❌ Error: Created by is required and cannot be empty."
-    if not supervisor_id or not supervisor_id.strip():
+    if not supervisor_id:
         return "❌ Error: Supervisor ID is required and cannot be empty."
     if not notes or not notes.strip():
         return "❌ Error: Notes are required and cannot be empty."
@@ -146,8 +146,8 @@ def create_task(
         return "❌ Error: Weather dependent must be a boolean value."
 
     # Validate list fields
-    if not isinstance(assigned_workers, list) or len(assigned_workers) == 0:
-        return "❌ Error: Assigned workers must be a non-empty list."
+    if not isinstance(assigned_workers, list):
+        return "❌ Error: Assigned workers must be a list (can be empty for unassigned tasks)."
     if not isinstance(skill_requirements, list):
         return "❌ Error: Skill requirements must be a list."
     if not isinstance(dependencies, list):
@@ -202,9 +202,22 @@ def create_task(
     building_section = building_section.strip()
     zone_type = zone_type.strip()
     trade_category = trade_category.strip()
-    created_by = created_by.strip()
-    supervisor_id = supervisor_id.strip()
     notes = notes.strip()
+
+    # Convert IDs to integers - handle both string and integer inputs
+    try:
+        if isinstance(created_by, str):
+            created_by = (
+                int(created_by.strip()) if created_by.strip().isdigit() else 1
+            )  # Default to user 1 if not numeric
+        if isinstance(supervisor_id, str):
+            supervisor_id = (
+                int(supervisor_id.strip()) if supervisor_id.strip().isdigit() else 1
+            )  # Default to user 1 if not numeric
+    except ValueError:
+        return (
+            "❌ Error: created_by and supervisor_id must be valid user IDs (integers)."
+        )
 
     db = get_db_connection()
     if not db:

@@ -3,7 +3,7 @@
 -- Author: Assistant
 -- Date: 2025-09-06
 
-DROP TABLE IF EXISTS tasks;
+-- DROP TABLE IF EXISTS tasks;
 
 -- Create tasks table with all fields from create_task.py
 CREATE TABLE IF NOT EXISTS tasks (
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     zone_type VARCHAR(50) NOT NULL,
     
     -- Assignment fields
-    assigned_workers JSON NOT NULL, -- List of worker IDs
+    assigned_workers JSON, -- List of worker IDs
     required_worker_count INT NOT NULL,
     skill_requirements JSON, -- List of required skills
     trade_category VARCHAR(100) NOT NULL,
@@ -85,54 +85,54 @@ CREATE TABLE IF NOT EXISTS tasks (
 );
 
 -- Insert sample tasks with all required fields - ✅ CORRIGÉ: IDs numériques
-INSERT INTO tasks (
-    title, description, room, floor, building_section, zone_type,
-    assigned_workers, required_worker_count, skill_requirements, trade_category,
-    created_by, supervisor_id, priority, status, start_date, due_date,
-    min_estimated_hours, max_estimated_hours, actual_hours, completion_percentage,
-    dependencies, blocks_tasks, required_materials, required_equipment,
-    weather_dependent, noise_level, safety_requirements, notes
-) VALUES
-(
-    'Réparer éclairage Bureau A201',
-    'Remplacer les néons défaillants dans le bureau A201 et vérifier l\'installation électrique',
-    'A201', 2, 'Aile A', 'bureau',
-    '[3, 4]', 2, '["électricien"]', 'électricité',
-    1, 2, 2, 'pending', '2025-09-07 08:00:00', '2025-09-09 17:00:00',
-    2.0, 4.0, 0.0, 0,
-    '[]', '[]', '[{"nom": "Néons LED", "quantite": 4}, {"nom": "Ballasts", "quantite": 2}]', '["échelle", "multimètre"]',
-    FALSE, 'low', '["EPI électrique", "coupure courant"]', 'Urgent - bureau utilisé quotidiennement'
-),
-(
-    'Maintenance plomberie Sanitaires B100',
-    'Déboucher et nettoyer les évacuations des sanitaires du rez-de-chaussée bloc B',
-    'B100', 0, 'Bloc B', 'sanitaire',
-    '[3]', 1, '["plombier"]', 'plomberie',
-    2, 2, 1, 'in_progress', '2025-09-06 09:00:00', '2025-09-08 16:00:00',
-    3.0, 5.0, 1.5, 30,
-    '[]', '[]', '[{"nom": "Produits débouchage", "quantite": 2}, {"nom": "Gants", "quantite": 1}]', '["furet", "aspirateur_eau"]',
-    FALSE, 'medium', '["gants protection", "masque"]', 'Maintenance préventive semestrielle'
-),
-(
-    'Peinture couloir C-Nord',
-    'Repeindre entièrement le couloir nord du bâtiment C suite aux dégâts des eaux',
-    'C-Nord', 1, 'Bâtiment C', 'circulation',
-    '[4]', 2, '["peintre"]', 'peinture',
-    1, 2, 3, 'completed', '2025-09-01 07:00:00', '2025-09-05 18:00:00',
-    12.0, 16.0, 14.5, 100,
-    '[]', '[5]', '[{"nom": "Peinture acrylique", "quantite": 15}, {"nom": "Rouleaux", "quantite": 5}]', '["échafaudage", "bâches_protection"]',
-    TRUE, 'high', '["ventilation", "EPI_peinture"]', 'Travail terminé avec succès - très bon rendu'
-),
-(
-    'Installation caméra sécurité Ext-Sud',
-    'Installer nouvelle caméra de surveillance côté sud du bâtiment avec raccordement réseau',
-    'Ext-Sud', 0, 'Extérieur', 'technique',
-    '[3, 4]', 2, '["électricien", "informatique"]', 'électricité',
-    1, 2, 2, 'blocked', '2025-09-10 08:00:00', '2025-09-15 17:00:00',
-    6.0, 10.0, 0.0, 0,
-    '[1]', '[]', '[{"nom": "Caméra IP", "quantite": 1}, {"nom": "Câble réseau", "quantite": 50}]', '["perceuse", "échelle", "testeur_réseau"]',
-    TRUE, 'medium', '["harnais", "casque", "EPI_hauteur"]', 'En attente livraison matériel - prévu semaine prochaine'
-);
+-- INSERT INTO tasks (
+--     title, description, room, floor, building_section, zone_type,
+--     assigned_workers, required_worker_count, skill_requirements, trade_category,
+--     created_by, supervisor_id, priority, status, start_date, due_date,
+--     min_estimated_hours, max_estimated_hours, actual_hours, completion_percentage,
+--     dependencies, blocks_tasks, required_materials, required_equipment,
+--     weather_dependent, noise_level, safety_requirements, notes
+-- ) VALUES
+-- (
+--     'Réparer éclairage Bureau A201',
+--     'Remplacer les néons défaillants dans le bureau A201 et vérifier l\'installation électrique',
+--     'A201', 2, 'Aile A', 'bureau',
+--     '[3, 4]', 2, '["électricien"]', 'électricité',
+--     1, 2, 2, 'pending', '2025-09-07 08:00:00', '2025-09-09 17:00:00',
+--     2.0, 4.0, 0.0, 0,
+--     '[]', '[]', '[{"nom": "Néons LED", "quantite": 4}, {"nom": "Ballasts", "quantite": 2}]', '["échelle", "multimètre"]',
+--     FALSE, 'low', '["EPI électrique", "coupure courant"]', 'Urgent - bureau utilisé quotidiennement'
+-- ),
+-- (
+--     'Maintenance plomberie Sanitaires B100',
+--     'Déboucher et nettoyer les évacuations des sanitaires du rez-de-chaussée bloc B',
+--     'B100', 0, 'Bloc B', 'sanitaire',
+--     '[3]', 1, '["plombier"]', 'plomberie',
+--     2, 2, 1, 'in_progress', '2025-09-06 09:00:00', '2025-09-08 16:00:00',
+--     3.0, 5.0, 1.5, 30,
+--     '[]', '[]', '[{"nom": "Produits débouchage", "quantite": 2}, {"nom": "Gants", "quantite": 1}]', '["furet", "aspirateur_eau"]',
+--     FALSE, 'medium', '["gants protection", "masque"]', 'Maintenance préventive semestrielle'
+-- ),
+-- (
+--     'Peinture couloir C-Nord',
+--     'Repeindre entièrement le couloir nord du bâtiment C suite aux dégâts des eaux',
+--     'C-Nord', 1, 'Bâtiment C', 'circulation',
+--     '[4]', 2, '["peintre"]', 'peinture',
+--     1, 2, 3, 'completed', '2025-09-01 07:00:00', '2025-09-05 18:00:00',
+--     12.0, 16.0, 14.5, 100,
+--     '[]', '[5]', '[{"nom": "Peinture acrylique", "quantite": 15}, {"nom": "Rouleaux", "quantite": 5}]', '["échafaudage", "bâches_protection"]',
+--     TRUE, 'high', '["ventilation", "EPI_peinture"]', 'Travail terminé avec succès - très bon rendu'
+-- ),
+-- (
+--     'Installation caméra sécurité Ext-Sud',
+--     'Installer nouvelle caméra de surveillance côté sud du bâtiment avec raccordement réseau',
+--     'Ext-Sud', 0, 'Extérieur', 'technique',
+--     '[3, 4]', 2, '["électricien", "informatique"]', 'électricité',
+--     1, 2, 2, 'blocked', '2025-09-10 08:00:00', '2025-09-15 17:00:00',
+--     6.0, 10.0, 0.0, 0,
+--     '[1]', '[]', '[{"nom": "Caméra IP", "quantite": 1}, {"nom": "Câble réseau", "quantite": 50}]', '["perceuse", "échelle", "testeur_réseau"]',
+--     TRUE, 'medium', '["harnais", "casque", "EPI_hauteur"]', 'En attente livraison matériel - prévu semaine prochaine'
+-- );
 
 ------------------------------------------------------------------
 -- First drop foreign key constraints, then drop users table

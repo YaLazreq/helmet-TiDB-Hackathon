@@ -221,11 +221,11 @@ def get_tasks(
     # Assignment filters
     if assigned_to:
         conditions.append("JSON_CONTAINS(t.assigned_workers, %s)")
-        params.append(assigned_to)
+        params.append(f'"{assigned_to}"')  # Convert to JSON string format
 
     if created_by:
-        conditions.append("t.created_by LIKE %s")
-        params.append(f"%{created_by}%")
+        conditions.append("t.created_by = %s")
+        params.append(created_by)
 
     # Priority & Status filters
     if priority:

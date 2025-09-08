@@ -1,5 +1,5 @@
 from mcp_init import mcp, get_db_connection
-from typing import Optional, List
+from typing import Optional, List, Union
 import json
 from datetime import datetime
 from decimal import Decimal
@@ -14,11 +14,11 @@ def update_task(
     floor: Optional[int] = None,
     building_section: Optional[str] = None,
     zone_type: Optional[str] = None,
-    assigned_workers: Optional[List[str]] = None,
+    assigned_workers: Optional[List[Union[str, int]]] = None,
     required_worker_count: Optional[int] = None,
     skill_requirements: Optional[List[str]] = None,
     trade_category: Optional[str] = None,
-    supervisor_id: Optional[str] = None,
+    supervisor_id: Optional[Union[str, int]] = None,
     priority: Optional[int] = None,
     status: Optional[str] = None,
     start_date: Optional[str] = None,
@@ -209,10 +209,13 @@ def update_task(
             update_values.append(trade_category.strip())
 
         if supervisor_id is not None:
-            if not supervisor_id or not supervisor_id.strip():
+            if not supervisor_id:
                 return "❌ Error: Supervisor ID cannot be empty."
+            # Convert to integer if string
+            if isinstance(supervisor_id, str) and supervisor_id.strip().isdigit():
+                supervisor_id = int(supervisor_id.strip())
             update_fields.append("supervisor_id = %s")
-            update_values.append(supervisor_id.strip())
+            update_values.append(supervisor_id)
 
         # Estimation and hours fields
         if min_estimated_hours is not None:
