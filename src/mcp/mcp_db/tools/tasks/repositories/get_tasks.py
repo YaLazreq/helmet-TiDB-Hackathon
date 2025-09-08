@@ -19,19 +19,12 @@ from decimal import Decimal
 @mcp.tool()
 def get_tasks(
     task_id: Optional[str] = None,
-    title: Optional[str] = None,
-    description: Optional[str] = None,
     assigned_to: Optional[str] = None,
     created_by: Optional[str] = None,
     priority: Optional[str] = None,
     status: Optional[str] = None,
     start_date: Optional[str] = None,
     due_date: Optional[str] = None,
-    min_estimated_hours: Optional[float] = None,
-    max_estimated_hours: Optional[float] = None,
-    min_completion: Optional[int] = None,
-    max_completion: Optional[int] = None,
-    overdue_only: Optional[bool] = None,
     limit: Optional[int] = 50,
     offset: Optional[int] = 0,
 ) -> str:
@@ -51,8 +44,6 @@ def get_tasks(
 
     🆔 IDENTIFICATION:
     task_id : str - Exact task ID ("1", "42", etc.)
-    title : str - Partial title search ("repair" finds "Repair elevator")
-    description : str - Partial description search ("urgent" finds tasks with "urgent")
 
     👥 ASSIGNMENT:
     assigned_to : str - User ID who is assigned the task ("2", "1", etc.)
@@ -67,11 +58,6 @@ def get_tasks(
     due_date : str - Due date (format: "YYYY-MM-DD")
     overdue_only : bool - Only overdue tasks (true/false)
 
-    ⏱️ ESTIMATION & PROGRESS:
-    min_estimated_hours : float - Min duration in hours (e.g., 2.5)
-    max_estimated_hours : float - Max duration in hours (e.g., 8.0)
-    min_completion : int - Min completion % (0-100)
-    max_completion : int - Max completion % (0-100)
 
     📄 PAGINATION:
     limit : int - Max results (1-1000, default: 50)
@@ -164,19 +150,19 @@ def get_tasks(
                 "message": "Limit must be between 1 and 1000",
                 "query_params": {
                     "task_id": task_id,
-                    "title": title,
-                    "description": description,
+                    "title": None,
+                    "description": None,
                     "assigned_to": assigned_to,
                     "created_by": created_by,
                     "priority": priority,
                     "status": status,
                     "start_date": start_date,
                     "due_date": due_date,
-                    "min_estimated_hours": min_estimated_hours,
-                    "max_estimated_hours": max_estimated_hours,
-                    "min_completion": min_completion,
-                    "max_completion": max_completion,
-                    "overdue_only": overdue_only,
+                    "min_estimated_hours": None,
+                    "max_estimated_hours": None,
+                    "min_completion": None,
+                    "max_completion": None,
+                    "overdue_only": None,
                     "limit": limit,
                     "offset": offset,
                 },
@@ -192,43 +178,22 @@ def get_tasks(
                 "message": "Offset must be 0 or greater",
                 "query_params": {
                     "task_id": task_id,
-                    "title": title,
-                    "description": description,
+                    "title": None,
+                    "description": None,
                     "assigned_to": assigned_to,
                     "created_by": created_by,
                     "priority": priority,
                     "status": status,
                     "start_date": start_date,
                     "due_date": due_date,
-                    "min_estimated_hours": min_estimated_hours,
-                    "max_estimated_hours": max_estimated_hours,
-                    "min_completion": min_completion,
-                    "max_completion": max_completion,
-                    "overdue_only": overdue_only,
+                    "min_estimated_hours": None,
+                    "max_estimated_hours": None,
+                    "min_completion": None,
+                    "max_completion": None,
+                    "overdue_only": None,
                     "limit": limit,
                     "offset": offset,
                 },
-            },
-            indent=2,
-        )
-
-    # Completion percentage validation
-    if min_completion is not None and (min_completion < 0 or min_completion > 100):
-        return json.dumps(
-            {
-                "success": False,
-                "error": "Invalid completion range",
-                "message": f"min_completion must be between 0 and 100, received: {min_completion}",
-            },
-            indent=2,
-        )
-
-    if max_completion is not None and (max_completion < 0 or max_completion > 100):
-        return json.dumps(
-            {
-                "success": False,
-                "error": "Invalid completion range",
-                "message": f"max_completion must be between 0 and 100, received: {max_completion}",
             },
             indent=2,
         )
@@ -252,14 +217,6 @@ def get_tasks(
     if task_id:
         conditions.append("t.id = %s")
         params.append(task_id)
-
-    if title:
-        conditions.append("t.title LIKE %s")
-        params.append(f"%{title}%")
-
-    if description:
-        conditions.append("t.description LIKE %s")
-        params.append(f"%{description}%")
 
     # Assignment filters
     if assigned_to:
@@ -287,30 +244,6 @@ def get_tasks(
     if due_date:
         conditions.append("DATE(t.due_date) = %s")
         params.append(due_date)
-
-    # Estimation and hours filters
-    if min_estimated_hours is not None:
-        conditions.append("t.min_estimated_hours >= %s")
-        params.append(min_estimated_hours)
-
-    if max_estimated_hours is not None:
-        conditions.append("t.max_estimated_hours <= %s")
-        params.append(max_estimated_hours)
-
-    # Completion filters
-    if min_completion is not None:
-        conditions.append("t.completion_percentage >= %s")
-        params.append(min_completion)
-
-    if max_completion is not None:
-        conditions.append("t.completion_percentage <= %s")
-        params.append(max_completion)
-
-    # Overdue filter
-    if overdue_only:
-        conditions.append(
-            "t.due_date < NOW() AND t.status NOT IN ('completed', 'blocked')"
-        )
 
     # Build WHERE clause
     where_clause = " AND ".join(conditions) if conditions else "1=1"
@@ -359,19 +292,19 @@ def get_tasks(
                 "message": "Unable to establish database connection",
                 "query_params": {
                     "task_id": task_id,
-                    "title": title,
-                    "description": description,
+                    "title": None,
+                    "description": None,
                     "assigned_to": assigned_to,
                     "created_by": created_by,
                     "priority": priority,
                     "status": status,
                     "start_date": start_date,
                     "due_date": due_date,
-                    "min_estimated_hours": min_estimated_hours,
-                    "max_estimated_hours": max_estimated_hours,
-                    "min_completion": min_completion,
-                    "max_completion": max_completion,
-                    "overdue_only": overdue_only,
+                    "min_estimated_hours": None,
+                    "max_estimated_hours": None,
+                    "min_completion": None,
+                    "max_completion": None,
+                    "overdue_only": None,
                     "limit": limit,
                     "offset": offset,
                 },
@@ -413,19 +346,19 @@ def get_tasks(
                 "message": f"Database error: {str(e)}",
                 "query_params": {
                     "task_id": task_id,
-                    "title": title,
-                    "description": description,
+                    "title": None,
+                    "description": None,
                     "assigned_to": assigned_to,
                     "created_by": created_by,
                     "priority": priority,
                     "status": status,
                     "start_date": start_date,
                     "due_date": due_date,
-                    "min_estimated_hours": min_estimated_hours,
-                    "max_estimated_hours": max_estimated_hours,
-                    "min_completion": min_completion,
-                    "max_completion": max_completion,
-                    "overdue_only": overdue_only,
+                    "min_estimated_hours": None,
+                    "max_estimated_hours": None,
+                    "min_completion": None,
+                    "max_completion": None,
+                    "overdue_only": None,
                     "limit": limit,
                     "offset": offset,
                 },
@@ -442,19 +375,19 @@ def get_tasks(
         k: v
         for k, v in {
             "task_id": task_id,
-            "title": title,
-            "description": description,
+            "title": None,
+            "description": None,
             "assigned_to": assigned_to,
             "created_by": created_by,
             "priority": priority,
             "status": status,
             "start_date": start_date,
             "due_date": due_date,
-            "min_estimated_hours": min_estimated_hours,
-            "max_estimated_hours": max_estimated_hours,
-            "min_completion": min_completion,
-            "max_completion": max_completion,
-            "overdue_only": overdue_only,
+            "min_estimated_hours": None,
+            "max_estimated_hours": None,
+            "min_completion": None,
+            "max_completion": None,
+            "overdue_only": None,
             "limit": limit or 50,
             "offset": offset or 0,
         }.items()
@@ -501,25 +434,17 @@ def get_tasks(
             message = f"✅ Task with ID '{task_id}' found successfully"
         else:
             message = f"❌ No task found with ID '{task_id}'"
-    elif overdue_only:
-        message = f"🚨 Found {len(tasks_list)} overdue task(s)"
     elif (
         len(
             [
                 p
                 for p in [
-                    title,
-                    description,
                     assigned_to,
                     created_by,
                     priority,
                     status,
                     start_date,
                     due_date,
-                    min_estimated_hours,
-                    max_estimated_hours,
-                    min_completion,
-                    max_completion,
                 ]
                 if p is not None
             ]

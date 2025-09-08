@@ -68,7 +68,6 @@ def create_user(
     certifications: Certifications (List[str], e.g., ["crane_license", "electrical_permit"])
     safety_training: Safety training (List[str], e.g., ["fall_prevention", "first_aid"])
     last_training_date: Last training date (string, format: "YYYY-MM-DD")
-    vector: Vector representation (string, optional for embeddings/vectorization)
 
     USAGE EXAMPLES:
     ==============
@@ -87,6 +86,9 @@ def create_user(
     )
     Inactive user:
     create_user("Paul", "Bernard", "paul@email.com", "pass123", is_active=false)
+
+    OPTIONAL:
+    vector: Vector representation (string, optional for embeddings/vectorization)
 
     RETURN:
     JSON with the created user’s information or an error message.

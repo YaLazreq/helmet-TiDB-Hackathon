@@ -56,31 +56,48 @@ def create_database_connection():
     return db
 
 
-table_schema = """
-    - users:
-        id string pk
-        email string
-        password string
-        first_name string
-        last_name string
-        phone string
-        role enum ('worker', 'chief', 'manager', 'admin')
-        specialization string ('electrician', 'plumber' etc.)
-        created_at timestamp
-        updated_at timestamp
-        is_active boolean 
-    - tasks: 
-        id string pk
-        title string
-        description text
-        assigned_to int fk
-        estimated_hours decimal
-        start_date date
-        due_date date
-        priority integer enum('low', 'medium', 'high', 'urgent')
-        status string enum('not_started', 'in_progress', 'blocked', 'completed', 'cancelled')
-        completion_percentage integer default 0
-        created_by int fk
-        created_at timestamp
-        updated_at timestamp
-"""
+# def get_table_schema():
+#     """
+#     Get table schema using MCP database tools
+#     """
+#     try:
+#         # Import requests to call MCP server
+#         import requests
+#         import os
+
+#         # Get MCP server port from environment (default 8080)
+#         mcp_port = os.getenv("MCP_PORT", "8080")
+#         mcp_url = f"http://localhost:{mcp_port}"
+
+#         # Call the MCP get_table_schemas tool
+#         response = requests.post(
+#             f"{mcp_url}/call_tool",
+#             json={
+#                 "name": "get_table_schemas",
+#                 "arguments": {}
+#             },
+#             timeout=10
+#         )
+
+#         if response.status_code == 200:
+#             result = response.json()
+#             return result.get("content", [{}])[0].get("text", "No schema found")
+#         else:
+#             return f"MCP server error: {response.status_code}"
+
+#     except Exception as e:
+#         # Fallback to simple schema if MCP server is not available
+#         return """    - users:
+#         id int pk auto_increment
+#         first_name varchar(100)
+#         last_name varchar(100)
+#         email varchar(255)
+#         role enum('worker','team_leader','supervisor','site_manager')
+#     - tasks:
+#         id int pk auto_increment
+#         title varchar(255)
+#         description text
+#         status enum('pending','in_progress','completed','blocked')"""
+
+# # Use the dynamic function to get the schema
+# table_schema = get_table_schema()

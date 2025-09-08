@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from src.agents.conflict_008 import conflict_agent
+from agents.conflict_old import conflict_agent
 
 
 def test_conflict_agent():

@@ -8,6 +8,8 @@ from src.tools.supervisor_handoff import (
     assign_to_conflict_agent_with_description,
     assign_to_planning_agent_with_description,
 )
+from .planning_004 import create_planning_agent
+from .conflict import create_conflict_agent
 
 # add resource availability in conflict agent
 # , and \n\n"
@@ -102,10 +104,6 @@ supervisor_agent_with_description = create_react_agent(
 )
 
 # Define the overall supervisor workflow
-
-from .planning_004 import create_planning_agent
-from .conflict_008 import conflict_agent
-
 supervisor = (
     StateGraph(MessagesState)
     # NOTE: `destinations` is only needed for visualization and doesn't affect runtime behavior
@@ -114,7 +112,7 @@ supervisor = (
         destinations=("planning_agent", "conflict_agent"),
     )
     .add_node(create_planning_agent())
-    .add_node(conflict_agent)
+    .add_node(create_conflict_agent())
     .add_edge(START, "supervisor")
     .add_edge("planning_agent", "supervisor")  # always return back to the supervisor
     .add_edge("conflict_agent", "supervisor")  # always return back to the supervisor

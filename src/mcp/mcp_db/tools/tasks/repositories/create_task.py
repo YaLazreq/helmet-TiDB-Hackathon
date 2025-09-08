@@ -87,7 +87,7 @@ def create_task(
     - safety_requirements: Safety requirements (List[str])
 
     OPTIONAL:
-    - vector: Vector representation (string, optional for embeddings/vectorization)
+    vector: Vector representation (string, optional for embeddings/vectorization)
 
     RETURN:
     JSON with created task information or error message.

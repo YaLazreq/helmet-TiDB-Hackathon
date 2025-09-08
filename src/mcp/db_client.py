@@ -88,40 +88,42 @@ async def connect_db_mcp():
     print(db_mcp_tools_for_prompt)
     print("✅ Fetching Success...")
 
-    # toto_agent = create_react_agent(
-    #     model=model,
-    #     tools=[*db_mcp_tools],
-    #     prompt="Tu as accès aux outils de la base de données. Tu peux modifier n'importe quel row. ",
-    #     name="toto_agent",
-    # )
-
-    # res = await toto_agent.ainvoke(
-    #     {
-    #         "messages": [
-    #             {
-    #                 "role": "user",
-    #                 "content": "change le numéro de téléphone du travailleur Yanis Dupont (ID: 2) à 0606060606",
-    #             }
-    #         ]
-    #     },
-    # )
-
-    # print("🤖 >", res["messages"][-1].content)
-
     return db_mcp_client, db_mcp_tools, db_mcp_tools_for_prompt
 
 
-def get_db_mcp_tools():
-    """Get DB MCP tools if already connected"""
+def get_db_mcp_tools(tool_names=None):
+    """
+    Get DB MCP tools if already connected
+
+    Args:
+        tool_names (list, optional): List of specific tool names to return.
+                                   If None, returns all tools.
+                                   Example: ['get_users', 'create_task']
+
+    Returns:
+        list: List of requested MCP tools
+    """
     global db_mcp_tools
     if db_mcp_tools is None:
         print("❌ DB MCP tools not initialized yet.")
-    return db_mcp_tools
+        return []
 
+    # If no specific tools requested, return all
+    if tool_names is None:
+        return db_mcp_tools
 
-# def main():
-#     asyncio.run(connect_db_mcp())
+    # Filter tools by name
+    filtered_tools = []
+    for tool in db_mcp_tools:
+        if tool.name in tool_names:
+            filtered_tools.append(tool)
 
+    # Check if all requested tools were found
+    found_tool_names = [tool.name for tool in filtered_tools]
+    missing_tools = [name for name in tool_names if name not in found_tool_names]
 
-# if __name__ == "__main__":
-#     main()
+    if missing_tools:
+        print(f"⚠️ Warning: Requested tools not found: {missing_tools}")
+        print(f"Available tools: {[tool.name for tool in db_mcp_tools]}")
+
+    return filtered_tools
