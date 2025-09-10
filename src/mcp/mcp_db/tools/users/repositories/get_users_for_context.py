@@ -29,7 +29,7 @@ def get_users_for_context(
     LIGHTWEIGHT USER CONTEXT TOOL - Get Essential User Information
 
     This tool returns only essential user information for context purposes:
-    - ID, First_name, Last_name, role, trade_categories, primary_skills
+    - ID, First_name, Last_name, role, role_description, trade_categories, primary_skills
 
     PARAMETERS (All Optional)
     IDENTIFICATION:
@@ -55,6 +55,7 @@ def get_users_for_context(
                 "first_name": "John",
                 "last_name": "Doe",
                 "role": "worker|team_leader|supervisor|site_manager",
+                "role_description": "Senior Construction Worker",
                 "trade_categories": ["electricity", "plumbing"],
                 "primary_skills": ["electrical_installation", "plumbing_repair"]
             }
@@ -137,6 +138,7 @@ def get_users_for_context(
         first_name,
         last_name,
         role,
+        role_description,
         trade_categories,
         primary_skills
     FROM users 

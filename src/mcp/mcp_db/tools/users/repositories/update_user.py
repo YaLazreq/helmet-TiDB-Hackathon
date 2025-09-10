@@ -15,6 +15,7 @@ def update_user(
     phone: Optional[str] = None,
     address: Optional[str] = None,
     role: Optional[str] = None,
+    role_description: Optional[str] = None,
     is_active: Optional[bool] = None,
     hire_date: Optional[str] = None,
     primary_skills: Optional[List[str]] = None,
@@ -28,7 +29,7 @@ def update_user(
     certifications: Optional[List[str]] = None,
     safety_training: Optional[List[str]] = None,
     last_training_date: Optional[str] = None,
-    vector: Optional[str] = None,
+    skills_vector: Optional[str] = None,
 ) -> str:
     """
     🔧 ADVANCED USER UPDATE TOOL - Update User Profiles with Full Skill Management
@@ -49,6 +50,7 @@ def update_user(
     address: New work address/location (string)
     role: New user role (string)
         OPTIONS: 'worker', 'team_leader', 'supervisor', 'site_manager'
+    role_description: New description of the user's role/position (string)
     is_active: New active/inactive status (boolean)
     hire_date: New hire date (string, format: "YYYY-MM-DD")
     
@@ -68,7 +70,7 @@ def update_user(
     certifications: New certifications (List[str])
     safety_training: New safety training (List[str])
     last_training_date: New last training date (string, format: "YYYY-MM-DD")
-    vector: New vector representation (string, optional for embeddings/vectorization)
+    skills_vector: New vector representation (string, optional for embeddings/vectorization)
     
     USAGE EXAMPLES:
     ==============
@@ -98,10 +100,10 @@ def update_user(
 
     # Check if at least one parameter is provided
     update_params = [
-        first_name, last_name, email, phone, address, role, is_active, hire_date,
+        first_name, last_name, email, phone, address, role, role_description, is_active, hire_date,
         primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
         work_preferences, equipment_mastery, project_experience,
-        certifications, safety_training, last_training_date, vector
+        certifications, safety_training, last_training_date, skills_vector
     ]
     if all(param is None for param in update_params):
         return "❌ Error: At least one parameter to modify must be provided."
@@ -192,6 +194,11 @@ def update_user(
             update_fields.append("role = %s")
             update_values.append(role)
 
+        if role_description is not None:
+            role_description_value = role_description.strip() if role_description else None
+            update_fields.append("role_description = %s")
+            update_values.append(role_description_value)
+
         if is_active is not None:
             update_fields.append("is_active = %s")
             update_values.append(is_active)
@@ -246,9 +253,9 @@ def update_user(
             update_fields.append("last_training_date = %s")
             update_values.append(last_training_date_obj)
 
-        if vector is not None:
-            update_fields.append("vector = %s")
-            update_values.append(vector)
+        if skills_vector is not None:
+            update_fields.append("skills_vector = %s")
+            update_values.append(skills_vector)
 
         if update_fields:
             update_fields.append("updated_at = %s")
@@ -263,10 +270,10 @@ def update_user(
             cursor.execute(
                 """
                 SELECT id, first_name, last_name, email, password_hash, phone, address,
-                       role, is_active, hire_date,
+                       role, role_description, is_active, hire_date,
                        primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
                        work_preferences, equipment_mastery, project_experience,
-                       certifications, safety_training, last_training_date, vector,
+                       certifications, safety_training, last_training_date, skills_vector,
                        created_at, updated_at
                 FROM users WHERE id = %s
             """,

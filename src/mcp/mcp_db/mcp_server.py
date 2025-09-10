@@ -18,6 +18,11 @@ import tools.tasks.repositories.update_task
 # Storage
 import tools.storage.get_table_schemas
 
+# Embedding/Vector
+import tools.embedding.repositories.find_best_workers
+import tools.embedding.repositories.search_similar_tasks
+import tools.embedding.repositories.search_similar_users
+
 
 if __name__ == "__main__":
     port = int(os.getenv("MCP_PORT", 8080))

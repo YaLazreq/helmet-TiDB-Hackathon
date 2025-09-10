@@ -3,6 +3,55 @@ from typing import List, Optional, Union
 import json
 from datetime import datetime
 from decimal import Decimal
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "embedding"))
+from src.mcp.mcp_db.tools.embedding.vector import TiDBVectorManager
+
+
+def _generate_requirements_vector(
+    task_id: int,
+    title: str,
+    description: str,
+    skill_requirements: List[str],
+    trade_category: str,
+) -> Optional[str]:
+    """
+    Generate requirements vector for task matching based on key fields.
+    Only vectorizes: ID, Title, Description, skill_requirements, trade_category
+    """
+    try:
+        vector_manager = TiDBVectorManager()
+
+        # Prepare minimal task data for vectorization
+        task_data = {
+            "title": title.strip(),
+            "description": description.strip(),
+            "skill_requirements": skill_requirements,
+            "trade_category": trade_category.strip(),
+        }
+
+        # Build searchable text with only the required fields
+        components = []
+        components.append(f"ID: {task_id}")
+        components.append(f"Title: {title.strip()}")
+        components.append(f"Description: {description.strip()}")
+
+        if skill_requirements:
+            components.append(f"Skills needed: {', '.join(skill_requirements)}")
+
+        components.append(f"Trade: {trade_category.strip()}")
+
+        searchable_text = " | ".join(components)
+
+        # Generate embedding and return as JSON string
+        embedding = vector_manager.text_to_embedding(searchable_text)
+        return json.dumps(embedding)
+
+    except Exception as e:
+        print(f"Warning: Could not generate requirements vector: {e}")
+        return None
 
 
 @mcp.tool()
@@ -35,7 +84,6 @@ def create_task(
     noise_level: str,
     safety_requirements: List[str],
     notes: str,
-    vector: Optional[str] = None,
 ) -> str:
     """
     Creates a new task in the database with comprehensive field requirements.
@@ -86,8 +134,8 @@ def create_task(
     - noise_level: Noise level (string, "low", "medium", "high")
     - safety_requirements: Safety requirements (List[str])
 
-    OPTIONAL:
-    vector: Vector representation (string, optional for embeddings/vectorization)
+    AUTOMATIC:
+    requirements_vector: Vector representation is generated automatically based on task_id, title, description, skill_requirements, and trade_category
 
     RETURN:
     JSON with created task information or error message.
@@ -234,9 +282,9 @@ def create_task(
             created_by, supervisor_id, priority, status, start_date, due_date,
             min_estimated_hours, max_estimated_hours, actual_hours, completion_percentage,
             dependencies, blocks_tasks, required_materials, required_equipment,
-            weather_dependent, noise_level, safety_requirements, notes, vector,
+            weather_dependent, noise_level, safety_requirements, notes,
             created_at, updated_at
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         params = (
@@ -268,13 +316,29 @@ def create_task(
             noise_level,
             json.dumps(safety_requirements),
             notes,
-            vector,
             current_time,
             current_time,
         )
 
         cursor.execute(insert_query, params)
         task_id = cursor.lastrowid
+
+        # Generate requirements vector with actual task_id
+        requirements_vector = _generate_requirements_vector(
+            task_id=task_id,
+            title=title,
+            description=description,
+            skill_requirements=skill_requirements,
+            trade_category=trade_category,
+        )
+
+        # Update task with requirements_vector
+        if requirements_vector:
+            cursor.execute(
+                "UPDATE tasks SET requirements_vector = %s WHERE id = %s",
+                (requirements_vector, task_id),
+            )
+
         db.commit()
 
         cursor.execute(
@@ -284,7 +348,7 @@ def create_task(
                    created_by, supervisor_id, priority, status, start_date, due_date,
                    min_estimated_hours, max_estimated_hours, actual_hours, completion_percentage,
                    dependencies, blocks_tasks, required_materials, required_equipment,
-                   weather_dependent, noise_level, safety_requirements, notes, vector,
+                   weather_dependent, noise_level, safety_requirements, notes, requirements_vector,
                    created_at, updated_at
             FROM tasks WHERE id = %s
         """,

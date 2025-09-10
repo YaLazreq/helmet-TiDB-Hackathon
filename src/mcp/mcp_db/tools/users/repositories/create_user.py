@@ -16,6 +16,7 @@ def create_user(
     phone: Optional[str] = None,
     address: Optional[str] = None,
     role: str = "worker",
+    role_description: Optional[str] = None,
     is_active: bool = True,
     hire_date: Optional[str] = None,
     primary_skills: Optional[List[str]] = None,
@@ -29,7 +30,7 @@ def create_user(
     certifications: Optional[List[str]] = None,
     safety_training: Optional[List[str]] = None,
     last_training_date: Optional[str] = None,
-    vector: Optional[str] = None,
+    skills_vector: Optional[str] = None,
 ) -> str:
     """
     🔧 ADVANCED USER CREATION TOOL - Create Users with Full Skill Profiles
@@ -49,6 +50,7 @@ def create_user(
     address: Work address/location (string, e.g., "15 Rue de la Paix, Paris")
     role: User role (string, default: "worker")
         OPTIONS: 'worker', 'team_leader', 'supervisor', 'site_manager'
+    role_description: Description of the user's role/position (string, optional)
     is_active: Active status (boolean, default: True)
     hire_date: Hire date (string, format: "YYYY-MM-DD", e.g., "2024-01-15")
 
@@ -88,7 +90,7 @@ def create_user(
     create_user("Paul", "Bernard", "paul@email.com", "pass123", is_active=false)
 
     OPTIONAL:
-    vector: Vector representation (string, optional for embeddings/vectorization)
+    skills_vector: Vector representation (string, optional for embeddings/vectorization)
 
     RETURN:
     JSON with the created user’s information or an error message.
@@ -145,6 +147,7 @@ def create_user(
     )
     phone = phone.strip() if phone else None
     address = address.strip() if address else None
+    role_description = role_description.strip() if role_description else None
 
     # Prepare JSON fields with defaults
     primary_skills = primary_skills or []
@@ -172,12 +175,12 @@ def create_user(
         insert_query = """
         INSERT INTO users (
             first_name, last_name, email, password_hash, phone, address,
-            role, is_active, hire_date,
+            role, role_description, is_active, hire_date,
             primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
             work_preferences, equipment_mastery, project_experience,
-            certifications, safety_training, last_training_date, vector,
+            certifications, safety_training, last_training_date, skills_vector,
             created_at, updated_at
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         params = (
@@ -188,6 +191,7 @@ def create_user(
             phone,
             address,
             role,
+            role_description,
             is_active,
             hire_date_obj,
             json.dumps(primary_skills),
@@ -201,7 +205,7 @@ def create_user(
             json.dumps(certifications),
             json.dumps(safety_training),
             last_training_date_obj,
-            vector,
+            skills_vector,
             current_time,
             current_time,
         )
@@ -213,10 +217,10 @@ def create_user(
         cursor.execute(
             """
             SELECT id, first_name, last_name, email, password_hash, phone, address,
-                   role, is_active, hire_date,
+                   role, role_description, is_active, hire_date,
                    primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
                    work_preferences, equipment_mastery, project_experience,
-                   certifications, safety_training, last_training_date, vector,
+                   certifications, safety_training, last_training_date, skills_vector,
                    created_at, updated_at
             FROM users WHERE id = %s
         """,

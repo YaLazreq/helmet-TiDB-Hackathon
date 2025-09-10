@@ -128,6 +128,7 @@ def get_users(
                 "phone": "+1234567890",
                 "address": "15 Rue de la Paix, Paris",
                 "role": "worker|team_leader|supervisor|site_manager",
+                "role_description": "Senior Construction Worker",
                 "is_active": true,
                 "hire_date": "2020-01-15",
                 "primary_skills": ["electrical_installation", "plumbing_repair"],
@@ -305,6 +306,7 @@ def get_users(
         phone,
         address,
         role,
+        role_description,
         is_active,
         hire_date,
         primary_skills,
@@ -318,7 +320,7 @@ def get_users(
         certifications,
         safety_training,
         last_training_date,
-        vector,
+        skills_vector,
         created_at,
         updated_at
     FROM users 

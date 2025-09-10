@@ -1,0 +1,97 @@
+[
+  {
+    "task_id": 1,
+    "title": "Site Survey and Layout",
+    "task_text": "Title: Site Survey and Layout | Description: Conduct topographic survey, establish benchmarks, and layout building positions for all three structures using GPS and total station equipment. | Skills required: surveying, gps_equipment, total_station | Trade category: surveying",
+    "vector_dimension": 384,
+    "vector_sample": [
+      -0.024169577285647392,
+      -0.041152339428663254,
+      -0.029972216114401817,
+      -0.02584967389702797,
+      -0.07661247998476028,
+      -0.03413435444235802,
+      -0.07448551058769226,
+      0.014920281246304512,
+      -0.11995894461870193,
+      0.043210819363594055
+    ],
+    "vector_norm": 1.0000000134890477
+  },
+  {
+    "task_id": 2,
+    "title": "Retail Building Foundation Excavation",
+    "task_text": "Title: Retail Building Foundation Excavation | Description: Excavate foundation area for retail building per engineered drawings. Remove topsoil, excavate to design depth, and prepare for concrete footings. | Skills required: excavator_operation, foundation_excavation, grade_reading | Trade category: excavation",
+    "vector_dimension": 384,
+    "vector_sample": [
+      0.0069104935973882675,
+      0.014313922263681889,
+      0.026027997955679893,
+      -0.009037936106324196,
+      0.025126034393906593,
+      -0.07377553731203079,
+      -0.07304345071315765,
+      -0.010184427723288536,
+      -0.05769452452659607,
+      0.02249278500676155
+    ],
+    "vector_norm": 0.9999999820537356
+  },
+  {
+    "task_id": 3,
+    "title": "Restaurant Foundation Excavation",
+    "task_text": "Title: Restaurant Foundation Excavation | Description: Excavate foundation area for restaurant building. Coordinate with utility rough-ins and ensure proper drainage slope. | Skills required: excavator_operation, foundation_excavation, utility_coordination | Trade category: excavation",
+    "vector_dimension": 384,
+    "vector_sample": [
+      -0.0059594097547233105,
+      -0.022668378427624702,
+      0.025829801335930824,
+      0.005766268353909254,
+      -0.02417764440178871,
+      -0.04618537798523903,
+      -0.06160992756485939,
+      -0.02251232974231243,
+      -0.022820716723799706,
+      -0.011871571652591228
+    ],
+    "vector_norm": 0.9999999773310005
+  },
+  {
+    "task_id": 4,
+    "title": "Car Wash Foundation Excavation",
+    "task_text": "Title: Car Wash Foundation Excavation | Description: Excavate car wash building foundation with special attention to drainage systems and chemical-resistant requirements. | Skills required: excavator_operation, foundation_excavation, drainage_systems | Trade category: excavation",
+    "vector_dimension": 384,
+    "vector_sample": [
+      -0.055257491767406464,
+      0.04128599539399147,
+      0.06429700553417206,
+      -0.03570137545466423,
+      0.01450815238058567,
+      -0.03305331990122795,
+      -0.102820985019207,
+      0.01913871429860592,
+      -0.07641495764255524,
+      -0.000951356953009963
+    ],
+    "vector_norm": 0.9999999710170322
+  },
+  {
+    "task_id": 5,
+    "title": "Retail Building Foundation Concrete Pour",
+    "task_text": "Title: Retail Building Foundation Concrete Pour | Description: Install rebar, set formwork, and pour concrete foundation for retail building. Ensure proper curing and finishing. | Skills required: concrete_pouring, rebar_installation, formwork_construction | Trade category: concrete",
+    "vector_dimension": 384,
+    "vector_sample": [
+      -0.04208814725279808,
+      0.0014464077539741993,
+      0.04837103560566902,
+      -0.027441803365945816,
+      -0.04228530824184418,
+      0.05614593252539635,
+      0.002750396030023694,
+      -0.004932510666549206,
+      -0.057737212628126144,
+      -0.04021231830120087
+    ],
+    "vector_norm": 0.9999999674031428
+  }
+]

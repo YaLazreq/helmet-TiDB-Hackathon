@@ -26,6 +26,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0101",
 #     address="1234 Construction Blvd, Hoverville, CO 80424",
 #     role="supervisor",
+#     role_description="Project management and safety coordination expert with 15 years of experience supervising commercial construction sites and quality control.",
 #     hire_date="2020-03-15",
 #     primary_skills=[
 #         "project_management",
@@ -63,6 +64,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0102",
 #     address="567 Maple Street, Hoverville, CO 80424",
 #     role="team_leader",
+#     role_description="Expert electrician and team leader specialized in industrial installations, apprentice mentoring and electrical team coordination.",
 #     hire_date="2018-07-20",
 #     primary_skills=[
 #         "electrical_installation",
@@ -101,6 +103,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0103",
 #     address="890 Industrial Way, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Concrete and structural specialist with expertise in pouring, finishing and heavy machinery operation for commercial construction projects.",
 #     hire_date="2019-05-10",
 #     primary_skills=[
 #         "concrete_pouring",
@@ -143,6 +146,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0104",
 #     address="234 Oak Avenue, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Commercial electrician specialized in lighting and security systems with focus on precision work and technical installations.",
 #     hire_date="2020-01-15",
 #     primary_skills=[
 #         "electrical_installation",
@@ -185,6 +189,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0105",
 #     address="456 Pine Street, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Plumbing and HVAC expert for commercial installations, specialized in complex problem-solving and heating systems.",
 #     hire_date="2017-09-01",
 #     primary_skills=["plumbing_installation", "hvac_installation", "pipe_fitting"],
 #     secondary_skills=[
@@ -223,6 +228,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0106",
 #     address="789 Cedar Lane, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Structural welder and carpenter specialized in height work, steel erection and metal structure welding.",
 #     hire_date="2019-11-20",
 #     primary_skills=["framing_steel", "structural_steel_erection", "welding_structural"],
 #     secondary_skills=["framing_wood", "finish_carpentry", "door_installation"],
@@ -252,6 +258,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0107",
 #     address="321 Birch Road, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Painter specialized in high-quality commercial finishes with expertise in spray painting and surface preparation for premium projects.",
 #     hire_date="2020-06-10",
 #     primary_skills=["interior_painting", "exterior_painting", "spray_painting"],
 #     secondary_skills=[
@@ -286,6 +293,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0108",
 #     address="654 Elm Street, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Flooring specialist with expertise in ceramic tile, hardwood flooring and surface preparation for precision finishes.",
 #     hire_date="2018-12-05",
 #     primary_skills=["tile_installation_ceramic", "hardwood_flooring", "vinyl_flooring"],
 #     secondary_skills=["subfloor_preparation", "floor_leveling", "stone_flooring"],
@@ -320,6 +328,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0109",
 #     address="987 Spruce Circle, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Roofing expert in metal roofing and waterproofing, specialized in height work and waterproofing membrane systems.",
 #     hire_date="2019-03-25",
 #     primary_skills=["metal_roofing", "roof_repair", "waterproofing_membrane"],
 #     secondary_skills=[
@@ -355,6 +364,7 @@ from tools.tasks.repositories.get_tasks import get_tasks
 #     phone="+1-720-555-0110",
 #     address="159 Aspen Way, Hoverville, CO 80424",
 #     role="worker",
+#     role_description="Versatile apprentice assistant for general labor, material handling and support to specialized teams with focus on learning.",
 #     hire_date="2024-10-01",
 #     primary_skills=["general_labor", "material_handling", "tool_assistance"],
 #     secondary_skills=["site_cleanup", "equipment_maintenance", "scaffolding_erection"],
