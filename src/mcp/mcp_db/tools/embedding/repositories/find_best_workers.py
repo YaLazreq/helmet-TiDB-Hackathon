@@ -19,12 +19,12 @@ def find_best_workers_for_task(
     Find the best workers for a given task based on semantic skill matching.
 
     This tool uses vector similarity search to match workers' skills, experience,
-    and capabilities with task requirements. It combines task fields into a 
+    and capabilities with task requirements. It combines task fields into a
     searchable description and finds workers whose skill profiles are most similar.
 
     PARAMETERS:
     - title: Task title (str, required)
-    - description: Task description (str, required)  
+    - description: Task description (str, required)
     - skill_requirements: List of required skills (list, optional)
     - trade_category: Trade/category of work (str, optional)
     - k: Number of workers to return (int, optional, default=3, max=10)
@@ -42,7 +42,7 @@ def find_best_workers_for_task(
         skill_requirements=["electrical_installation", "lighting_maintenance"],
         trade_category="electrical",
         k=3,
-        min_similarity_score=70.0
+        min_similarity_score=30.0
     )
     """
 
@@ -54,7 +54,7 @@ def find_best_workers_for_task(
                 "error": "❌ title is required and cannot be empty",
             }
         )
-    
+
     if not description or not description.strip():
         return json.dumps(
             {
@@ -62,21 +62,21 @@ def find_best_workers_for_task(
                 "error": "❌ description is required and cannot be empty",
             }
         )
-    
+
     # Build task description by concatenating all fields
     components = []
     components.append(title.strip())
     components.append(description.strip())
-    
+
     if skill_requirements:
         if isinstance(skill_requirements, list):
             components.extend(skill_requirements)
         else:
             components.append(str(skill_requirements))
-    
+
     if trade_category:
         components.append(trade_category.strip())
-    
+
     task_description = " ".join(components)
 
     # Validate optional parameters
@@ -208,7 +208,7 @@ def find_best_workers_for_task(
                     "description": description,
                     "skill_requirements": skill_requirements,
                     "trade_category": trade_category,
-                    "combined_description": task_description
+                    "combined_description": task_description,
                 },
                 "total_qualified_workers": len(qualified_workers),
                 "returned_workers": len(final_results),

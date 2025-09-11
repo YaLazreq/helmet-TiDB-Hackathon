@@ -37,10 +37,20 @@ def create_task_description_handoff_tool(
 
 assign_to_planning_agent_with_description = create_task_description_handoff_tool(
     agent_name="planning_agent",
-    description="Assign task to a planning agent.",
+    description="Assign task to a planning agent that specializes in project planning, scheduling, resource allocation, timeline creation, and strategic roadmap development.",
 )
 
 assign_to_conflict_agent_with_description = create_task_description_handoff_tool(
     agent_name="conflict_agent",
-    description="Assign task to a conflict agent.",
+    description="Assign task to a conflict agent that specializes in identifying, analyzing, and resolving conflicts in project schedules, resource allocations, and task dependencies.",
+)
+
+assign_to_team_builder_agent_with_description = create_task_description_handoff_tool(
+    agent_name="team_builder_agent",
+    description="Assign task to a team builder agent that specializes in intelligent worker-task matching and team formation.",
+)
+
+assign_to_notifier_agent_with_description = create_task_description_handoff_tool(
+    agent_name="notifier_agent",
+    description="Assign task to a notifier agent that specializes in sending notifications and alerts.",
 )

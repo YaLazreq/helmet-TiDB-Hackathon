@@ -320,7 +320,6 @@ def get_users(
         certifications,
         safety_training,
         last_training_date,
-        skills_vector,
         created_at,
         updated_at
     FROM users 

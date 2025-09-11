@@ -27,6 +27,7 @@ async def main():
     # from langgraph.prebuilt import create_react_agent
     # from src.mcp.db_client import get_db_mcp_tools
     # from src.agents.conflict import conflict_agent_as_tool
+    # from src.agents.notifier import create_notifier_agent
 
     # t = create_react_agent(
     #     model=model,
@@ -52,7 +53,7 @@ async def main():
 
     # print(response)
 
-    from src.agents.supervisor_002 import supervisor
+    from src.agents.supervisor import supervisor
 
     final_chunk = None
     for chunk in supervisor.stream(
@@ -60,7 +61,8 @@ async def main():
             "messages": [
                 {
                     "role": "user",
-                    "content": "[User ID: 3 - Message Date: Sun. 08 September 2025]: Est ce que tu peux me donner les tâches sur lesquelles je suis assigné s'il te plaît?",
+                    "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: We have a problem, the Restaurant Foundation Excavation on the RETAIL Building is delayed.",
+                    # Il faut que ce soit fait avant vendredi 12 septembre 2025. Merci !
                     # "content": "Changer le numéroe de téléphone du travailleur Yanis Dupont à 0606060606",
                 }
             ],

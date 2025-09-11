@@ -7,9 +7,13 @@ from langgraph.graph.message import MessagesState
 from src.tools.supervisor_handoff import (
     assign_to_conflict_agent_with_description,
     assign_to_planning_agent_with_description,
+    assign_to_team_builder_agent_with_description,
+    assign_to_notifier_agent_with_description,
 )
-from .planning_004 import create_planning_agent
+from .planning import create_planning_agent
+from .team_builder import create_team_builder_agent
 from .conflict import create_conflict_agent
+from .notifier import create_notifier_agent
 
 # add resource availability in conflict agent
 # , and \n\n"
@@ -20,8 +24,9 @@ prompt = """
     AVAILABLE AGENTS AND THEIR CAPABILITIES:
     - Planning Agent: Schedules construction tasks, assigns workers, books equipment, resolves conflicts
       Planning Agent has direct SQL access and can check conflicts internally.
-
     - Conflict Agent: Detects scheduling overlaps, zone conflicts
+    - Team Builder Agent: Matches workers to tasks based on skills and availability
+    - Notifier Agent: Sends notifications and alerts to site managers
 
     DECISION FLOW:
     1. Analyze if request is construction-related
@@ -33,7 +38,7 @@ prompt = """
     Be CONCISE. Give the agent ONE clear instruction, not a list.
     Good: 'Reschedule painting B.200 to 15:00 with worker Jean'
     Bad: '1. Do this 2. Check that 3. Verify this 4. Update that...'
-    
+
     EXECUTION RULES:
     Escalation: If no suitable agent exists, return a detailed explanation. Don't hallucinate.
     {
@@ -60,8 +65,10 @@ prompt = """
             "expected_outcome": "What success looks like"
         }
     ]
+    ```
 
-    CRITICAL:For successful delegations return at the end:
+    CRITICAL - ALWAYS: For successful delegations return at the end:
+    ```json
     {
         "actions_taken": [
             "We rescheduled painting task for room B.200 from 14:00 to 15:00",
@@ -77,7 +84,7 @@ prompt = """
     }
     ```
 
-    CRITICAL: For rejections/execution error return at the end:
+    CRITICAL - ALWAYS: For rejections/execution error return at the end:
     ```json
     {
         "rejection": {
@@ -98,6 +105,8 @@ supervisor_agent_with_description = create_react_agent(
     tools=[
         assign_to_planning_agent_with_description,
         assign_to_conflict_agent_with_description,
+        assign_to_team_builder_agent_with_description,
+        assign_to_notifier_agent_with_description,
     ],
     prompt=prompt,
     name="supervisor",
@@ -109,12 +118,21 @@ supervisor = (
     # NOTE: `destinations` is only needed for visualization and doesn't affect runtime behavior
     .add_node(
         supervisor_agent_with_description,
-        destinations=("planning_agent", "conflict_agent"),
+        destinations=(
+            "planning_agent",
+            "conflict_agent",
+        ),
+        # "team_builder_agent",
+        # "notifier_agent",
     )
     .add_node(create_planning_agent())
     .add_node(create_conflict_agent())
+    # .add_node(create_team_builder_agent())
+    # .add_node(create_notifier_agent())
     .add_edge(START, "supervisor")
     .add_edge("planning_agent", "supervisor")  # always return back to the supervisor
-    .add_edge("conflict_agent", "supervisor")  # always return back to the supervisor
+    .add_edge("conflict_agent", "supervisor")
+    # .add_edge("team_builder_agent", "supervisor")
+    # .add_edge("notifier_agent", "supervisor")
     .compile()
 )

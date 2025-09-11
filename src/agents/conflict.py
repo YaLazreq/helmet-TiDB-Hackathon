@@ -1,4 +1,5 @@
 from langgraph.prebuilt import create_react_agent
+from .team_builder import team_builder_agent_as_tool
 from src.config.llm_init import model
 
 from src.config.specifications import working_hours
@@ -179,7 +180,9 @@ def create_conflict_agent():
                 "get_users_for_context",
                 "get_table_schemas",
                 "get_tasks",
-            ]
+                "search_similar_tasks",
+            ],
+            team_builder_agent_as_tool,
         ),
         prompt=prompt,
         name="conflict_agent",

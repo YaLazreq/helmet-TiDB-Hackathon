@@ -10,6 +10,7 @@ model = ChatAnthropic(
     model_name="claude-sonnet-4-20250514",
     timeout=120,
 )
+# ChatXAI(model="grok-3-mini", timeout=120)
 # .with_fallbacks([ChatXAI(model="grok-3-mini", timeout=60)])
 
 

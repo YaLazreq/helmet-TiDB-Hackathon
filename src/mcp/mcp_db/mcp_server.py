@@ -23,6 +23,9 @@ import tools.embedding.repositories.find_best_workers
 import tools.embedding.repositories.search_similar_tasks
 import tools.embedding.repositories.search_similar_users
 
+# Notifications
+import tools.notifications.repositories.create_notification
+
 
 if __name__ == "__main__":
     port = int(os.getenv("MCP_PORT", 8080))

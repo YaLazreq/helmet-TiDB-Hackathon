@@ -31,17 +31,5 @@ async def connect_api_mcp():
 
     print("🔄 Fetching API MCP tools...")
     tools_result = await api_mcp_client.get_tools()
-    # print(f"🔍 API Tools result type: {type(tools_result)}")
-    # print(f"🔍 API Tools result: {tools_result}")
-
-    # # Extract tools from the result
-    # if isinstance(tools_result, dict):
-    #     # If it's a dict with server keys
-    #     api_mcp_tools = []
-    #     for server_name, server_tools in tools_result.items():
-    #         api_mcp_tools.extend(server_tools)
-    # else:
-    #     # If it's directly a list
-    #     api_mcp_tools = tools_result
 
     return api_mcp_client, api_mcp_tools

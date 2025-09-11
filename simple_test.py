@@ -57,6 +57,58 @@ def test_search_similar_tasks():
         print(f"❌ Error: {data['error']}")
 
 
+def test_find_best_worker_for_tasks():
+    """Test finding best workers for office furniture installation task"""
+    print("\n🔍 Testing find_best_worker_for_tasks (Office Furniture Installation)...")
+
+    result = find_best_workers_for_task(
+        title="Office Furniture Installation",
+        description="Install office furniture and custom pieces. Requires assembly, installation, and woodworking skills.",
+        skill_requirements=["installation", "assembly", "woodworking"],
+        trade_category=None,
+        k=3,
+    )
+
+    data = json.loads(result)
+    if data["success"]:
+        print(f"✅ Found {data['returned_workers']} workers")
+        print(f"Task info: {data['task_info']['title']}")
+        print(f"Combined description: {data['task_info']['combined_description']}")
+        for worker in data["best_workers"]:
+            print(f"   - {worker['name']}: {worker['similarity_score']}% match")
+            print(f"     Skills: {', '.join(worker['primary_skills'])}")
+
+        # Verify the expected response structure matches the provided params
+        expected_task_info = {
+            "title": "Office Furniture Installation",
+            "description": "Install office furniture and custom pieces. Requires assembly, installation, and woodworking skills.",
+            "skill_requirements": ["installation", "assembly", "woodworking"],
+            "trade_category": None,
+            "combined_description": "Office Furniture Installation Install office furniture and custom pieces. Requires assembly, installation, and woodworking skills. installation assembly woodworking",
+        }
+
+        actual_task_info = data["task_info"]
+        matches = (
+            actual_task_info["title"] == expected_task_info["title"]
+            and actual_task_info["description"] == expected_task_info["description"]
+            and actual_task_info["skill_requirements"]
+            == expected_task_info["skill_requirements"]
+            and actual_task_info["trade_category"]
+            == expected_task_info["trade_category"]
+            and actual_task_info["combined_description"]
+            == expected_task_info["combined_description"]
+        )
+
+        if matches:
+            print("✅ Task info structure matches expected format")
+        else:
+            print("❌ Task info structure does not match expected format")
+            print(f"Expected: {expected_task_info}")
+            print(f"Actual: {actual_task_info}")
+    else:
+        print(f"❌ Error: {data['error']}")
+
+
 def test_search_similar_users():
     """Test searching similar users directly"""
     print("\n🔍 Testing search_similar_users...")
@@ -81,12 +133,15 @@ def main():
     print("=" * 50)
 
     # Test 1: Find best workers
-    test_find_best_workers()
+    # test_find_best_workers()
 
-    # # Test 2: Search similar tasks
+    # Test 2: Find best worker for tasks (Office Furniture Installation)
+    test_find_best_worker_for_tasks()
+
+    # # Test 3: Search similar tasks
     # test_search_similar_tasks()
 
-    # # Test 3: Search similar users
+    # # Test 4: Search similar users
     # test_search_similar_users()
 
     print("\n" + "=" * 50)

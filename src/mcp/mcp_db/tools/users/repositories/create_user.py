@@ -30,7 +30,6 @@ def create_user(
     certifications: Optional[List[str]] = None,
     safety_training: Optional[List[str]] = None,
     last_training_date: Optional[str] = None,
-    skills_vector: Optional[str] = None,
 ) -> str:
     """
     🔧 ADVANCED USER CREATION TOOL - Create Users with Full Skill Profiles
@@ -38,45 +37,40 @@ def create_user(
     Creates comprehensive user profiles optimized for skill matching and project assignment.
 
     REQUIRED PARAMETERS:
-    ==================
-    first_name: User's first name (string, not empty)
-    last_name: User's last name (string, not empty)
-    email: Valid email address (string, unique in DB)
-    password: Password (string, will be hashed automatically)
+    - first_name: User's first name (string, not empty)
+    - last_name: User's last name (string, not empty)
+    - email: Valid email address (string, unique in DB)
+    - password: Password (string, will be hashed automatically)
 
     OPTIONAL BASIC INFO:
-    ===================
-    phone: Phone number (string, e.g., "+33123456789")
-    address: Work address/location (string, e.g., "15 Rue de la Paix, Paris")
-    role: User role (string, default: "worker")
+    - phone: Phone number (string, e.g., "+33123456789")
+    - address: Work address/location (string, e.g., "15 Rue de la Paix, Paris")
+    - role: User role (string, default: "worker")
         OPTIONS: 'worker', 'team_leader', 'supervisor', 'site_manager'
-    role_description: Description of the user's role/position (string, optional)
-    is_active: Active status (boolean, default: True)
-    hire_date: Hire date (string, format: "YYYY-MM-DD", e.g., "2024-01-15")
+    - role_description: Description of the user's role/position (string, optional)
+    - is_active: Active status (boolean, default: True)
+    - hire_date: Hire date (string, format: "YYYY-MM-DD", e.g., "2024-01-15")
 
     SKILLS & EXPERIENCE (for vectorization):
-    =======================================
-    primary_skills: Main skills (List[str], e.g., ["electrical_installation", "plumbing_repair"])
-    secondary_skills: Additional skills (List[str], e.g., ["welding", "height_work"])
-    trade_categories: Trade categories (List[str], e.g., ["electricity", "plumbing"])
-    experience_years: Years of experience (float, e.g., 5.5)
-    skill_levels: Skill ratings 1-10 (dict, e.g., {"plumbing": 8, "electricity": 6})
-    work_preferences: Work preferences (List[str], e.g., ["height_work", "indoor", "teamwork"])
-    equipment_mastery: Equipment skills (List[str], e.g., ["scaffolding", "drill", "multimeter"])
-    project_experience: Project types (List[str], e.g., ["residential", "industrial"])
+    - primary_skills: Main skills (List[str], e.g., ["electrical_installation", "plumbing_repair"])
+    - secondary_skills: Additional skills (List[str], e.g., ["welding", "height_work"])
+    - trade_categories: Trade categories (List[str], e.g., ["electricity", "plumbing"])
+    - experience_years: Years of experience (float, e.g., 5.5)
+    - skill_levels: Skill ratings 1-10 (dict, e.g., {"plumbing": 8, "electricity": 6})
+    - work_preferences: Work preferences (List[str], e.g., ["height_work", "indoor", "teamwork"])
+    - equipment_mastery: Equipment skills (List[str], e.g., ["scaffolding", "drill", "multimeter"])
+    - project_experience: Project types (List[str], e.g., ["residential", "industrial"])
 
     CERTIFICATIONS & TRAINING:
-    ==========================
-    certifications: Certifications (List[str], e.g., ["crane_license", "electrical_permit"])
-    safety_training: Safety training (List[str], e.g., ["fall_prevention", "first_aid"])
-    last_training_date: Last training date (string, format: "YYYY-MM-DD")
+    - certifications: Certifications (List[str], e.g., ["crane_license", "electrical_permit"])
+    - safety_training: Safety training (List[str], e.g., ["fall_prevention", "first_aid"])
+    - last_training_date: Last training date (string, format: "YYYY-MM-DD")
 
     USAGE EXAMPLES:
-    ==============
-    # Simple worker
+    Simple worker
     create_user("Jean", "Dupont", "jean@email.com", "password123")
 
-    # Experienced electrician
+    Experienced electrician
     create_user(
         "Marie", "Martin", "marie@email.com", "pass456",
         phone="+33123456789", role="worker", hire_date="2020-01-15",
@@ -90,10 +84,9 @@ def create_user(
     create_user("Paul", "Bernard", "paul@email.com", "pass123", is_active=false)
 
     OPTIONAL:
-    skills_vector: Vector representation (string, optional for embeddings/vectorization)
 
     RETURN:
-    JSON with the created user’s information or an error message.
+    JSON with the created user's information or an error message.
     """
 
     # Basic validation
@@ -178,7 +171,7 @@ def create_user(
             role, role_description, is_active, hire_date,
             primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
             work_preferences, equipment_mastery, project_experience,
-            certifications, safety_training, last_training_date, skills_vector,
+            certifications, safety_training, last_training_date,
             created_at, updated_at
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
@@ -205,7 +198,6 @@ def create_user(
             json.dumps(certifications),
             json.dumps(safety_training),
             last_training_date_obj,
-            skills_vector,
             current_time,
             current_time,
         )
@@ -220,7 +212,7 @@ def create_user(
                    role, role_description, is_active, hire_date,
                    primary_skills, secondary_skills, trade_categories, experience_years, skill_levels,
                    work_preferences, equipment_mastery, project_experience,
-                   certifications, safety_training, last_training_date, skills_vector,
+                   certifications, safety_training, last_training_date,
                    created_at, updated_at
             FROM users WHERE id = %s
         """,
