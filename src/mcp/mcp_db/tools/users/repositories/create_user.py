@@ -205,6 +205,19 @@ def create_user(
         cursor.execute(insert_query, params)
         user_id = cursor.lastrowid
         db.commit()
+        
+        # 🔄 Synchronisation automatique des vecteurs
+        try:
+            from ..vector_sync import auto_sync_user_vector
+            # Récupérer les données du nouvel utilisateur pour la synchronisation vectorielle
+            cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+            new_user_row = cursor.fetchone()
+            if new_user_row:
+                columns = [desc[0] for desc in cursor.description]
+                new_user_data = dict(zip(columns, new_user_row))
+                auto_sync_user_vector(user_id, new_user_data, "create")
+        except Exception as sync_error:
+            print(f"⚠️  Synchronisation vectorielle échouée pour nouvel utilisateur {user_id}: {sync_error}")
 
         cursor.execute(
             """

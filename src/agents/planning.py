@@ -31,11 +31,17 @@ class ActionList(BaseModel):
 
 class PlanningResponse(BaseModel):
     description: str = Field(description="Clear description of the request")
-    what_you_need_to_know: str = Field(description="Context explaining the situation")
-    what_we_can_trigger: List[WhatWeCanTrigger] = Field(
-        description="List of actions that can be triggered"
+    what_you_need_to_know: str = Field(
+        description="Context explaining the situation (max. 150 characters)",
+        max_length=150,
     )
-    notification_needed: bool = Field(description="Whether notification is needed")
+    what_we_can_trigger: List[WhatWeCanTrigger] = Field(
+        description="List of actions that can be triggered (max. 150 characters)",
+        max_length=150,
+    )
+    notification_needed: bool = Field(
+        description="Whether notification to the supervisor is needed"
+    )
     action_list: List[ActionList] = Field(description="List of actions to execute")
     urgency_level: int = Field(description="Urgency level: 0=low, 1=medium, 2=high")
     total_time_saved: int = Field(
@@ -151,7 +157,7 @@ def planning_agent_as_tool(request: str) -> str:
 
     planning_agent = create_planning_agent()
 
-    result = planning_agent.invoke({"messages": [("human", request)]})
+    result = planning_agent.invoke({"messages": [("ai", request)]})
 
     # Parse the response to ensure it matches the structure
     try:

@@ -392,6 +392,21 @@ def update_task(
             update_query = f"UPDATE tasks SET {', '.join(update_fields)} WHERE id = %s"
             cursor.execute(update_query, update_values)
             db.commit()
+            
+            # 🔄 Synchronisation automatique des vecteurs
+            try:
+                from ..vector_sync import auto_sync_task_vector
+                # Récupérer les données mises à jour pour la synchronisation vectorielle
+                cursor.execute(
+                    "SELECT * FROM tasks WHERE id = %s", (task_id,)
+                )
+                updated_task_row = cursor.fetchone()
+                if updated_task_row:
+                    columns = [desc[0] for desc in cursor.description]
+                    updated_task_data = dict(zip(columns, updated_task_row))
+                    auto_sync_task_vector(task_id, updated_task_data, "update")
+            except Exception as sync_error:
+                print(f"⚠️  Synchronisation vectorielle échouée pour tâche {task_id}: {sync_error}")
 
             cursor.execute(
                 """

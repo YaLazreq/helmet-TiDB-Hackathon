@@ -275,6 +275,19 @@ def create_task(
 
 
         db.commit()
+        
+        # 🔄 Synchronisation automatique des vecteurs
+        try:
+            from ..vector_sync import auto_sync_task_vector
+            # Récupérer les données de la nouvelle tâche pour la synchronisation vectorielle
+            cursor.execute("SELECT * FROM tasks WHERE id = %s", (task_id,))
+            new_task_row = cursor.fetchone()
+            if new_task_row:
+                columns = [desc[0] for desc in cursor.description]
+                new_task_data = dict(zip(columns, new_task_row))
+                auto_sync_task_vector(task_id, new_task_data, "create")
+        except Exception as sync_error:
+            print(f"⚠️  Synchronisation vectorielle échouée pour nouvelle tâche {task_id}: {sync_error}")
 
         cursor.execute(
             """

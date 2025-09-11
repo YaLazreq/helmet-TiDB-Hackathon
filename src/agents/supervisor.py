@@ -7,13 +7,13 @@ from langgraph.graph.message import MessagesState
 from src.tools.supervisor_handoff import (
     assign_to_conflict_agent_with_description,
     assign_to_planning_agent_with_description,
-    assign_to_team_builder_agent_with_description,
     assign_to_notifier_agent_with_description,
+    assign_to_executor_agent_with_description,
+    # assign_to_team_builder_agent_with_description,
 )
 from .planning import create_planning_agent
-from .team_builder import create_team_builder_agent
-from .conflict import create_conflict_agent
 from .notifier import create_notifier_agent
+from .executor import create_executor_agent
 
 # add resource availability in conflict agent
 # , and \n\n"
@@ -24,37 +24,53 @@ prompt = """
     AVAILABLE AGENTS AND THEIR CAPABILITIES:
     - Planning Agent: Schedules construction tasks, assigns workers, books equipment, resolves conflicts
       Planning Agent has direct SQL access and can check conflicts internally.
-    - Conflict Agent: Detects scheduling overlaps, zone conflicts
-    - Team Builder Agent: Matches workers to tasks based on skills and availability
+    - Executor Agent: Executes database operations - creates and updates tasks and users in the system
+      Use when you need to actually create/update records based on planning decisions.
     - Notifier Agent: Sends notifications and alerts to site managers
 
     DECISION FLOW:
-    1. Analyze if request is construction-related
-    2. Create detailed execution plan
-    3. Assign to appropriate agent
-    4. If no suitable agent, explain why
+    1.Analyze if request is construction-related
+    2.Check for special execution code [999] at start of request
+    3.If valid: Delegate to appropriate agent and wait for completion
+    4.If invalid: Process rejection details
+    5.ALWAYS: Send final results to notifier agent (valid OR invalid requests)
+    6.End execution
+    
+    SPECIAL EXECUTION CODE:
+    - If request starts with [999]: Remove code and send directly to Executor Agent
+    - All other requests follow normal Planning Agent routing
 
     WHEN DELEGATING:
     Be CONCISE. Give the agent ONE clear instruction, not a list.
-    Good: 'Reschedule painting B.200 to 15:00 with worker Jean'
-    Bad: '1. Do this 2. Check that 3. Verify this 4. Update that...'
+    ✅ Good: 'Reschedule painting B.200 to 15:00 with worker Jean'
+    ❌ Bad: '1. Do this 2. Check that 3. Verify this 4. Update that...'
 
-    EXECUTION RULES:
-    Escalation: If no suitable agent exists, return a detailed explanation. Don't hallucinate.
-    {
-        'reason': 'No suitable agent. This is about [topic], but I only manage construction sites.'
-    }
+    EXECUTION WORKFLOW:
+    Valid Construction Requests:
+    - [999] prefixed → Strip code → Executor Agent → Wait for Results → Send to Notifier → END
+    - Normal requests → Planning Agent → Wait for Results → Send to Notifier → END
+
+    Invalid Non-Construction Requests:
+    Request → Process Rejection → Send to Notifier (notification_needed = false) → END
 
     VALID REQUESTS (construction):
-    ✅ 'Schedule painting for room B.200'
-    ✅ 'Electrician delayed 2 hours'
-    ✅ 'Check crane availability'
+    ✅ 'Schedule painting for room B.200' → Planning Agent
+    ✅ 'Electrician delayed 2 hours' → Planning Agent  
+    ✅ 'Check crane availability' → Planning Agent
+    ✅ 'Create new task for electrical work' → Executor Agent
+    ✅ 'Update worker John's assignment' → Executor Agent
+    ✅ Task status inquiries → Planning Agent
+    ✅ Worker assignments → Planning Agent
+    ✅ Equipment booking → Planning Agent
 
     INVALID REQUESTS (not construction):
-    ❌ 'Find GDP data' → Reject with helpful message
-    ❌ 'Weather forecast' → Reject with helpful message
-    ❌ 'Book a restaurant' → Reject with helpful message
+    Request → Direct Rejection → END (no notifier call)
+    ❌ 'Find GDP data'
+    ❌ 'Weather forecast'
+    ❌ 'Book a restaurant'
+    ❌ General information unrelated to construction
 
+    DELEGATION FORMAT:
     When delegating to an agent:
     ```json
     [
@@ -66,25 +82,17 @@ prompt = """
         }
     ]
     ```
+    
+    WHEN DELEGATING:
+    Be CONCISE. Give the agent ONE clear instruction, not a list.
+    ✅ Good: 'Reschedule painting B.200 to 15:00 with worker Jean'
+    ❌ Bad: '1. Do this 2. Check that 3. Verify this 4. Update that...'
 
-    CRITICAL - ALWAYS: For successful delegations return at the end:
-    ```json
-    {
-        "actions_taken": [
-            "We rescheduled painting task for room B.200 from 14:00 to 15:00",
-            "We reassigned Jean Dupont from network installation to painting task",
-            "We updated the task priority from medium to high due to client request",
-            "We resolved scheduling conflict between electrician and painter in zone B"
-        ],
-        "recommandations": [
-            "e.g. Consider adding buffer times between tasks to avoid conflicts",
-            "e.g. Regularly update worker availability to improve assignments",
-            "e.g. Add a new variable in database to track equipment maintenance schedules"
-        ]
-    }
-    ```
-
-    CRITICAL - ALWAYS: For rejections/execution error return at the end:
+    NOTIFIER INTEGRATION:
+    CRITICAL: ALWAYS call notifier agent at the end of execution:
+    
+    REJECTION HANDLING:
+    For invalid requests only, return rejection:
     ```json
     {
         "rejection": {
@@ -96,6 +104,27 @@ prompt = """
         ]
     }
     ```
+
+    EXECUTION RULES:
+    1.Process ALL requests (construction + non-construction)
+    2.Check for [999] code first - if found, strip it and route to Executor Agent
+    3.If no [999] code and request involves updates/changes: Route to Planning Agent for validation and approval request
+    4.Wait for Planning Agent validation and supervisor approval before proceeding to execution
+    5.Wait for agent completion before proceeding to notifier
+    6.ALWAYS call notifier agent as final step (no exceptions)
+    7.Pass complete data from delegated agents to notifier
+    8.End execution after notifier call (no return JSON)
+    9.Don't hallucinate - if no suitable agent exists for construction request, explain clearly
+
+    KEY PRINCIPLES:
+    - [999] code = Direct execution bypass (immediate Executor Agent)
+    - No [999] code + updates = Validation required (Planning Agent → Supervisor approval → Executor Agent)
+    - No [999] code + queries = Information only (Planning Agent → Notifier)
+    - Universal notification: ALL requests end with notifier call
+    - Wait-then-notify: Complete processing before notification
+    - No supervisor output: Notifier handles all user communication
+    - Single exit point: Notifier is the only interface to users/construction team
+
     Answer at the end with ONLY the JSON, no extra text.
 """
 
@@ -104,8 +133,7 @@ supervisor_agent_with_description = create_react_agent(
     model=model,
     tools=[
         assign_to_planning_agent_with_description,
-        assign_to_conflict_agent_with_description,
-        assign_to_team_builder_agent_with_description,
+        assign_to_executor_agent_with_description,
         assign_to_notifier_agent_with_description,
     ],
     prompt=prompt,
@@ -120,19 +148,15 @@ supervisor = (
         supervisor_agent_with_description,
         destinations=(
             "planning_agent",
-            "conflict_agent",
-            "team_builder_agent",
             "notifier_agent",
+            "executor_agent",
         ),
     )
     .add_node(create_planning_agent())
-    .add_node(create_conflict_agent())
-    .add_node(create_team_builder_agent())
     .add_node(create_notifier_agent())
+    .add_node(create_executor_agent())
     .add_edge(START, "supervisor")
-    .add_edge("planning_agent", "supervisor")  # always return back to the supervisor
-    .add_edge("conflict_agent", "supervisor")
-    .add_edge("team_builder_agent", "supervisor")
-    .add_edge("notifier_agent", "supervisor")
+    .add_edge("planning_agent", "notifier_agent")  # go directly to notifier
+    .add_edge("executor_agent", "notifier_agent")  # go directly to notifier
     .compile()
 )

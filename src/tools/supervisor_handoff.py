@@ -45,12 +45,17 @@ assign_to_conflict_agent_with_description = create_task_description_handoff_tool
     description="Assign task to a conflict agent that specializes in identifying, analyzing, and resolving conflicts in project schedules, resource allocations, and task dependencies.",
 )
 
-assign_to_team_builder_agent_with_description = create_task_description_handoff_tool(
-    agent_name="team_builder_agent",
-    description="Assign task to a team builder agent that specializes in intelligent worker-task matching and team formation.",
-)
+# assign_to_team_builder_agent_with_description = create_task_description_handoff_tool(
+#     agent_name="team_builder_agent",
+#     description="Assign task to a team builder agent that specializes in intelligent worker-task matching and team formation.",
+# )
 
 assign_to_notifier_agent_with_description = create_task_description_handoff_tool(
     agent_name="notifier_agent",
-    description="Assign task to a notifier agent that specializes in sending notifications and alerts.",
+    description="Assign task to a notifier agent that specializes in sending notifications and alerts at the supervisor workflow.",
+)
+
+assign_to_executor_agent_with_description = create_task_description_handoff_tool(
+    agent_name="executor_agent",
+    description="Assign task to an executor agent that specializes in executing database operations - creating and updating tasks and users in the system.",
 )

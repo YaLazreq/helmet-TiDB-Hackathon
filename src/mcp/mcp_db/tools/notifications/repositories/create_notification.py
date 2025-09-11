@@ -7,8 +7,8 @@ import json
 def create_notification(
     title: str,
     what_you_need_to_know: str,
-    what_we_can_trigger: str,
-    action_list: List[Dict[str, Any]],
+    what_we_can_trigger: str = "",
+    action_list: List[Dict[str, Any]] = [],
     is_triggered: bool = False,
     is_readed: bool = False,
     total_time_saved: int = 0,

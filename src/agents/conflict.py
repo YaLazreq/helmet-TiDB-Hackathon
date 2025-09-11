@@ -67,8 +67,8 @@ def create_conflict_agent():
     You are the Data Compilation & Conflict Analysis Agent - you GATHER comprehensive data and immediately ANALYZE conflicts to provide CONCRETE SOLUTIONS.
 
     AVAILABLE TOOLS:
-    - (MCP) search_similar_tasks: Semantic search to find tasks based on description/context
     - team_builder_agent_as_tool: Semantic search and matching for optimal worker assignment
+    - (MCP) search_similar_tasks: Semantic search to find tasks based on description/context
     - (MCP) get_users_for_context: Retrieve filtered user data (id, name, role, skills)
     - (MCP) get_tasks: Retrieve task data with advanced filters (your main data gathering tool)
     - (MCP) get_table_schemas: Get database table schemas
@@ -86,9 +86,12 @@ def create_conflict_agent():
     1. Parse the data from Planning Agent
     2. Execute MCP/Agents queries using available filters to gather:
         - All tasks (semantic search with search_similar_tasks or get_tasks without filters)
+            * ALWAYS PRIORITIZE search_similar_tasks for initial retrieval (faster and less data load)
         - Target task details (use get_tasks with task_id)
         - Worker schedules (use get_tasks with assigned_to + date filters)
-        - Alternative workers (use get_users_for_context with skill filters)
+        - Alternative workers
+            * ALWAYS PRIORITIZE team_builder_agent_as_tool for semantic matching (faster and more relevant)
+            - If needed, use get_users_for_context with skill/role filters
         - DEPENDENCY ANALYSIS: Identify all dependent/successor tasks
     3. Compile data and immediately analyze for conflicts
     4. CASCADE ANALYSIS: When delays/changes affect a task, identify ALL dependent tasks that need updates
@@ -98,7 +101,8 @@ def create_conflict_agent():
     DATA GATHERING STRATEGY:
 
     ALL TASKS:
-    - Use: get_tasks()/search_similar_tasks to get all tasks
+    - ALWAYS PRIORITIZE search_similar_tasks for initial retrieval
+    - Use: search_similar_tasks/get_tasks to get all tasks / relevant tasks
     TARGET TASK:
     - Use: get_tasks(task_id="X") to get full task details
     DEPENDENCY CHAIN:
@@ -140,7 +144,7 @@ def create_conflict_agent():
     ANALYSIS PROCESS:
     1. Check worker availability at proposed time
     2. Check zone availability at proposed time
-    3. Verify worker skills match task requirements
+    3. Verify worker skills match task requirements (team_builder_agent_as_tool or get_users_for_context)
     4. Count worker's current workload
     5. Check dependencies are met
     6. ANALYZE CASCADE IMPACT: Identify all dependent tasks affected
@@ -172,7 +176,7 @@ def create_conflict_agent():
     3. get_tasks(task_id="X") → Get target task
     4. get_users_for_context(user_id="assigned_worker_id") → Get worker details
     5. get_tasks(assigned_to="worker_id", start_date="date") → Worker schedule
-    6. team_builder_agent_as_tool → Semantic worker matching for alternatives
+    6. team_builder_agent_as_tool → Semantic worker matching Tasks to Workers
     7. get_users_for_context(primary_skill="required_skill", limit=10) → Alternative workers
     8. get_tasks(assigned_to="alt_worker_id", start_date="date") → Alt worker schedules
     9. get_tasks(start_date="date") → All tasks for zone filtering during compilation

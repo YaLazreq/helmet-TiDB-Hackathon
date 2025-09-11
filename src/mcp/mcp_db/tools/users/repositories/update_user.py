@@ -261,6 +261,19 @@ def update_user(
             update_query = f"UPDATE users SET {', '.join(update_fields)} WHERE id = %s"
             cursor.execute(update_query, update_values)
             db.commit()
+            
+            # 🔄 Synchronisation automatique des vecteurs
+            try:
+                from ..vector_sync import auto_sync_user_vector
+                # Récupérer les données mises à jour pour la synchronisation vectorielle
+                cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+                updated_user_row = cursor.fetchone()
+                if updated_user_row:
+                    columns = [desc[0] for desc in cursor.description]
+                    updated_user_data = dict(zip(columns, updated_user_row))
+                    auto_sync_user_vector(user_id, updated_user_data, "update")
+            except Exception as sync_error:
+                print(f"⚠️  Synchronisation vectorielle échouée pour utilisateur {user_id}: {sync_error}")
 
             cursor.execute(
                 """

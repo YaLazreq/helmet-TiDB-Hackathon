@@ -22,36 +22,6 @@ async def main():
         return
     else:
         logger.info(f"✅ {len(db_mcp_tools)} DB MCP tool(s) cached")
-        # logger.info(f"✅ {len(api_mcp_tools)} API MCP tool(s) cached")
-
-    # from langgraph.prebuilt import create_react_agent
-    # from src.mcp.db_client import get_db_mcp_tools
-    # from src.agents.conflict import conflict_agent_as_tool
-    # from src.agents.notifier import create_notifier_agent
-
-    # t = create_react_agent(
-    #     model=model,
-    #     tools=[
-    #         *get_db_mcp_tools(["get_users_for_context", "get_tasks"]),
-    #     ],
-    #     prompt="Récupère ce que demande l'humain",
-    #     name="planning_agent",
-    # )
-
-    # result = t.invoke(
-    #     {
-    #         "messages": [
-    #             (
-    #                 "human",
-    #                 "Installation mobilier sur mesure Bureau A202",
-    #             )
-    #         ]
-    #     }
-    # )
-
-    # response = result["messages"][-1].content
-
-    # print(response)
 
     from src.agents.supervisor import supervisor
 
@@ -61,14 +31,14 @@ async def main():
             "messages": [
                 {
                     "role": "user",
-                    "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: Can you give me the list of tasks planned for this week in the RETAIL zone?",
+                    "content": "[999][User ID: 3 - Message Date: Sun. 10 September 2025]: update the phone number of the worker Yanis Dupont to 0606060606",
+                    # "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: Can you assign me in another task please?",
                     # "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: We have a problem, the Restaurant Foundation Excavation on the RETAIL Building is delayed.",
                     # Il faut que ce soit fait avant vendredi 12 septembre 2025. Merci !
                     # "content": "Changer le numéroe de téléphone du travailleur Yanis Dupont à 0606060606",
                 }
             ],
         },
-        # Increase from default 25
         config={
             "run_name": "agent_supervisor",
             "tags": ["debug"],

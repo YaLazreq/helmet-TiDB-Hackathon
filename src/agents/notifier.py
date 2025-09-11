@@ -5,7 +5,19 @@ from src.config.llm_init import model
 
 # - send_email: Send email to users
 # "3. EXECUTE changes using update_schedule and assign_worker tools\n"
-prompt = """
+
+
+###############
+#### Agent ####
+###############
+
+
+def create_notifier_agent():
+    from src.mcp.db_client import (
+        get_db_mcp_tools,
+    )
+
+    prompt = """
     You are the Notifier Agent - you send notifications and alerts to Construction Site Manager about what happens in the construction site.
 
     AVAILABLE TOOLS:
@@ -14,15 +26,16 @@ prompt = """
     
     NOTIFICATION STRUCTURE:
     When creating notifications, you must provide:
-    
+
     REQUIRED PARAMETERS:
     - title: Brief notification title (max. 10 words)
-    - what_you_need_to_know: Contextual information about the situation (max. 100 words)
-    - what_we_can_trigger: Description of what actions can be triggered (string)
+    - what_you_need_to_know: Contextual information about the situation (max. 150 characters)
+    - what_we_can_trigger: Description of what actions can be triggered (max. 150 characters)
     - action_list: List of executable actions (List[Dict])
       Each action must have:
       * "action": Action name (e.g., 'update_task', 'create_task', 'update_user')
       * "parameters": Dictionary with action parameters
+    - notification_needed: Whether the notification should be sent to the supervisor or the the worker.
     
     OPTIONAL PARAMETERS:
     - is_triggered: Whether notification actions have been triggered (boolean, default: False)
@@ -46,16 +59,6 @@ prompt = """
     - Use is_triggered=False for notifications that require user action
     - Use is_triggered=True for information-only notifications
 """
-
-###############
-#### Agent ####
-###############
-
-
-def create_notifier_agent():
-    from src.mcp.db_client import (
-        get_db_mcp_tools,
-    )
 
     return create_react_agent(
         model=model,
