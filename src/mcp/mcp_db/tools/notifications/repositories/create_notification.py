@@ -11,6 +11,7 @@ def create_notification(
     action_list: List[Dict[str, Any]],
     is_triggered: bool = False,
     is_readed: bool = False,
+    total_time_saved: int = 0,
 ) -> str:
     """
     NOTIFICATION CREATION TOOL - Create New Notifications
@@ -29,6 +30,7 @@ def create_notification(
     OPTIONAL PARAMETERS:
     - is_triggered: Whether the notification has been triggered (boolean, default: False)
     - is_readed: Whether the notification has been read (boolean, default: False)
+    - total_time_saved: Total time saved in hours if actions are executed (integer, default: 0)
 
     USAGE EXAMPLES:
     Simple notification with no actions
@@ -118,8 +120,8 @@ def create_notification(
         insert_query = """
         INSERT INTO notifications (
             title, what_you_need_to_know, what_we_can_trigger, 
-            is_triggered, action_list, is_readed
-        ) VALUES (%s, %s, %s, %s, %s, %s)
+            is_triggered, action_list, is_readed, total_time_saved
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
 
         params = (
@@ -129,6 +131,7 @@ def create_notification(
             is_triggered,
             json.dumps(action_list),
             is_readed,
+            total_time_saved,
         )
 
         cursor.execute(insert_query, params)
@@ -139,7 +142,7 @@ def create_notification(
         cursor.execute(
             """
             SELECT id, title, what_you_need_to_know, what_we_can_trigger,
-                   is_triggered, action_list, is_readed
+                   is_triggered, action_list, is_readed, total_time_saved
             FROM notifications WHERE id = %s
             """,
             (notification_id,),

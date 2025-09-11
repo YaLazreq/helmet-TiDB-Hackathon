@@ -148,7 +148,7 @@
 --    INDEX idx_location (address(100))
 -- );
 
--- ALTER TABLE notifications ADD COLUMN IF NOT EXISTS urgency_level INT DEFAULT 0;
+ALTER TABLE notifications ADD COLUMN IF NOT EXISTS total_time_saved INT DEFAULT 0;
 
 -- CREATE TABLE notifications (
 --    -- Basic identity

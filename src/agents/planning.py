@@ -5,9 +5,9 @@ from src.config.llm_init import model
 from src.config.specifications import working_hours
 from langchain.tools import tool
 from langchain.output_parsers import PydanticOutputParser
-from langchain.prompts import PromptTemplate
+
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
+from typing import List, Dict, Any
 
 
 # Define Planning Agent output structure
@@ -38,6 +38,9 @@ class PlanningResponse(BaseModel):
     notification_needed: bool = Field(description="Whether notification is needed")
     action_list: List[ActionList] = Field(description="List of actions to execute")
     urgency_level: int = Field(description="Urgency level: 0=low, 1=medium, 2=high")
+    total_time_saved: int = Field(
+        description="Total time saved in hours if action list is executed", default=0
+    )
 
 
 # Create the parser
@@ -63,6 +66,7 @@ def create_planning_agent():
 
     AVAILABLE TOOLS:
     - conflict_agent_as_tool: Delegate conflict analysis to specialized agent
+    - search_similar_tasks: Find a task or similar tasks based on description
     - (MCP) get_tasks: Read task data (READ-ONLY)
     - (MCP) get_users: Read user data (READ-ONLY)
 
@@ -70,13 +74,16 @@ def create_planning_agent():
 
     WORKFLOW EXECUTION:
         1. UNDERSTAND the request
-        2. DELEGATE to conflict_agent_as_tool when:
+        2. DELEGATE to conflict_agent_as_tool IMMEDIATELY when:
+        - User reports problems, delays, conflicts, or issues
         - User request involves creation, scheduling, rescheduling, or assignments
         - You need to check for conflicts (zone, worker, skill, dependencies, resources)
-    
+
         DO NOT use conflict_agent_as_tool when:
-        - Just retrieving information about existing tasks
-        - Simple queries that don't involve scheduling changes
+        - Just retrieving information about existing tasks (use get_tasks directly)
+        - Simple queries that don't involve scheduling changes (use get_tasks directly)
+        
+        CRITICAL: For problem reports/scheduling requests, call conflict_agent_as_tool FIRST - do not gather data with tools first!
 
         3. PREPARE RESPONSE OBJECT:
         Always return the structured object format specified below.
@@ -85,21 +92,23 @@ def create_planning_agent():
         - notification_needed = false: Information-only requests → no database changes needed → supervisor just reads the response
         - notification_needed = true: Updates/creates needed → supervisor triggers notification system → approval required
         - urgency_level: 0=low, 1=medium, 2=high
+        - total_time_saved: Use the value from conflict_agent_as_tool response (conflict analysis calculates time savings)
 
         KEY RULES:
-        - Information-only requests → notification_needed: false, what_we_can_trigger: [], action_list: []
+        - Information-only requests → notification_needed: false, what_we_can_trigger: [], action_list: [], total_time_saved: 0
         - ANY database modification (even without conflicts) → notification_needed: true
         - Always provide context in "what_you_need_to_know" (data for info requests, conflict analysis for updates)
         - Use conflict_agent_as_tool's solution to build action_list
         - If solution.recommended is false, use alternatives[0]
+        - EXTRACT total_time_saved from conflict_agent_as_tool response and use it directly in your response
 
         DELEGATION PARAMETERS:
         When calling conflict_agent_as_tool, extract and pass:
         - request: Original user request
-        - task_id: Target task ID (if identifiable)
-        - worker_id: Worker involved (if specified)
-        - zone: Zone affected (if specified)  
-        - date: Date for the change (if specified)
+        - task_id: Target task ID (if given)
+        - worker_id: Worker involved (if given)
+        - zone: Zone affected (if given)
+        - date: Date for the change (if given)
 
         CRITICAL: You MUST return this EXACT JSON format (no extra text):
         {format_instructions}
@@ -113,10 +122,8 @@ def create_planning_agent():
         - NEVER hallucinate data - only use MCP tool results
         - Always provide concrete information in responses
         - If critical data is missing, include error in what_you_need_to_know
-        - NO narrative text before or after the JSON
-        - Working hours: {working_hours}
 
-        NEVER add narrative text after the JSON. The JSON is your final output.
+        NEVER add narrative text before or after the JSON. The JSON is your final output.
     """
 
     return create_react_agent(
@@ -138,7 +145,6 @@ def create_planning_agent():
     )
 
 
-# Use the parser in a tool wrapper
 @tool
 def planning_agent_as_tool(request: str) -> str:
     """Planning agent with structured JSON output for supervisor integration"""
@@ -149,7 +155,8 @@ def planning_agent_as_tool(request: str) -> str:
 
     # Parse the response to ensure it matches the structure
     try:
-        parsed_response = planning_parser.parse(result["messages"][-1].content)
+        content = result["messages"][-1].content.strip()
+        parsed_response = planning_parser.parse(content)
         return parsed_response.model_dump_json()
     except Exception as e:
         # Fallback if parsing fails

@@ -22,7 +22,7 @@ class ConflictInfo(BaseModel):
 class SolutionStep(BaseModel):
     action: str = Field(description="Action to take")
     parameters: dict = Field(description="Parameters for the action")
-    reason: str = Field(description="Reason for this step")
+    reason: str = Field(description="REQUIRED: Reason for this alternative step")
 
 
 class Solution(BaseModel):
@@ -40,7 +40,12 @@ class ConflictAnalysisResponse(BaseModel):
     conflicts: List[ConflictInfo] = Field(description="List of conflicts found")
     solution: Solution = Field(description="Recommended solution")
     alternatives: List[Alternative] = Field(description="Alternative solutions")
-    analysis: str = Field(description="Brief summary")
+    analysis: str = Field(
+        description="REQUIRED: Brief summary of the analysis and solution"
+    )
+    total_time_saved: int = Field(
+        description="Total time saved in hours if action list is executed", default=0
+    )
 
 
 # Create the parser
@@ -62,6 +67,8 @@ def create_conflict_agent():
     You are the Data Compilation & Conflict Analysis Agent - you GATHER comprehensive data and immediately ANALYZE conflicts to provide CONCRETE SOLUTIONS.
 
     AVAILABLE TOOLS:
+    - (MCP) search_similar_tasks: Semantic search to find tasks based on description/context
+    - team_builder_agent_as_tool: Semantic search and matching for optimal worker assignment
     - (MCP) get_users_for_context: Retrieve filtered user data (id, name, role, skills)
     - (MCP) get_tasks: Retrieve task data with advanced filters (your main data gathering tool)
     - (MCP) get_table_schemas: Get database table schemas
@@ -70,38 +77,44 @@ def create_conflict_agent():
 
     YOUR DUAL ROLE:
     1. Receive specific data requirements from Planning Agent
-    2. Execute focused MCP queries to gather ALL relevant data
+    2. Execute focused MCP/Agents queries to gather ALL relevant data
     3. Compile data into structured format
-    4. ANALYZE the compiled data for conflicts
+    4. ANALYZE the compiled data for conflicts AND cascading dependencies
     5. PROVIDE CONCRETE, ACTIONABLE SOLUTIONS directly to Planning Agent
 
     WORKFLOW EXECUTION:
     1. Parse the data from Planning Agent
-    2. Execute MCP queries using available filters to gather:
-        - All tasks (get_tasks without filters)
+    2. Execute MCP/Agents queries using available filters to gather:
+        - All tasks (semantic search with search_similar_tasks or get_tasks without filters)
         - Target task details (use get_tasks with task_id)
         - Worker schedules (use get_tasks with assigned_to + date filters)
         - Alternative workers (use get_users_for_context with skill filters)
+        - DEPENDENCY ANALYSIS: Identify all dependent/successor tasks
     3. Compile data and immediately analyze for conflicts
-    4. Generate concrete solutions with step-by-step actions
-    5. Return solution JSON directly to Planning Agent
+    4. CASCADE ANALYSIS: When delays/changes affect a task, identify ALL dependent tasks that need updates
+    5. Generate concrete solutions with step-by-step actions (including dependent task updates)
+    6. Return solution JSON directly to Planning Agent
 
     DATA GATHERING STRATEGY:
 
     ALL TASKS:
-    - Use: get_tasks() to get all tasks
+    - Use: get_tasks()/search_similar_tasks to get all tasks
     TARGET TASK:
     - Use: get_tasks(task_id="X") to get full task details
+    DEPENDENCY CHAIN:
+    - Analyze task dependencies to identify successor tasks
+    - Use get_tasks to fetch all dependent tasks that might be affected
+    - Check for tasks that logically depend on the target task (foundation → concrete → steel frame)
     ASSIGNED WORKER SCHEDULE:
     - Use: get_tasks(assigned_to="worker_id", start_date="target_date")
     - Filter to ±4 hours of target time during compilation
     ALTERNATIVE WORKERS:
-    - Use: get_users_for_context(primary_skill="required_skill", is_active=True)
+    - Use: team_builder_agent_as_tool to find best matches
+    - Or: get_users_for_context(primary_skill="required_skill", is_active=True)
     - Limit to 5-10 most relevant workers
     ZONE OCCUPANCY:
     - Use: get_tasks with zone filter + target date
     - Include adjacent zones if identifiable
-    
     DEPENDENCIES:
     - Look for tasks with dependencies in target task data
     - Use get_tasks to fetch predecessor/successor details
@@ -113,7 +126,16 @@ def create_conflict_agent():
     - Identify Resource Shortages
     - Highlight Safety Issues
     - Flag Regulatory Non-Compliance
+    - CASCADE IMPACT ANALYSIS: Identify all dependent tasks affected by changes
+    - STATUS VERIFICATION: Check for data integrity issues
     - PROVIDE STEP-BY-STEP SOLUTIONS
+
+    CASCADE ANALYSIS PROCESS:
+    When analyzing delays, changes, or status conflicts:
+    - Identify Direct Dependencies: Tasks that directly depend on the target task
+    - Logical Dependency Chain: Tasks that logically follow (excavation → foundation → framing)
+    - Impact Assessment: Determine which dependent tasks need status/schedule updates
+    - Solution Integration: Include individual update_task actions for each affected dependent task in the main action list
 
     ANALYSIS PROCESS:
     1. Check worker availability at proposed time
@@ -121,32 +143,40 @@ def create_conflict_agent():
     3. Verify worker skills match task requirements
     4. Count worker's current workload
     5. Check dependencies are met
-    6. Identify ALL conflicts (even edge cases)
-    7. GENERATE CONCRETE SOLUTION
+    6. ANALYZE CASCADE IMPACT: Identify all dependent tasks affected
+    7. Identify ALL conflicts (even edge cases)
+    8. GENERATE CONCRETE SOLUTION with dependency updates
 
     SOLUTION GENERATION:
     When conflicts are found, provide a complete solution with:
     1. Rank multiple alternatives by preference
     2. Exact parameter changes needed
-    3. Alternative options ranked by preference
-    4. Each step includes the exact MCP tool to call and parameters (update_task, update_user, create_task, etc.)
-    5. Use helper tools when creating complex solutions that require skill/role matching
+    3. Include individual update_task actions for ALL affected dependent tasks
+    4. Alternative options ranked by preference
+    5. Each step includes the exact MCP tool to call and parameters (update_task, update_user, create_task, etc.)
+    6. TIME BUFFER: Always add extra time for unexpected field problems using time_saved parameter
+    7. Use helper tools when creating complex solutions that require skill/role matching
 
     SOLUTION QUALITY REQUIREMENTS:
     - Solutions must be IMMEDIATELY EXECUTABLE by Planning Manager
     - No vague suggestions like "try another time" - specify exact times
     - No generic advice - provide exact parameter values
+    - Every SolutionStep MUST include a reason field
     - Include the reasoning for each step
+    - NO abstract operations like "cascade_update" - only real MCP operations
+    - Include time_saved parameter in task updates for unexpected issues
 
     EFFICIENT QUERY STRATEGY:
-    1. get_tasks() - Retrieve ALL tasks initially
-    2. get_tasks(task_id="X") → Get target task
-    3. get_users_for_context(user_id="assigned_worker_id") → Get worker details
-    4. get_tasks(assigned_to="worker_id", start_date="date") → Worker schedule
-    5. get_users_for_context(primary_skill="required_skill", limit=10) → Alternative workers
-    6. get_tasks(assigned_to="alt_worker_id", start_date="date") → Alt worker schedules
-    7. get_tasks(start_date="date") → All tasks for zone filtering during compilation
-    8. get_users_for_context() → Get all users
+    1. search_similar_tasks(query="request context") - Semantic search to find relevant tasks
+    2. get_tasks() - Retrieve ALL tasks initially
+    3. get_tasks(task_id="X") → Get target task
+    4. get_users_for_context(user_id="assigned_worker_id") → Get worker details
+    5. get_tasks(assigned_to="worker_id", start_date="date") → Worker schedule
+    6. team_builder_agent_as_tool → Semantic worker matching for alternatives
+    7. get_users_for_context(primary_skill="required_skill", limit=10) → Alternative workers
+    8. get_tasks(assigned_to="alt_worker_id", start_date="date") → Alt worker schedules
+    9. get_tasks(start_date="date") → All tasks for zone filtering during compilation
+    10. get_users_for_context() → Get all users
 
     FILTERING DURING COMPILATION:
     - Remove tasks outside ±4 hours of target time
@@ -160,8 +190,13 @@ def create_conflict_agent():
     {format_instructions}
 
     RULES:
-    - NEVER hallucinate data - only use MCP tool results
-    - Use MCP filters extensively to reduce data volume
+    - REQUIRED: EVERY SolutionStep MUST have a reason field (validation requirement)
+    - REQUIRED: MUST include analysis field in response (validation requirement)
+    - REQUIRED: MUST calculate and include total_time_saved field (sum of hours saved by solution)
+    - REQUIRED: Include time_saved parameter in task updates for buffer time
+    - CASCADE HANDLING: Include individual update_task actions for dependent tasks in main action list
+    - NEVER hallucinate data - only use MCP/Agent tool results
+    - Use MCP/Agent filters extensively to reduce data volume
     - Compile efficiently but keep all conflict-relevant data
     - Analyze conflicts thoroughly using gathered data
     - ALWAYS provide concrete solutions when feasible
@@ -175,15 +210,17 @@ def create_conflict_agent():
 
     return create_react_agent(
         model=model,
-        tools=get_db_mcp_tools(
-            [
-                "get_users_for_context",
-                "get_table_schemas",
-                "get_tasks",
-                "search_similar_tasks",
-            ],
+        tools=[
+            *get_db_mcp_tools(
+                [
+                    "get_users_for_context",
+                    "get_table_schemas",
+                    "get_tasks",
+                    "search_similar_tasks",
+                ],
+            ),
             team_builder_agent_as_tool,
-        ),
+        ],
         prompt=prompt,
         name="conflict_agent",
     )
@@ -216,8 +253,9 @@ def conflict_agent_as_tool(
 
     # Parse the response to ensure it matches the structure
     try:
-        parsed_response = parser.parse(result["messages"][-1].content)
-        return parsed_response.json()
+        content = result["messages"][-1].content.strip()
+        parsed_response = parser.parse(content)
+        return parsed_response.model_dump_json()
     except Exception as e:
         # Fallback if parsing fails
         return f'{{"error": "Failed to parse response: {str(e)}"}}'

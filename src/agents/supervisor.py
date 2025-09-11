@@ -121,18 +121,18 @@ supervisor = (
         destinations=(
             "planning_agent",
             "conflict_agent",
+            "team_builder_agent",
+            "notifier_agent",
         ),
-        # "team_builder_agent",
-        # "notifier_agent",
     )
     .add_node(create_planning_agent())
     .add_node(create_conflict_agent())
-    # .add_node(create_team_builder_agent())
-    # .add_node(create_notifier_agent())
+    .add_node(create_team_builder_agent())
+    .add_node(create_notifier_agent())
     .add_edge(START, "supervisor")
     .add_edge("planning_agent", "supervisor")  # always return back to the supervisor
     .add_edge("conflict_agent", "supervisor")
-    # .add_edge("team_builder_agent", "supervisor")
-    # .add_edge("notifier_agent", "supervisor")
+    .add_edge("team_builder_agent", "supervisor")
+    .add_edge("notifier_agent", "supervisor")
     .compile()
 )

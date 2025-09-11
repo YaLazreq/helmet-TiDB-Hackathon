@@ -91,7 +91,7 @@ def team_builder_agent_as_tool(
     task_id: list[str] = [],
     worker_id: list[str] = [],
 ) -> str:
-    """Compile data and analyze conflicts with structured output"""
+    """Team Builder agent with structured JSON output"""
 
     team_builder_agent = create_team_builder_agent()
 

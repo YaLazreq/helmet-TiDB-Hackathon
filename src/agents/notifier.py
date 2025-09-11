@@ -2,6 +2,7 @@ from langgraph.prebuilt import create_react_agent
 from src.agents.conflict import conflict_agent_as_tool
 from src.config.llm_init import model
 
+
 # - send_email: Send email to users
 # "3. EXECUTE changes using update_schedule and assign_worker tools\n"
 prompt = """
@@ -10,7 +11,7 @@ prompt = """
     AVAILABLE TOOLS:
     - create_notification: Create a new notification in the system
     - update_notification: Update an existing notification
-
+    
     NOTIFICATION STRUCTURE:
     When creating notifications, you must provide:
     

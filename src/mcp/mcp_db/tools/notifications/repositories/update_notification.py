@@ -12,6 +12,7 @@ def update_notification(
     action_list: Optional[List[Dict[str, Any]]] = None,
     is_triggered: Optional[bool] = None,
     is_readed: Optional[bool] = None,
+    total_time_saved: Optional[int] = None,
 ) -> str:
     """
     🔔 NOTIFICATION UPDATE TOOL - Update Existing Notifications
@@ -34,6 +35,7 @@ def update_notification(
       * "parameters": Parameters for the action (dict, required)
     is_triggered: New triggered status (boolean)
     is_readed: New read status (boolean)
+    total_time_saved: New total time saved in hours (integer)
     
     USAGE EXAMPLES:
     ==============
@@ -148,6 +150,10 @@ def update_notification(
             update_fields.append("is_readed = %s")
             params.append(is_readed)
         
+        if total_time_saved is not None:
+            update_fields.append("total_time_saved = %s")
+            params.append(total_time_saved)
+        
         if not update_fields:
             return "❌ Error: No fields to update. Please provide at least one parameter to modify."
         
@@ -171,7 +177,7 @@ def update_notification(
         cursor.execute(
             """
             SELECT id, title, what_you_need_to_know, what_we_can_trigger,
-                   is_triggered, action_list, is_readed
+                   is_triggered, action_list, is_readed, total_time_saved
             FROM notifications WHERE id = %s
             """,
             (notification_id,),

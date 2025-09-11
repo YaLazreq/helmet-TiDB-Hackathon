@@ -61,7 +61,8 @@ async def main():
             "messages": [
                 {
                     "role": "user",
-                    "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: We have a problem, the Restaurant Foundation Excavation on the RETAIL Building is delayed.",
+                    "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: Can you give me the list of tasks planned for this week in the RETAIL zone?",
+                    # "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: We have a problem, the Restaurant Foundation Excavation on the RETAIL Building is delayed.",
                     # Il faut que ce soit fait avant vendredi 12 septembre 2025. Merci !
                     # "content": "Changer le numéroe de téléphone du travailleur Yanis Dupont à 0606060606",
                 }
