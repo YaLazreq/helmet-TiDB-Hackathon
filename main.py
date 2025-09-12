@@ -31,7 +31,7 @@ async def main():
             "messages": [
                 {
                     "role": "user",
-                    "content": "[999][User ID: 3 - Message Date: Sun. 10 September 2025]: update the phone number of the worker Yanis Dupont to 0606060606",
+                    # "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: A container blocking the main entrance has to be moved urgently.",
                     # "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: Can you assign me in another task please?",
                     # "content": "[User ID: 3 - Message Date: Sun. 10 September 2025]: We have a problem, the Restaurant Foundation Excavation on the RETAIL Building is delayed.",
                     # Il faut que ce soit fait avant vendredi 12 septembre 2025. Merci !

@@ -19,7 +19,7 @@ class WhatWeCanTrigger(BaseModel):
         description="Human-readable identifier (e.g., 'Task 7 - Painting')"
     )
     change: str = Field(
-        description="Specific modification (e.g., 'Reschedule from 14:00 to 16:00')"
+        description="CONCISE action only - what will be done (e.g., 'Reschedule to 16:00'). NO explanations or reasons."
     )
     reason: str = Field(description="Why this change is necessary")
 
@@ -32,12 +32,11 @@ class ActionList(BaseModel):
 class PlanningResponse(BaseModel):
     description: str = Field(description="Clear description of the request")
     what_you_need_to_know: str = Field(
-        description="Context explaining the situation (max. 150 characters)",
+        description="CONCISE core facts only - essential information (max. 150 characters). NO explanations or elaboration.",
         max_length=150,
     )
     what_we_can_trigger: List[WhatWeCanTrigger] = Field(
-        description="List of actions that can be triggered (max. 150 characters)",
-        max_length=150,
+        description="List of actions that can be triggered",
     )
     notification_needed: bool = Field(
         description="Whether notification to the supervisor is needed"
@@ -103,7 +102,12 @@ def create_planning_agent():
         KEY RULES:
         - Information-only requests → notification_needed: false, what_we_can_trigger: [], action_list: [], total_time_saved: 0
         - ANY database modification (even without conflicts) → notification_needed: true
-        - Always provide context in "what_you_need_to_know" (data for info requests, conflict analysis for updates)
+        - what_you_need_to_know: ONLY essential facts, no explanations
+          ✅ Good: "Painting task B.200 needs rescheduling to 16:00"
+          ❌ Bad: "The painting task for room B.200 requires rescheduling due to conflicts and should be moved to 16:00 for optimal resource allocation"
+        - what_we_can_trigger.change: Direct action only, no explanations
+          ✅ Good: "Reschedule to 16:00"
+          ❌ Bad: "Reschedule from 14:00 to 16:00 due to worker availability"
         - Use conflict_agent_as_tool's solution to build action_list
         - If solution.recommended is false, use alternatives[0]
         - EXTRACT total_time_saved from conflict_agent_as_tool response and use it directly in your response

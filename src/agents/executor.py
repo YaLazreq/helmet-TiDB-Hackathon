@@ -24,7 +24,7 @@ class ExecutedAction(BaseModel):
 class ExecutorResponse(BaseModel):
     description: str = Field(description="Clear description of what was executed")
     what_you_need_to_know: str = Field(
-        description="Summary of the execution results (max. 180 characters)",
+        description="CONCISE core facts only - what happened (max. 180 characters). NO explanations, reasons, or elaboration.",
         max_length=180,
     )
     actions_executed: List[ExecutedAction] = Field(
@@ -96,7 +96,9 @@ def create_executor_agent():
     RESPONSE REQUIREMENTS:
     - Always return structured JSON format (no extra text)
     - Include details of all executed actions in actions_executed
-    - Provide clear summary in what_you_need_to_know
+    - what_you_need_to_know: ONLY core facts, no explanations or reasons
+      ✅ Good: "Updated user John's phone to 0606060606"
+      ❌ Bad: "Request to update user John's phone was successful and database has been modified"
     - Set appropriate urgency_level based on operation impact
 
     AUTHORIZATION REJECTION FORMAT (if not authorized):
