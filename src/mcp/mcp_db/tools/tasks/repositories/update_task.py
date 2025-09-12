@@ -3,6 +3,7 @@ from typing import Optional, List, Union
 import json
 from datetime import datetime
 from decimal import Decimal
+from ...backend_notifier import notify_db_update
 
 
 @mcp.tool()
@@ -452,6 +453,12 @@ def update_task(
                     else:
                         task_dict[column_name] = value
 
+                # Notify backend about task update
+                try:
+                    notify_db_update("task")
+                except Exception as notify_error:
+                    print(f"Warning: Backend notification failed: {notify_error}")
+                
                 success_result = {
                     "success": True,
                     "message": f"✅ Task ID {task_id} modified successfully.",
