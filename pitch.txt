@@ -1,0 +1,59 @@
+E: 
+"Hey everyone, I'm Eliane."
+
+Y: 
+"And I'm Yanis, and for the TiDB AgenticX Hackathon 2025, we built Helmet."
+
+E: 
+Today, construction delays burn thousands per day. 
+When something breaks on a construction site, problems cascade. 
+One delay shifts tasks across multiple days, and reorganization takes hours and hours. 
+Every delay costs thousands, and the whole site can grind to a halt.
+
+Y:
+On site, workers don't have time to type tickets. So we made it simple - Helmet starts with voice.
+
+[DEMO: Show a map with the problem. Yanis takes the phone and explains the problem to Helmet]
+
+Y:
+And this is where our Multi-Agent Architecture powered by LangGraph takes control.
+
+E:
+Our Supervisor Agent is the orchestrator - 
+it analyzes every request and intelligently routes it through our specialized agent network using LangGraph's StateGraph.
+
+Y:
+The Planning Agent is our strategic brain. It doesn't just schedule - 
+it runs direct SQL queries against TiDB to validate constraints, 
+detects conflicts with our specialized Conflict Agent, and creates comprehensive resolution plans.
+
+E:
+But here's what makes it truly intelligent: 
+when workers describe tasks or need reassignments, 
+our system uses TiDB Vector Search with semantic embeddings.
+
+This means if a worker says 'the electrical thing in the office is broken,' our vector database automatically 
+finds the exact task and the best-qualified worker - no more questions needed."
+
+Y:
+All our agents communicate through our custom MCP (Model Context Protocol) server, 
+giving them access to 15 specialized database tools."
+
+The Notifier Agent always closes the loop - 
+it creates structured notifications with executable actions sent to the Supervisor, 
+ensuring nothing falls through the cracks.
+
+It is here where the magic happens.
+The Construction Site Supervisor receives a clear, concise summary of the issue,
+the proposed solution, and a one-click approval button.
+
+Y:
+"Finally, the Executor Agent then applies all changes atomically and safely when the supervisor approves."
+
+E:
+We've just moved four critical tasks and assigned three people.
+We've unlocked the construction site entrance and initiated a safety procedure.
+in XXX seconds.
+
+Y:
+The vision is simple: construction sites that will never stop, pivoting live.
