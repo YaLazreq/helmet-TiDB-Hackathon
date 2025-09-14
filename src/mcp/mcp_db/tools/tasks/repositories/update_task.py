@@ -3,7 +3,11 @@ from typing import Optional, List, Union
 import json
 from datetime import datetime
 from decimal import Decimal
-from ...backend_notifier import notify_db_update
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+from backend_notifier import notify_db_update
 
 
 @mcp.tool()
@@ -291,7 +295,6 @@ def update_task(
             update_fields.append("notes = %s")
             update_values.append(notes.strip())
 
-
         if priority is not None:
             if priority not in [0, 1, 2, 3]:
                 return "❌ Error: Priority must be 0 (low), 1 (normal), 2 (high), or 3 (critical)."
@@ -393,21 +396,22 @@ def update_task(
             update_query = f"UPDATE tasks SET {', '.join(update_fields)} WHERE id = %s"
             cursor.execute(update_query, update_values)
             db.commit()
-            
+
             # 🔄 Synchronisation automatique des vecteurs
             try:
-                from ..vector_sync import auto_sync_task_vector
+                from ...vector_sync import auto_sync_task_vector
+
                 # Récupérer les données mises à jour pour la synchronisation vectorielle
-                cursor.execute(
-                    "SELECT * FROM tasks WHERE id = %s", (task_id,)
-                )
+                cursor.execute("SELECT * FROM tasks WHERE id = %s", (task_id,))
                 updated_task_row = cursor.fetchone()
                 if updated_task_row:
                     columns = [desc[0] for desc in cursor.description]
                     updated_task_data = dict(zip(columns, updated_task_row))
                     auto_sync_task_vector(task_id, updated_task_data, "update")
             except Exception as sync_error:
-                print(f"⚠️  Synchronisation vectorielle échouée pour tâche {task_id}: {sync_error}")
+                print(
+                    f"⚠️  Synchronisation vectorielle échouée pour tâche {task_id}: {sync_error}"
+                )
 
             cursor.execute(
                 """
@@ -458,7 +462,7 @@ def update_task(
                     notify_db_update("task")
                 except Exception as notify_error:
                     print(f"Warning: Backend notification failed: {notify_error}")
-                
+
                 success_result = {
                     "success": True,
                     "message": f"✅ Task ID {task_id} modified successfully.",

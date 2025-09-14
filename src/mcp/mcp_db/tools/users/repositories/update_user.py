@@ -264,7 +264,7 @@ def update_user(
             
             # 🔄 Synchronisation automatique des vecteurs
             try:
-                from ..vector_sync import auto_sync_user_vector
+                from ...vector_sync import auto_sync_user_vector
                 # Récupérer les données mises à jour pour la synchronisation vectorielle
                 cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
                 updated_user_row = cursor.fetchone()

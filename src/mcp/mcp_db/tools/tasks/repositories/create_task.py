@@ -3,7 +3,12 @@ from typing import List, Optional, Union
 import json
 from datetime import datetime
 from decimal import Decimal
-from ...backend_notifier import notify_db_update
+import sys
+import os
+
+# Add the mcp_db directory to the path
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+from backend_notifier import notify_db_update
 
 
 @mcp.tool()
@@ -274,12 +279,12 @@ def create_task(
         cursor.execute(insert_query, params)
         task_id = cursor.lastrowid
 
-
         db.commit()
-        
+
         # 🔄 Synchronisation automatique des vecteurs
         try:
-            from ..vector_sync import auto_sync_task_vector
+            from ...vector_sync import auto_sync_task_vector
+
             # Récupérer les données de la nouvelle tâche pour la synchronisation vectorielle
             cursor.execute("SELECT * FROM tasks WHERE id = %s", (task_id,))
             new_task_row = cursor.fetchone()
@@ -288,7 +293,9 @@ def create_task(
                 new_task_data = dict(zip(columns, new_task_row))
                 auto_sync_task_vector(task_id, new_task_data, "create")
         except Exception as sync_error:
-            print(f"⚠️  Synchronisation vectorielle échouée pour nouvelle tâche {task_id}: {sync_error}")
+            print(
+                f"⚠️  Synchronisation vectorielle échouée pour nouvelle tâche {task_id}: {sync_error}"
+            )
 
         cursor.execute(
             """
@@ -339,7 +346,7 @@ def create_task(
                 notify_db_update("task")
             except Exception as notify_error:
                 print(f"Warning: Backend notification failed: {notify_error}")
-            
+
             success_result = {
                 "success": True,
                 "message": f"✅ Task '{title}' created successfully (ID: {task_id}).",

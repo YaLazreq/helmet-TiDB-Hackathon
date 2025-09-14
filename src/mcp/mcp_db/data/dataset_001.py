@@ -1399,6 +1399,178 @@ create_task(
 )
 
 # =============================================================================
+# CASCADING DELAY SCENARIO - CONTAINER BLOCKAGE
+# =============================================================================
+
+create_task(
+    title="URGENT: Remove Container Blocking Site Entrance",
+    description="Emergency task: A shipping container has been incorrectly placed at the main site entrance, completely blocking truck access. Must coordinate with container company and site security to remove immediately.",
+    room="SITE-ENTRANCE", 
+    floor=0,
+    building_section="Site Wide",
+    zone_type="access",
+    assigned_workers=["1", "10"],  # Robert Martinez (Supervisor), Tyler Johnson
+    required_worker_count=2,
+    skill_requirements=["site_coordination", "emergency_response", "heavy_equipment_coordination"],
+    trade_category="management",
+    created_by="site_foreman",
+    supervisor_id="1", 
+    priority=3,
+    status="blocked",
+    start_date="2025-09-12",
+    due_date="2025-09-12", 
+    min_estimated_hours=3.0,
+    max_estimated_hours=8.0,
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=[],
+    blocks_tasks=["31", "32", "33", "34"],
+    required_materials=[],
+    required_equipment=["mobile_crane", "container_truck"],
+    weather_dependent=False,
+    noise_level="medium",
+    safety_requirements=["traffic_control", "heavy_equipment_safety"],
+    notes="CRITICAL BLOCKER: Container company claims mix-up in delivery schedule. Crane operator unavailable until afternoon. All material deliveries backed up.",
+)
+
+create_task(
+    title="Crane Steel Delivery for Restaurant Extension",
+    description="Receive and position structural steel delivery for restaurant kitchen extension using mobile crane. Critical for maintaining construction schedule.",
+    room="REST-DELIVERY",
+    floor=0, 
+    building_section="Restaurant",
+    zone_type="delivery",
+    assigned_workers=["3"],  # Michael Rodriguez (Crane operator)
+    required_worker_count=1,
+    skill_requirements=["crane_operation_mobile", "material_handling", "steel_positioning"],
+    trade_category="heavy_machinery",
+    created_by="project_manager",
+    supervisor_id="1",
+    priority=3,
+    status="blocked", 
+    start_date="2025-09-12",
+    due_date="2025-09-12",
+    min_estimated_hours=4.0,
+    max_estimated_hours=6.0, 
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=["30"],  # Blocked by container removal
+    blocks_tasks=["32"],
+    required_materials=[
+        {"material": "structural_steel_beams", "quantity": 12, "unit": "pieces"},
+        {"material": "steel_connections", "quantity": 24, "unit": "pieces"}
+    ],
+    required_equipment=["mobile_crane", "rigging_equipment"],
+    weather_dependent=True,
+    noise_level="high", 
+    safety_requirements=["crane_safety", "rigging_safety", "steel_handling"],
+    notes="BLOCKED: Steel delivery truck cannot access site due to container blockage. Supplier threatening to reschedule delivery to next week if not resolved by 2 PM.",
+)
+
+create_task(
+    title="Restaurant Kitchen Steel Installation - Emergency Rush",
+    description="Install structural steel for restaurant kitchen expansion that was delayed by delivery issues. Now critical path item affecting all downstream work.",
+    room="REST-KITCHEN-EXT",
+    floor=1,
+    building_section="Restaurant", 
+    zone_type="structural",
+    assigned_workers=["6", "3"],  # Carlos Garcia, Michael Rodriguez
+    required_worker_count=2,
+    skill_requirements=["structural_steel_erection", "welding_structural", "emergency_installation"],
+    trade_category="steel_erection",
+    created_by="project_manager", 
+    supervisor_id="1",
+    priority=3,
+    status="blocked",
+    start_date="2025-09-12", 
+    due_date="2025-09-13",
+    min_estimated_hours=12.0,
+    max_estimated_hours=16.0,
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=["31"],  # Blocked by steel delivery
+    blocks_tasks=["33"],
+    required_materials=[
+        {"material": "welding_rods", "quantity": 25, "unit": "pounds"},
+        {"material": "structural_bolts", "quantity": 100, "unit": "pieces"}
+    ],
+    required_equipment=["welding_equipment", "fall_protection", "structural_tools"],
+    weather_dependent=False,
+    noise_level="high",
+    safety_requirements=["steel_erection_safety", "welding_safety", "fall_protection"],
+    notes="BLOCKED: Cannot start without steel delivery. Crew has been reassigned to other tasks but must return immediately once steel arrives. Kitchen opening date at risk.",
+)
+
+create_task(
+    title="Restaurant Kitchen Equipment Installation", 
+    description="Install commercial kitchen equipment that requires the new structural steel support. Includes heavy duty ovens, walk-in cooler, and ventilation connections.",
+    room="REST-KITCHEN",
+    floor=1,
+    building_section="Restaurant",
+    zone_type="kitchen",
+    assigned_workers=["5"],  # James Wilson (Plumbing/HVAC)
+    required_worker_count=1, 
+    skill_requirements=["kitchen_equipment_installation", "heavy_equipment_handling", "utility_connections"],
+    trade_category="mechanical",
+    created_by="project_manager",
+    supervisor_id="1",
+    priority=3,
+    status="blocked",
+    start_date="2025-09-13",
+    due_date="2025-09-15",
+    min_estimated_hours=16.0,
+    max_estimated_hours=24.0,
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=["32"],  # Blocked by steel installation
+    blocks_tasks=["34"],
+    required_materials=[
+        {"material": "equipment_connections", "quantity": 8, "unit": "pieces"},
+        {"material": "refrigeration_lines", "quantity": 50, "unit": "feet"},
+        {"material": "gas_connections", "quantity": 4, "unit": "pieces"}
+    ],
+    required_equipment=["equipment_dollies", "lifting_equipment", "connection_tools"],
+    weather_dependent=False,
+    noise_level="medium",
+    safety_requirements=["heavy_lifting", "gas_safety", "equipment_safety"],
+    notes="BLOCKED: Kitchen equipment delivered and staged, but cannot install without structural support completion. Restaurant owner extremely concerned about opening delay.",
+)
+
+create_task(
+    title="Restaurant Final Health Department Inspection",
+    description="Critical final health department inspection for restaurant opening permit. Must be completed before any food service operations can begin.",
+    room="REST-FINAL-INSPECT",
+    floor=1, 
+    building_section="Restaurant",
+    zone_type="inspection",
+    assigned_workers=["1"],  # Robert Martinez (Supervisor)
+    required_worker_count=1,
+    skill_requirements=["inspection_coordination", "health_code_compliance", "documentation"],
+    trade_category="management",
+    created_by="project_manager",
+    supervisor_id="1", 
+    priority=3,
+    status="blocked",
+    start_date="2025-09-16",
+    due_date="2025-09-16",
+    min_estimated_hours=4.0,
+    max_estimated_hours=6.0,
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=["33"],  # Blocked by equipment installation
+    blocks_tasks=[],
+    required_materials=[
+        {"material": "inspection_documentation", "quantity": 1, "unit": "set"},
+        {"material": "compliance_certificates", "quantity": 5, "unit": "pieces"}
+    ],
+    required_equipment=["inspection_tools", "measuring_equipment"],
+    weather_dependent=False,
+    noise_level="low",
+    safety_requirements=["health_code_compliance", "food_safety_standards"],
+    notes="BLOCKED: Health inspector scheduled for Monday morning. If equipment isn't operational by Friday, inspection must be rescheduled for following week, delaying restaurant opening by 10+ days. Owner threatening to cancel contract.",
+)
+
+# =============================================================================
 # DATASET SUMMARY
 # =============================================================================
 
@@ -1407,12 +1579,12 @@ create_task(
 # - 1 Team Leader (Sarah Thompson)
 # - 8 Workers (7 experienced + 1 junior)
 
-# TOTAL TASKS: 30
+# TOTAL TASKS: 35
 # STATUS BREAKDOWN:
-# - Completed: 9 tasks (30%)
-# - In Progress: 8 tasks (27%)
-# - Pending: 11 tasks (37%) [includes unassigned tasks]
-# - Blocked: 1 task (3%)
+# - Completed: 9 tasks (26%)
+# - In Progress: 8 tasks (23%)
+# - Pending: 11 tasks (31%) [includes unassigned tasks]
+# - Blocked: 6 tasks (17%) [including cascade scenario]
 # - Canceled: 1 task (3%)
 
 # BUILDINGS COVERED:

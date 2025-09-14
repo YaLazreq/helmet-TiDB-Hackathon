@@ -1,6 +1,10 @@
 from mcp_init import mcp, get_db_connection
 from typing import List, Dict, Any
 import json
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 from backend_notifier import notify_db_update
 
 
@@ -169,18 +173,18 @@ def create_notification(
                 else:
                     notification_dict[column_name] = value
 
-            # Determine data parameter for backend notification
-            if not is_triggered and action_list:
-                data_param = "news"
-            else:
+                # # Determine data parameter for backend notification
+                # if not is_triggered and action_list:
+                #     data_param = "news"
+                # else:
                 data_param = "notification"
-            
+
             # Notify backend
             try:
                 notify_db_update(data_param)
             except Exception as notify_error:
                 print(f"Warning: Backend notification failed: {notify_error}")
-            
+
             success_result = {
                 "success": True,
                 "message": f"✅ Notification '{title}' created successfully.",
