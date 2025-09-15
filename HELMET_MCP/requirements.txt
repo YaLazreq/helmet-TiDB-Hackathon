@@ -1,0 +1,7 @@
+fastmcp
+mysql-connector-python
+python-dotenv
+bcrypt
+tidb_vector
+sqlalchemy
+pymysql
