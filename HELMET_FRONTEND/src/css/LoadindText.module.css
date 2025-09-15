@@ -1,0 +1,43 @@
+.textContainer {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.textContainer.fadeOut {
+  opacity: 0;
+}
+
+@keyframes dots {
+  0%   { content: "."; }
+  33%  { content: ".."; }
+  66%  { content: "..."; }
+  100% { content: "."; }
+}
+
+.dotAnimation::after {
+  content: ".";
+  animation: dots 1s steps(3, end) infinite;
+  display: inline-block;
+  width: 3ch;
+  text-align: left;
+}
+
+/* 
+@keyframes dots {
+  0%   { content: "."; }
+  0%   { width: 3ch; }
+  33%  { content: ".."; }
+  
+  66%  { content: "..."; }
+  100% { content: "."; }
+  100% { width: 3ch; }
+}
+
+.dotAnimation::after {
+  content: ".";
+  animation: dots 1s steps(3, end) infinite;
+  animation-delay: 0.05s;
+  display: inline-block;
+  width: 0ch;
+  text-align: left;
+} */

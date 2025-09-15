@@ -1,0 +1,27 @@
+/* styles/burger.module.css */
+.burger {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.line {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 3px 0;
+  transition: 0.3s;
+}
+
+.burger.active .line:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.burger.active .line:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.active .line:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
+}
