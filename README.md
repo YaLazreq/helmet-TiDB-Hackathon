@@ -1,51 +1,57 @@
-# 🚧 TiDB Hackathon - Système de Gestion de Tâches Intelligentes
+# 🚧 TiDB Hackathon - Intelligent Task Management System
 
-Un système multi-agents utilisant LangGraph pour la gestion automatisée de tâches de construction avec base de données TiDB.
+A multi-agent system using LangGraph for automated construction task management with TiDB database.
 
-## 🎯 Vue d'ensemble
+## 🎯 Overview
 
-Ce projet implémente un système intelligent de gestion de tâches pour l'industrie de la construction, utilisant :
-- **TiDB** comme base de données vectorielle distribuée
-- **LangGraph** pour l'orchestration d'agents IA
-- **MCP (Model Context Protocol)** pour l'intégration base de données
-- **LangSmith** pour le monitoring et traçage des agents
+This project implements an intelligent task management system for the construction industry, using:
 
-## ✨ Fonctionnalités principales
+- **TiDB** as a distributed vector database
+- **LangGraph** for AI agent orchestration
+- **MCP (Model Context Protocol)** for database integration
+- **LangSmith** for monitoring and agent tracing
 
-### 🤖 Agents Intelligents
-- **Supervisor** : Orchestration centrale des tâches et délégation
-- **Planning** : Planification et programmation des tâches
-- **Conflict** : Détection et résolution des conflits de ressources
-- **Team Builder** : Allocation intelligente des équipes
-- **Notifier** : Notifications et alertes automatisées
-- **Executor** : Exécution et suivi des tâches
+## ✨ Main Features
 
-### 🎲 Spécialités du Code
-- **Architecture multi-agents** avec LangGraph pour des workflows complexes
-- **Base de données vectorielle** TiDB pour recherche sémantique avancée
-- **Protocole MCP** pour interaction sécurisée avec la base de données
-- **Traçage intelligent** avec LangSmith pour monitoring en temps réel
-- **Gestion des conflits** automatisée pour optimisation des ressources
-- **API RESTful** avec FastAPI pour intégration externe
-- **Support multilingue** (français/anglais) dans les interactions
+### 🤖 Intelligent Agents
 
-## 🚀 Installation et Configuration
+- **Supervisor**: Central task orchestration and delegation
+- **Planning**: Task planning and scheduling
+- **Conflict**: Resource conflict detection and resolution
+- **Team Builder**: Intelligent team allocation
+- **Notifier**: Automated notifications and alerts
+- **Executor**: Task execution and tracking
 
-### Prérequis
+### 🎲 Code Specialties
+
+- **Multi-agent architecture** with LangGraph for complex workflows
+- **Vector database** TiDB for advanced semantic search
+- **MCP protocol** for secure database interaction
+- **Intelligent tracing** with LangSmith for real-time monitoring
+- **Automated conflict management** for resource optimization
+- **RESTful API** with FastAPI for external integration
+- **Multilingual support** (French/English) in interactions
+
+## 🚀 Installation and Configuration
+
+### Prerequisites
+
 - Python 3.11+
-- Base de données TiDB Cloud (ou instance locale)
-- Compte LangSmith pour le monitoring
-- Clé API Anthropic (Claude) ou XAI
+- TiDB Cloud database (or local instance)
+- LangSmith account for monitoring
+- Anthropic (Claude) or XAI API key
 
-### 1. Installation des dépendances
+### 1. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Configuration de la base de données TiDB
+### 2. TiDB Database Configuration
 
-#### 2.1 Configurer le fichier .env
-Créez un fichier `.env` à la racine du projet avec vos informations TiDB :
+#### 2.1 Configure .env file
+
+Create a `.env` file at the project root with your TiDB information:
 
 ```env
 # TiDB Connection Settings
@@ -57,149 +63,161 @@ TIDB_DATABASE=your-database-name
 
 # AI API Keys
 ANTHROPIC_API_KEY=sk-ant-api03-your-key
-XAI_API_KEY=xai-your-key
 
-# LangSmith Configuration (pour monitoring)
+# LangSmith Configuration (for monitoring)
 LANGSMITH_TRACING="true"
 LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
 LANGSMITH_API_KEY=lsv2_pt_your-langsmith-key
 LANGSMITH_PROJECT="your-project-name"
 ```
 
-#### 2.2 Initialiser le schéma de base de données
+#### 2.2 Initialize database schema
+
 ```bash
 python src/mcp/mcp_db/schema/execute_schema.py
 ```
 
-Ce script va :
-- Se connecter à votre base TiDB
-- Créer toutes les tables nécessaires (users, tasks, projects, etc.)
-- Initialiser les vues pour les requêtes optimisées
+This script will:
 
-#### 2.3 Vérifier la création des tables
-Connectez-vous à votre interface TiDB et vérifiez que les tables suivantes ont été créées :
-- `users` : Gestion des utilisateurs et travailleurs
-- `tasks` : Tâches avec géolocalisation et compétences
-- `projects` : Projets de construction
-- `task_assignments` : Assignations de tâches
-- `notifications` : Système de notifications
-- Vues : `active_tasks`, `overdue_tasks`, `worker_workload`
+- Connect to your TiDB database
+- Create all necessary tables (users, tasks, projects, etc.)
+- Initialize views for optimized queries
 
-### 3. Configuration LangSmith (Monitoring)
+#### 2.3 Verify table creation
 
-LangSmith vous permettra de voir en temps réel :
-- ⏱️ **Temps d'exécution** de chaque agent
-- 🔢 **Nombre de tokens** utilisés
-- 🔍 **Exécution détaillée** des communications inter-agents
-- 📊 **Métriques de performance** globales
+Connect to your TiDB interface and verify that the following tables have been created:
 
-Créez un compte sur [LangSmith](https://smith.langchain.com/) et ajoutez vos clés dans le `.env`.
+- `users`: User and worker management
+- `tasks`: Tasks with geolocation and skills
+- `projects`: Construction projects
+- `task_assignments`: Task assignments
+- `notifications`: Notification system
+- Views: `active_tasks`, `overdue_tasks`, `worker_workload`
 
-## 🎮 Utilisation
+### 3. LangSmith Configuration (Monitoring)
 
-### 1. Lancer le serveur MCP de base de données
+LangSmith will allow you to see in real-time:
+
+- ⏱️ **Execution time** for each agent
+- 🔢 **Number of tokens** used
+- 🔍 **Detailed execution** of inter-agent communications
+- 📊 **Global performance** metrics
+
+Create an account on [LangSmith](https://smith.langchain.com/) and add your keys to the `.env`.
+
+## 🎮 Usage
+
+### 1. Launch the MCP database server
+
 ```bash
 make mcp-db
 ```
-Ce serveur doit tourner en arrière-plan pour permettre aux agents d'accéder à la base de données.
 
-### 2. Configurer le message de test
-Dans `main.py`, ligne 28, remplacez le message par celui de votre worker :
+This server must run in the background to allow agents to access the database.
+
+### 2. Configure test message
+
+In `main.py`, line 28, replace the message with your worker's message:
+
 ```python
-message = "[User ID: 2 - Message Date: Sun. 10 September 2025]: Votre message ici"
+message = "[User ID: 2 - Message Date: Sun. 10 September 2025]: Your message here"
 ```
 
-### 3. Exécuter l'application principale
+### 3. Execute the main application
+
 ```bash
 make main
 ```
 
-### 4. Observer l'exécution dans LangSmith
-1. Connectez-vous à votre interface LangSmith
-2. Sélectionnez votre projet configuré dans `.env`
-3. Observez en temps réel l'exécution des agents, leurs communications et performances
+### 4. Observe execution in LangSmith
 
-## 📁 Structure du projet
+1. Connect to your LangSmith interface
+2. Select your project configured in `.env`
+3. Observe real-time agent execution, communications, and performance
 
-```
-├── main.py                     # Point d'entrée principal
+## 📁 Project Structure
+
+```text
+├── main.py                     # Main entry point
 ├── src/
-│   ├── agents/                 # Agents intelligents
-│   │   ├── supervisor.py       # Orchestrateur principal
-│   │   ├── planning.py         # Agent de planification
-│   │   ├── conflict.py         # Résolution des conflits
-│   │   ├── team_builder.py     # Allocation d'équipes
+│   ├── agents/                 # Intelligent agents
+│   │   ├── supervisor.py       # Main orchestrator
+│   │   ├── planning.py         # Planning agent
+│   │   ├── conflict.py         # Conflict resolution
+│   │   ├── team_builder.py     # Team allocation
 │   │   ├── notifier.py         # Notifications
-│   │   └── executor.py         # Exécution des tâches
-│   ├── mcp/                    # Protocoles MCP
-│   │   ├── db_client.py        # Client base de données
-│   │   └── mcp_db/            # Serveur MCP TiDB
-│   │       ├── mcp_server.py   # Serveur principal
-│   │       └── schema/         # Schémas de base
+│   │   └── executor.py         # Task execution
+│   ├── mcp/                    # MCP protocols
+│   │   ├── db_client.py        # Database client
+│   │   └── mcp_db/            # TiDB MCP server
+│   │       ├── mcp_server.py   # Main server
+│   │       └── schema/         # Database schemas
 │   ├── config/                 # Configuration
-│   └── tools/                  # Outils utilitaires
-├── server/                     # API REST
-├── Makefile                    # Commandes de développement
-└── requirements.txt            # Dépendances Python
+│   └── tools/                  # Utilities
+├── server/                     # REST API
+├── Makefile                    # Development commands
+└── requirements.txt            # Python dependencies
 ```
 
-## 🔧 Commandes disponibles
+## 🔧 Available Commands
 
 ```bash
-# Lancer l'application principale
-make main
+# Initialize database schema
+python src/mcp/mcp_db/schema/execute_schema.py
 
-# Démarrer le serveur MCP de base de données
+# Start MCP database server
 make mcp-db
 
-# Initialiser le schéma de base de données
-python src/mcp/mcp_db/schema/execute_schema.py
+# Launch main application after MCP server
+make main
 ```
 
-## 🧪 Exemples d'utilisation
+## 🧪 Usage Examples
 
-### Messages de test pour les agents
+### Test messages for agents
 
 ```python
-# Assignation de tâche
-"[User ID: 2]: Can you assign me another task please?"
+# Task assignment
+"[User ID: 2]: Can you find someone to help me on my actual task ?"
 
-# Mise à jour de contact
+# Contact update
 "[User ID: 1]: Update Michael Rodriguez's phone: +1-711-123-4567"
 
-# Urgence sur site
+# Site emergency
 "[User ID: 3]: Container blocking main entrance needs urgent removal"
 
-# Retard de projet
+# Project delay
 "[User ID: 3]: Restaurant Foundation Excavation on RETAIL Building is delayed"
+
+# Resource shortage
+"[User ID: 2]: we don't have enough sheath anymore"
 ```
 
-## 📊 Monitoring avec LangSmith
+## 📊 Monitoring with LangSmith
 
-Une fois configuré, LangSmith vous donnera accès à :
+Once configured, LangSmith will give you access to:
 
-- **Dashboard en temps réel** : Visualisation des agents actifs
-- **Traces détaillées** : Chaque décision et communication inter-agents
-- **Métriques de coût** : Tokens utilisés par agent et par session
-- **Historique complet** : Toutes les exécutions passées avec détails
-- **Alertes performance** : Détection des agents lents ou en erreur
+- **Real-time dashboard**: Visualization of active agents
+- **Detailed traces**: Every decision and inter-agent communication
+- **Cost metrics**: Tokens used per agent and per session
+- **Complete history**: All past executions with details
+- **Performance alerts**: Detection of slow or erroring agents
 
-## ⚡ Fonctionnalités avancées
+## ⚡ Advanced Features
 
-- **Recherche vectorielle** : Recherche sémantique dans les tâches et documents
-- **Géolocalisation intelligente** : Optimisation des déplacements d'équipes
-- **Détection de conflits** : Algorithmes de résolution automatique des conflits de ressources
-- **Notifications push** : Système d'alertes en temps réel
-- **Multi-tenancy** : Support de plusieurs projets simultanés
+- **Vector search**: Semantic search in tasks and documents
+- **Conflict detection**: Automatic algorithms for resource conflict resolution
+- **Notifications**: Real-time alert system
 
 ## 🤝 Support
 
-Pour toute question ou problème :
-1. Vérifiez que TiDB est accessible depuis votre réseau
-2. Confirmez que toutes les tables sont créées dans l'interface TiDB
-3. Vérifiez que LangSmith reçoit bien les traces
-4. Consultez les logs du serveur MCP pour débugger les connexions
+For any questions or issues:
+
+1. Verify that TiDB is accessible from your network
+2. Confirm that all tables are created in the TiDB interface
+3. Check that LangSmith is receiving traces properly
+4. Consult MCP server logs to debug connections
 
 ---
 
-**Développé pour le TiDB Hackathon 2025** 🚀
+**Developed for TiDB Hackathon 2025** 🚀
