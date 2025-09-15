@@ -27,10 +27,10 @@ app.add_middleware(
 
 DB_CONFIG = {
     'host': os.getenv('TIDB_HOST'),
-    'port': os.getenv('TIDB_PORT', 4000),
-    'database': os.getenv('TIDB_DATABASE', 'helmet_db'),
-    'user': os.getenv('TIDB_USER', 'r37qXLo8c3766cd.root'),
-    'password': os.getenv('TIDB_PASSWORD', 'p5e04L94fXgU2bxV')
+    'port': os.getenv('TIDB_PORT'),
+    'database': os.getenv('TIDB_DATABASE'),
+    'user': os.getenv('TIDB_USER'),
+    'password': os.getenv('TIDB_PASSWORD')
 }
 
 connected_clients = set()
