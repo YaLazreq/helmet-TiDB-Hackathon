@@ -20,61 +20,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project
 COPY . .
 
-# Create initialization script
+# Create simple startup script
 RUN echo '#!/bin/bash\n\
-    set -e\n\
-    \n\
-    echo "Starting application initialization..."\n\
-    \n\
-    # Wait for database to be ready\n\
-    echo "Waiting for database connection..."\n\
-    python -c "import mysql.connector; import os; import time; \
-    config = {\"host\": os.getenv(\"TIDB_HOST\"), \"port\": int(os.getenv(\"TIDB_PORT\", 4000)), \"database\": os.getenv(\"TIDB_DATABASE\"), \"user\": os.getenv(\"TIDB_USER\"), \"password\": os.getenv(\"TIDB_PASSWORD\")}; \
-    for i in range(30): \
-    try: \
-    conn = mysql.connector.connect(**config); \
-    conn.close(); \
-    print(\"Database connected!\"); \
-    break; \
-    except: \
-    print(f\"Waiting for database... ({i+1}/30)\"); \
-    time.sleep(2); \
-    else: \
-    raise Exception(\"Database connection failed after 30 attempts\")"\n\
-    \n\
-    # Initialize database schemas if needed\n\
-    echo "Initializing database schemas..."\n\
-    if [ -f "HELMET_MCP/mcp/mcp_db/schema/create_tables.sql" ]; then\n\
-    echo "Database schema file found, executing..."\n\
-    # Note: Schema execution would need to be handled by your application\n\
-    echo "Schema initialization completed"\n\
-    fi\n\
-    \n\
-    # Initialize dataset if needed\n\
-    echo "Loading initial dataset..."\n\
-    cd HELMET_MCP/mcp/mcp_db/data && python dataset_001.py\n\
-    cd /app\n\
-    \n\
-    echo "Starting MCP database server..."\n\
-    cd HELMET_MCP/mcp/mcp_db && python mcp_server.py &\n\
-    MCP_PID=$!\n\
-    \n\
-    # Wait a bit for MCP server to start\n\
-    sleep 5\n\
-    \n\
-    echo "Starting backend server..."\n\
-    cd /app/HELMET_BACKEND && python backend.py &\n\
-    BACKEND_PID=$!\n\
-    \n\
-    echo "Application started successfully!"\n\
-    echo "MCP Server PID: $MCP_PID"\n\
-    echo "Backend Server PID: $BACKEND_PID"\n\
-    \n\
-    # Wait for any process to exit\n\
-    wait -n\n\
-    \n\
-    # Exit with status of process that exited first\n\
-    exit $?\n\
+    echo "Starting MCP server..."\n\
+    cd HELMET_MCP/mcp/mcp_db && python3 mcp_server.py &\n\
+    echo "Starting backend..."\n\
+    cd /app/HELMET_BACKEND && python3 backend.py &\n\
+    wait\n\
     ' > /app/start.sh && chmod +x /app/start.sh
 
 # Set environment variables
