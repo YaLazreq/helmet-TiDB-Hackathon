@@ -1,11 +1,8 @@
 # 🚧 Helmet - Intelligent Construction Task Management
-(TIDB Account on : yanis.lazreq.pro@gmail.com)
 
 > An agentic system that transforms construction sites into self-organizing, adaptive systems using real-time worker feedback and AI orchestration.
 
 ## 🎯 Quick Start
-
-> If you want to use our host application, please visit [Worker App](http://34.236.170.225:3000/), [Construction Site Supervisor App](http://dashboard-lb-491753214.us-east-1.elb.amazonaws.com/) for the hosted version.
 
 ### Prerequisites
 - TiDB Cloud database Credentials
@@ -29,15 +26,21 @@ cd HELMET_MCP/mcp/mcp_db/data && python dataset_001.py
 
 ### 3. Run with Docker
 ```bash
-# Build and run
-docker build -t helmet-tidb .
-docker run -d --name helmet-app -p 8000:8000 -p 8080:8080 --env-file .env helmet-tidb
+# Build and start services
+docker compose up --build -d
 
 # Monitor logs
-docker logs -f helmet-app
+docker compose logs -f
 
-# Test endpoints
+# Stop services
+docker compose down
+
+# Backend health check
 curl http://localhost:8000/health
+
+# MCP server check
+curl http://localhost:8080
+
 ```
 
 ## 🤖 Multi-Agent Architecture
@@ -66,7 +69,7 @@ See `CRISIS_TEST_SCENARIOS.md` for testing various construction crisis situation
 
 ## 📊 API Endpoints
 
-- **Backend**: `http://localhost:8000`
+- **Backend**: `http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com`
   - `/health` - Health check
 
 - **MCP Server**: `http://localhost:8080`
