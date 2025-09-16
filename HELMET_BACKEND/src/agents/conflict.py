@@ -5,9 +5,8 @@ from src.config.specifications import working_hours
 from langchain.tools import tool
 
 from langchain.output_parsers import PydanticOutputParser
-from langchain.prompts import PromptTemplate
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List
 
 
 # Define your exact output structure
@@ -20,8 +19,12 @@ class ConflictInfo(BaseModel):
 
 class SolutionStep(BaseModel):
     action: str = Field(description="Action to take")
-    parameters: dict = Field(description="Parameters for the action")
-    reason: str = Field(description="REQUIRED: Reason for this alternative step")
+    parameters: dict = Field(
+        description="REQUIRED: Parameters used to update or create correctly"
+    )
+    reason: str = Field(
+        description="REQUIRED: Reason for this alternative step used by the Admin and other agents to determine validity"
+    )
 
 
 class Solution(BaseModel):
@@ -40,7 +43,7 @@ class ConflictAnalysisResponse(BaseModel):
     solution: Solution = Field(description="Recommended solution")
     alternatives: List[Alternative] = Field(description="Alternative solutions")
     analysis: str = Field(
-        description="REQUIRED: Brief summary of the analysis and solution"
+        description="REQUIRED: Brief summary of the analysis and solution", default=""
     )
     total_time_saved: int = Field(
         description="Total time saved in hours if action list is executed", default=0
@@ -107,7 +110,8 @@ def create_conflict_agent():
     DEPENDENCY CHAIN:
     - Analyze task dependencies to identify successor tasks
     - Use get_tasks to fetch all dependent tasks that might be affected
-    - Check for tasks that logically depend on the target task (foundation → concrete → steel frame)
+    - Tasks have a variable dependencies & blocks_tasks
+    - Check for tasks that logically depend on the target task 
     ASSIGNED WORKER SCHEDULE:
     - Use: get_tasks(assigned_to="worker_id", start_date="target_date")
     - Filter to ±4 hours of target time during compilation

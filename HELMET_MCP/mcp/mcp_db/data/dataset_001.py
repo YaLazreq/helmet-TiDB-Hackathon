@@ -17,370 +17,371 @@ from tools.tasks.repositories.get_tasks import get_tasks
 # USERS CREATION COMMANDS
 # =============================================================================
 
+
 # # SUPERVISORS & MANAGEMENT
-# create_user(
-#     first_name="Robert",
-#     last_name="Martinez",
-#     email="r.martinez@hoverpark.com",
-#     password="Super2024!",
-#     phone="+1-720-555-0101",
-#     address="1234 Construction Blvd, Hoverville, CO 80424",
-#     role="supervisor",
-#     role_description="Project management and safety coordination expert with 15 years of experience supervising commercial construction sites and quality control.",
-#     hire_date="2020-03-15",
-#     primary_skills=[
-#         "project_management",
-#         "safety_coordination",
-#         "quality_control_inspection",
-#     ],
-#     secondary_skills=["scheduling", "cost_estimation", "team_leadership"],
-#     trade_categories=["management", "safety"],
-#     experience_years=15.0,
-#     skill_levels={
-#         "project_management": 9,
-#         "safety_coordination": 9,
-#         "quality_control_inspection": 8,
-#     },
-#     work_preferences=[
-#         "teamwork",
-#         "leadership_role",
-#         "client_interaction",
-#         "problem_solving",
-#     ],
-#     certifications=["pmp_certification", "osha_30", "construction_manager"],
-#     safety_training=[
-#         "osha_30",
-#         "construction_safety_orientation",
-#         "hazard_recognition",
-#         "emergency_procedures",
-#     ],
-# )
+create_user(
+    first_name="Robert",
+    last_name="Martinez",
+    email="r.martinez@hoverpark.com",
+    password="Super2024!",
+    phone="+1-720-555-0101",
+    address="1234 Construction Blvd, Hoverville, CO 80424",
+    role="supervisor",
+    role_description="Project management and safety coordination expert with 15 years of experience supervising commercial construction sites and quality control.",
+    hire_date="2020-03-15",
+    primary_skills=[
+        "project_management",
+        "safety_coordination",
+        "quality_control_inspection",
+    ],
+    secondary_skills=["scheduling", "cost_estimation", "team_leadership"],
+    trade_categories=["management", "safety"],
+    experience_years=15.0,
+    skill_levels={
+        "project_management": 9,
+        "safety_coordination": 9,
+        "quality_control_inspection": 8,
+    },
+    work_preferences=[
+        "teamwork",
+        "leadership_role",
+        "client_interaction",
+        "problem_solving",
+    ],
+    certifications=["pmp_certification", "osha_30", "construction_manager"],
+    safety_training=[
+        "osha_30",
+        "construction_safety_orientation",
+        "hazard_recognition",
+        "emergency_procedures",
+    ],
+)
 
-# create_user(
-#     first_name="Sarah",
-#     last_name="Thompson",
-#     email="s.thompson@hoverpark.com",
-#     password="Lead2024!",
-#     phone="+1-720-555-0102",
-#     address="567 Maple Street, Hoverville, CO 80424",
-#     role="team_leader",
-#     role_description="Expert electrician and team leader specialized in industrial installations, apprentice mentoring and electrical team coordination.",
-#     hire_date="2018-07-20",
-#     primary_skills=[
-#         "electrical_installation",
-#         "industrial_wiring",
-#         "electrical_troubleshooting",
-#     ],
-#     secondary_skills=["team_leadership", "apprentice_mentoring", "scheduling"],
-#     trade_categories=["electrical", "management"],
-#     experience_years=12.0,
-#     skill_levels={
-#         "electrical_installation": 9,
-#         "industrial_wiring": 8,
-#         "electrical_troubleshooting": 9,
-#     },
-#     work_preferences=[
-#         "teamwork",
-#         "leadership_role",
-#         "apprentice_mentoring",
-#         "technical_work",
-#     ],
-#     certifications=["master_electrician", "electrical_inspector", "osha_30"],
-#     safety_training=[
-#         "electrical_safety_basics",
-#         "arc_flash_training",
-#         "lockout_tagout_electrical",
-#         "osha_30",
-#     ],
-# )
+create_user(
+    first_name="Sarah",
+    last_name="Thompson",
+    email="s.thompson@hoverpark.com",
+    password="Lead2024!",
+    phone="+1-720-555-0102",
+    address="567 Maple Street, Hoverville, CO 80424",
+    role="team_leader",
+    role_description="Expert electrician and team leader specialized in industrial installations, apprentice mentoring and electrical team coordination.",
+    hire_date="2018-07-20",
+    primary_skills=[
+        "electrical_installation",
+        "industrial_wiring",
+        "electrical_troubleshooting",
+    ],
+    secondary_skills=["team_leadership", "apprentice_mentoring", "scheduling"],
+    trade_categories=["electrical", "management"],
+    experience_years=12.0,
+    skill_levels={
+        "electrical_installation": 9,
+        "industrial_wiring": 8,
+        "electrical_troubleshooting": 9,
+    },
+    work_preferences=[
+        "teamwork",
+        "leadership_role",
+        "apprentice_mentoring",
+        "technical_work",
+    ],
+    certifications=["master_electrician", "electrical_inspector", "osha_30"],
+    safety_training=[
+        "electrical_safety_basics",
+        "arc_flash_training",
+        "lockout_tagout_electrical",
+        "osha_30",
+    ],
+)
 
-# # EXPERIENCED WORKERS
-# create_user(
-#     first_name="Michael",
-#     last_name="Rodriguez",
-#     email="m.rodriguez@hoverpark.com",
-#     password="Concrete24!",
-#     phone="+1-720-555-0103",
-#     address="890 Industrial Way, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Concrete and structural specialist with expertise in pouring, finishing and heavy machinery operation for commercial construction projects.",
-#     hire_date="2019-05-10",
-#     primary_skills=[
-#         "concrete_pouring",
-#         "concrete_finishing",
-#         "structural_steel_erection",
-#     ],
-#     secondary_skills=[
-#         "rebar_installation",
-#         "formwork_construction",
-#         "crane_operation_mobile",
-#     ],
-#     trade_categories=["concrete", "heavy_machinery"],
-#     experience_years=8.5,
-#     skill_levels={
-#         "concrete_pouring": 9,
-#         "concrete_finishing": 8,
-#         "structural_steel_erection": 7,
-#     },
-#     work_preferences=["teamwork", "physical_work", "outdoor", "heavy_lifting"],
-#     equipment_mastery=[
-#         "concrete_vibrator",
-#         "power_screed",
-#         "crane_mobile",
-#         "concrete_pump",
-#     ],
-#     certifications=["crane_operator_nccco", "osha_10"],
-#     safety_training=[
-#         "crane_safety",
-#         "concrete_equipment_safety",
-#         "rigging_safety",
-#         "fall_protection_basic",
-#     ],
-# )
+# EXPERIENCED WORKERS
+create_user(
+    first_name="Michael",
+    last_name="Rodriguez",
+    email="m.rodriguez@hoverpark.com",
+    password="Concrete24!",
+    phone="+1-720-555-0103",
+    address="890 Industrial Way, Hoverville, CO 80424",
+    role="worker",
+    role_description="Concrete and structural specialist with expertise in pouring, finishing and heavy machinery operation for commercial construction projects.",
+    hire_date="2019-05-10",
+    primary_skills=[
+        "concrete_pouring",
+        "concrete_finishing",
+        "structural_steel_erection",
+    ],
+    secondary_skills=[
+        "rebar_installation",
+        "formwork_construction",
+        "crane_operation_mobile",
+    ],
+    trade_categories=["concrete", "heavy_machinery"],
+    experience_years=8.5,
+    skill_levels={
+        "concrete_pouring": 9,
+        "concrete_finishing": 8,
+        "structural_steel_erection": 7,
+    },
+    work_preferences=["teamwork", "physical_work", "outdoor", "heavy_lifting"],
+    equipment_mastery=[
+        "concrete_vibrator",
+        "power_screed",
+        "crane_mobile",
+        "concrete_pump",
+    ],
+    certifications=["crane_operator_nccco", "osha_10"],
+    safety_training=[
+        "crane_safety",
+        "concrete_equipment_safety",
+        "rigging_safety",
+        "fall_protection_basic",
+    ],
+)
 
-# create_user(
-#     first_name="David",
-#     last_name="Chen",
-#     email="d.chen@hoverpark.com",
-#     password="Electric24!",
-#     phone="+1-720-555-0104",
-#     address="234 Oak Avenue, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Commercial electrician specialized in lighting and security systems with focus on precision work and technical installations.",
-#     hire_date="2020-01-15",
-#     primary_skills=[
-#         "electrical_installation",
-#         "commercial_wiring",
-#         "lighting_installation",
-#     ],
-#     secondary_skills=[
-#         "electrical_troubleshooting",
-#         "control_panel_wiring",
-#         "security_system_installation",
-#     ],
-#     trade_categories=["electrical"],
-#     experience_years=6.0,
-#     skill_levels={
-#         "electrical_installation": 8,
-#         "commercial_wiring": 8,
-#         "lighting_installation": 9,
-#     },
-#     work_preferences=["precision_work", "detail_oriented", "indoor", "technical_work"],
-#     equipment_mastery=[
-#         "multimeter",
-#         "conduit_bender",
-#         "wire_strippers",
-#         "voltage_tester",
-#     ],
-#     certifications=["journeyman_electrician", "osha_10"],
-#     safety_training=[
-#         "electrical_safety_basics",
-#         "arc_flash_training",
-#         "lockout_tagout_electrical",
-#         "ppe_training",
-#     ],
-# )
+create_user(
+    first_name="David",
+    last_name="Chen",
+    email="d.chen@hoverpark.com",
+    password="Electric24!",
+    phone="+1-720-555-0104",
+    address="234 Oak Avenue, Hoverville, CO 80424",
+    role="worker",
+    role_description="Commercial electrician specialized in lighting and security systems with focus on precision work and technical installations.",
+    hire_date="2020-01-15",
+    primary_skills=[
+        "electrical_installation",
+        "commercial_wiring",
+        "lighting_installation",
+    ],
+    secondary_skills=[
+        "electrical_troubleshooting",
+        "control_panel_wiring",
+        "security_system_installation",
+    ],
+    trade_categories=["electrical"],
+    experience_years=6.0,
+    skill_levels={
+        "electrical_installation": 8,
+        "commercial_wiring": 8,
+        "lighting_installation": 9,
+    },
+    work_preferences=["precision_work", "detail_oriented", "indoor", "technical_work"],
+    equipment_mastery=[
+        "multimeter",
+        "conduit_bender",
+        "wire_strippers",
+        "voltage_tester",
+    ],
+    certifications=["journeyman_electrician", "osha_10"],
+    safety_training=[
+        "electrical_safety_basics",
+        "arc_flash_training",
+        "lockout_tagout_electrical",
+        "ppe_training",
+    ],
+)
 
-# create_user(
-#     first_name="James",
-#     last_name="Wilson",
-#     email="j.wilson@hoverpark.com",
-#     password="Plumb24!",
-#     phone="+1-720-555-0105",
-#     address="456 Pine Street, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Plumbing and HVAC expert for commercial installations, specialized in complex problem-solving and heating systems.",
-#     hire_date="2017-09-01",
-#     primary_skills=["plumbing_installation", "hvac_installation", "pipe_fitting"],
-#     secondary_skills=[
-#         "drain_installation",
-#         "water_heater_installation",
-#         "bathroom_plumbing",
-#     ],
-#     trade_categories=["plumbing", "hvac"],
-#     experience_years=9.0,
-#     skill_levels={
-#         "plumbing_installation": 9,
-#         "hvac_installation": 7,
-#         "pipe_fitting": 8,
-#     },
-#     work_preferences=["problem_solving", "precision_work", "indoor", "varied_tasks"],
-#     equipment_mastery=[
-#         "pipe_threader",
-#         "pipe_cutter",
-#         "soldering_iron",
-#         "pressure_tester",
-#     ],
-#     certifications=["journeyman_plumber", "hvac_epa_certification", "osha_10"],
-#     safety_training=[
-#         "confined_space_entry",
-#         "chemical_safety",
-#         "respiratory_protection",
-#         "lockout_tagout",
-#     ],
-# )
+create_user(
+    first_name="James",
+    last_name="Wilson",
+    email="j.wilson@hoverpark.com",
+    password="Plumb24!",
+    phone="+1-720-555-0105",
+    address="456 Pine Street, Hoverville, CO 80424",
+    role="worker",
+    role_description="Plumbing and HVAC expert for commercial installations, specialized in complex problem-solving and heating systems.",
+    hire_date="2017-09-01",
+    primary_skills=["plumbing_installation", "hvac_installation", "pipe_fitting"],
+    secondary_skills=[
+        "drain_installation",
+        "water_heater_installation",
+        "bathroom_plumbing",
+    ],
+    trade_categories=["plumbing", "hvac"],
+    experience_years=9.0,
+    skill_levels={
+        "plumbing_installation": 9,
+        "hvac_installation": 7,
+        "pipe_fitting": 8,
+    },
+    work_preferences=["problem_solving", "precision_work", "indoor", "varied_tasks"],
+    equipment_mastery=[
+        "pipe_threader",
+        "pipe_cutter",
+        "soldering_iron",
+        "pressure_tester",
+    ],
+    certifications=["journeyman_plumber", "hvac_epa_certification", "osha_10"],
+    safety_training=[
+        "confined_space_entry",
+        "chemical_safety",
+        "respiratory_protection",
+        "lockout_tagout",
+    ],
+)
 
-# create_user(
-#     first_name="Carlos",
-#     last_name="Garcia",
-#     email="c.garcia@hoverpark.com",
-#     password="Frame24!",
-#     phone="+1-720-555-0106",
-#     address="789 Cedar Lane, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Structural welder and carpenter specialized in height work, steel erection and metal structure welding.",
-#     hire_date="2019-11-20",
-#     primary_skills=["framing_steel", "structural_steel_erection", "welding_structural"],
-#     secondary_skills=["framing_wood", "finish_carpentry", "door_installation"],
-#     trade_categories=["carpentry", "welding"],
-#     experience_years=7.5,
-#     skill_levels={
-#         "framing_steel": 8,
-#         "structural_steel_erection": 9,
-#         "welding_structural": 8,
-#     },
-#     work_preferences=["teamwork", "height_work", "physical_work", "outdoor"],
-#     equipment_mastery=["mig_welder", "plasma_cutter", "crane_mobile", "safety_harness"],
-#     certifications=["structural_welding", "fall_protection", "osha_10"],
-#     safety_training=[
-#         "steel_erection_safety",
-#         "welding_safety",
-#         "fall_protection_basic",
-#         "rigging_safety",
-#     ],
-# )
+create_user(
+    first_name="Carlos",
+    last_name="Garcia",
+    email="c.garcia@hoverpark.com",
+    password="Frame24!",
+    phone="+1-720-555-0106",
+    address="789 Cedar Lane, Hoverville, CO 80424",
+    role="worker",
+    role_description="Structural welder and carpenter specialized in height work, steel erection and metal structure welding.",
+    hire_date="2019-11-20",
+    primary_skills=["framing_steel", "structural_steel_erection", "welding_structural"],
+    secondary_skills=["framing_wood", "finish_carpentry", "door_installation"],
+    trade_categories=["carpentry", "welding"],
+    experience_years=7.5,
+    skill_levels={
+        "framing_steel": 8,
+        "structural_steel_erection": 9,
+        "welding_structural": 8,
+    },
+    work_preferences=["teamwork", "height_work", "physical_work", "outdoor"],
+    equipment_mastery=["mig_welder", "plasma_cutter", "crane_mobile", "safety_harness"],
+    certifications=["structural_welding", "fall_protection", "osha_10"],
+    safety_training=[
+        "steel_erection_safety",
+        "welding_safety",
+        "fall_protection_basic",
+        "rigging_safety",
+    ],
+)
 
-# create_user(
-#     first_name="Lisa",
-#     last_name="Anderson",
-#     email="l.anderson@hoverpark.com",
-#     password="Paint24!",
-#     phone="+1-720-555-0107",
-#     address="321 Birch Road, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Painter specialized in high-quality commercial finishes with expertise in spray painting and surface preparation for premium projects.",
-#     hire_date="2020-06-10",
-#     primary_skills=["interior_painting", "exterior_painting", "spray_painting"],
-#     secondary_skills=[
-#         "surface_preparation",
-#         "texture_application",
-#         "decorative_painting",
-#     ],
-#     trade_categories=["painting"],
-#     experience_years=5.5,
-#     skill_levels={"interior_painting": 8, "exterior_painting": 7, "spray_painting": 9},
-#     work_preferences=[
-#         "detail_oriented",
-#         "quality_focused",
-#         "solo_work",
-#         "methodical_work",
-#     ],
-#     equipment_mastery=["spray_gun", "pressure_washer", "sanders", "scaffolding"],
-#     certifications=["osha_10"],
-#     safety_training=[
-#         "chemical_safety",
-#         "respiratory_protection",
-#         "fall_protection_basic",
-#         "ppe_training",
-#     ],
-# )
+create_user(
+    first_name="Lisa",
+    last_name="Anderson",
+    email="l.anderson@hoverpark.com",
+    password="Paint24!",
+    phone="+1-720-555-0107",
+    address="321 Birch Road, Hoverville, CO 80424",
+    role="worker",
+    role_description="Painter specialized in high-quality commercial finishes with expertise in spray painting and surface preparation for premium projects.",
+    hire_date="2020-06-10",
+    primary_skills=["interior_painting", "exterior_painting", "spray_painting"],
+    secondary_skills=[
+        "surface_preparation",
+        "texture_application",
+        "decorative_painting",
+    ],
+    trade_categories=["painting"],
+    experience_years=5.5,
+    skill_levels={"interior_painting": 8, "exterior_painting": 7, "spray_painting": 9},
+    work_preferences=[
+        "detail_oriented",
+        "quality_focused",
+        "solo_work",
+        "methodical_work",
+    ],
+    equipment_mastery=["spray_gun", "pressure_washer", "sanders", "scaffolding"],
+    certifications=["osha_10"],
+    safety_training=[
+        "chemical_safety",
+        "respiratory_protection",
+        "fall_protection_basic",
+        "ppe_training",
+    ],
+)
 
-# create_user(
-#     first_name="Kevin",
-#     last_name="Brown",
-#     email="k.brown@hoverpark.com",
-#     password="Floor24!",
-#     phone="+1-720-555-0108",
-#     address="654 Elm Street, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Flooring specialist with expertise in ceramic tile, hardwood flooring and surface preparation for precision finishes.",
-#     hire_date="2018-12-05",
-#     primary_skills=["tile_installation_ceramic", "hardwood_flooring", "vinyl_flooring"],
-#     secondary_skills=["subfloor_preparation", "floor_leveling", "stone_flooring"],
-#     trade_categories=["flooring"],
-#     experience_years=8.0,
-#     skill_levels={
-#         "tile_installation_ceramic": 9,
-#         "hardwood_flooring": 7,
-#         "vinyl_flooring": 8,
-#     },
-#     work_preferences=[
-#         "precision_work",
-#         "detail_oriented",
-#         "quality_focused",
-#         "kneeling_work",
-#     ],
-#     equipment_mastery=["tile_saw", "floor_sanders", "laser_level", "moisture_meter"],
-#     certifications=["osha_10"],
-#     safety_training=[
-#         "dust_control",
-#         "ergonomics_training",
-#         "lifting_techniques",
-#         "knee_protection",
-#     ],
-# )
+create_user(
+    first_name="Kevin",
+    last_name="Brown",
+    email="k.brown@hoverpark.com",
+    password="Floor24!",
+    phone="+1-720-555-0108",
+    address="654 Elm Street, Hoverville, CO 80424",
+    role="worker",
+    role_description="Flooring specialist with expertise in ceramic tile, hardwood flooring and surface preparation for precision finishes.",
+    hire_date="2018-12-05",
+    primary_skills=["tile_installation_ceramic", "hardwood_flooring", "vinyl_flooring"],
+    secondary_skills=["subfloor_preparation", "floor_leveling", "stone_flooring"],
+    trade_categories=["flooring"],
+    experience_years=8.0,
+    skill_levels={
+        "tile_installation_ceramic": 9,
+        "hardwood_flooring": 7,
+        "vinyl_flooring": 8,
+    },
+    work_preferences=[
+        "precision_work",
+        "detail_oriented",
+        "quality_focused",
+        "kneeling_work",
+    ],
+    equipment_mastery=["tile_saw", "floor_sanders", "laser_level", "moisture_meter"],
+    certifications=["osha_10"],
+    safety_training=[
+        "dust_control",
+        "ergonomics_training",
+        "lifting_techniques",
+        "knee_protection",
+    ],
+)
 
-# create_user(
-#     first_name="Angela",
-#     last_name="Davis",
-#     email="a.davis@hoverpark.com",
-#     password="Roof24!",
-#     phone="+1-720-555-0109",
-#     address="987 Spruce Circle, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Roofing expert in metal roofing and waterproofing, specialized in height work and waterproofing membrane systems.",
-#     hire_date="2019-03-25",
-#     primary_skills=["metal_roofing", "roof_repair", "waterproofing_membrane"],
-#     secondary_skills=[
-#         "shingle_installation",
-#         "gutter_installation",
-#         "skylight_installation",
-#     ],
-#     trade_categories=["roofing"],
-#     experience_years=6.5,
-#     skill_levels={"metal_roofing": 8, "roof_repair": 9, "waterproofing_membrane": 7},
-#     work_preferences=["height_work", "outdoor", "weather_dependent", "physical_work"],
-#     equipment_mastery=[
-#         "roofing_nailer",
-#         "membrane_welder",
-#         "safety_harness",
-#         "torch_roofing",
-#     ],
-#     certifications=["fall_protection", "osha_10"],
-#     safety_training=[
-#         "roofing_safety",
-#         "fall_protection_basic",
-#         "weather_safety",
-#         "height_work_training",
-#     ],
-# )
+create_user(
+    first_name="Angela",
+    last_name="Davis",
+    email="a.davis@hoverpark.com",
+    password="Roof24!",
+    phone="+1-720-555-0109",
+    address="987 Spruce Circle, Hoverville, CO 80424",
+    role="worker",
+    role_description="Roofing expert in metal roofing and waterproofing, specialized in height work and waterproofing membrane systems.",
+    hire_date="2019-03-25",
+    primary_skills=["metal_roofing", "roof_repair", "waterproofing_membrane"],
+    secondary_skills=[
+        "shingle_installation",
+        "gutter_installation",
+        "skylight_installation",
+    ],
+    trade_categories=["roofing"],
+    experience_years=6.5,
+    skill_levels={"metal_roofing": 8, "roof_repair": 9, "waterproofing_membrane": 7},
+    work_preferences=["height_work", "outdoor", "weather_dependent", "physical_work"],
+    equipment_mastery=[
+        "roofing_nailer",
+        "membrane_welder",
+        "safety_harness",
+        "torch_roofing",
+    ],
+    certifications=["fall_protection", "osha_10"],
+    safety_training=[
+        "roofing_safety",
+        "fall_protection_basic",
+        "weather_safety",
+        "height_work_training",
+    ],
+)
 
-# # JUNIOR WORKER
-# create_user(
-#     first_name="Tyler",
-#     last_name="Johnson",
-#     email="t.johnson@hoverpark.com",
-#     password="Helper24!",
-#     phone="+1-720-555-0110",
-#     address="159 Aspen Way, Hoverville, CO 80424",
-#     role="worker",
-#     role_description="Versatile apprentice assistant for general labor, material handling and support to specialized teams with focus on learning.",
-#     hire_date="2024-10-01",
-#     primary_skills=["general_labor", "material_handling", "tool_assistance"],
-#     secondary_skills=["site_cleanup", "equipment_maintenance", "scaffolding_erection"],
-#     trade_categories=["general"],
-#     experience_years=0.2,
-#     skill_levels={"general_labor": 5, "material_handling": 6, "tool_assistance": 5},
-#     work_preferences=["learning_focused", "teamwork", "varied_tasks", "physical_work"],
-#     equipment_mastery=["hand_truck", "wheelbarrow", "basic_hand_tools", "power_drill"],
-#     certifications=["osha_10"],
-#     safety_training=[
-#         "construction_safety_orientation",
-#         "ppe_training",
-#         "lifting_techniques",
-#         "basic_tool_safety",
-#     ],
-# )
+# JUNIOR WORKER
+create_user(
+    first_name="Tyler",
+    last_name="Johnson",
+    email="t.johnson@hoverpark.com",
+    password="Helper24!",
+    phone="+1-720-555-0110",
+    address="159 Aspen Way, Hoverville, CO 80424",
+    role="worker",
+    role_description="Versatile apprentice assistant for general labor, material handling and support to specialized teams with focus on learning.",
+    hire_date="2024-10-01",
+    primary_skills=["general_labor", "material_handling", "tool_assistance"],
+    secondary_skills=["site_cleanup", "equipment_maintenance", "scaffolding_erection"],
+    trade_categories=["general"],
+    experience_years=0.2,
+    skill_levels={"general_labor": 5, "material_handling": 6, "tool_assistance": 5},
+    work_preferences=["learning_focused", "teamwork", "varied_tasks", "physical_work"],
+    equipment_mastery=["hand_truck", "wheelbarrow", "basic_hand_tools", "power_drill"],
+    certifications=["osha_10"],
+    safety_training=[
+        "construction_safety_orientation",
+        "ppe_training",
+        "lifting_techniques",
+        "basic_tool_safety",
+    ],
+)
 
 # =============================================================================
 # TASKS CREATION COMMANDS
@@ -429,7 +430,7 @@ create_task(
     floor=0,
     building_section="Retail Building",
     zone_type="structural",
-    assigned_workers=["3"],  # Michael Rodriguez
+    assigned_workers=[3],  # Michael Rodriguez
     required_worker_count=1,
     skill_requirements=[
         "excavator_operation",
@@ -438,7 +439,7 @@ create_task(
     ],
     trade_category="excavation",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="completed",
     start_date="2025-09-02",
@@ -447,8 +448,8 @@ create_task(
     max_estimated_hours=28.0,
     actual_hours=24.0,
     completion_percentage=100,
-    dependencies=["1"],
-    blocks_tasks=["5"],
+    dependencies=[1],
+    blocks_tasks=[5],
     required_materials=[{"material": "gravel_base", "quantity": 15, "unit": "yards"}],
     required_equipment=["excavator", "dump_truck", "compactor"],
     weather_dependent=True,
@@ -464,7 +465,7 @@ create_task(
     floor=0,
     building_section="Restaurant",
     zone_type="structural",
-    assigned_workers=["3"],  # Michael Rodriguez
+    assigned_workers=[3],  # Michael Rodriguez
     required_worker_count=1,
     skill_requirements=[
         "excavator_operation",
@@ -473,7 +474,7 @@ create_task(
     ],
     trade_category="excavation",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="completed",
     start_date="2025-09-03",
@@ -482,8 +483,8 @@ create_task(
     max_estimated_hours=22.0,
     actual_hours=18.5,
     completion_percentage=100,
-    dependencies=["1"],
-    blocks_tasks=["6"],
+    dependencies=[1],
+    blocks_tasks=[6],
     required_materials=[{"material": "gravel_base", "quantity": 8, "unit": "yards"}],
     required_equipment=["excavator", "compactor", "laser_level"],
     weather_dependent=True,
@@ -499,7 +500,7 @@ create_task(
     floor=0,
     building_section="Car Wash",
     zone_type="structural",
-    assigned_workers=["3"],  # Michael Rodriguez
+    assigned_workers=[3],  # Michael Rodriguez
     required_worker_count=1,
     skill_requirements=[
         "excavator_operation",
@@ -508,7 +509,7 @@ create_task(
     ],
     trade_category="excavation",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="in_progress",
     start_date="2025-09-04",
@@ -517,8 +518,8 @@ create_task(
     max_estimated_hours=18.0,
     actual_hours=12.0,
     completion_percentage=75,
-    dependencies=["1"],
-    blocks_tasks=["7"],
+    dependencies=[1],
+    blocks_tasks=[7],
     required_materials=[{"material": "gravel_base", "quantity": 6, "unit": "yards"}],
     required_equipment=["excavator", "compactor", "drainage_pipe"],
     weather_dependent=True,
@@ -536,7 +537,7 @@ create_task(
     floor=0,
     building_section="Retail Building",
     zone_type="structural",
-    assigned_workers=["3", "6"],  # Michael Rodriguez, Carlos Garcia
+    assigned_workers=[3, 6],  # Michael Rodriguez, Carlos Garcia
     required_worker_count=2,
     skill_requirements=[
         "concrete_pouring",
@@ -545,7 +546,7 @@ create_task(
     ],
     trade_category="concrete",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=3,
     status="completed",
     start_date="2025-09-05",
@@ -554,8 +555,8 @@ create_task(
     max_estimated_hours=40.0,
     actual_hours=36.0,
     completion_percentage=100,
-    dependencies=["2"],
-    blocks_tasks=["8"],
+    dependencies=[2],
+    blocks_tasks=[8],
     required_materials=[
         {"material": "concrete", "quantity": 45, "unit": "cubic_yards"},
         {"material": "rebar", "quantity": 2400, "unit": "pounds"},
@@ -579,7 +580,7 @@ create_task(
     floor=0,
     building_section="Restaurant",
     zone_type="structural",
-    assigned_workers=["3", "6"],  # Michael Rodriguez, Carlos Garcia
+    assigned_workers=[3, 6],  # Michael Rodriguez, Carlos Garcia
     required_worker_count=2,
     skill_requirements=[
         "concrete_pouring",
@@ -588,7 +589,7 @@ create_task(
     ],
     trade_category="concrete",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=3,
     status="completed",
     start_date="2025-09-06",
@@ -597,8 +598,8 @@ create_task(
     max_estimated_hours=30.0,
     actual_hours=27.5,
     completion_percentage=100,
-    dependencies=["3"],
-    blocks_tasks=["9"],
+    dependencies=[3],
+    blocks_tasks=[9],
     required_materials=[
         {"material": "concrete", "quantity": 28, "unit": "cubic_yards"},
         {"material": "rebar", "quantity": 1800, "unit": "pounds"},
@@ -618,7 +619,7 @@ create_task(
     floor=0,
     building_section="Car Wash",
     zone_type="structural",
-    assigned_workers=["3", "6"],  # Michael Rodriguez, Carlos Garcia
+    assigned_workers=[3, 6],  # Michael Rodriguez, Carlos Garcia
     required_worker_count=2,
     skill_requirements=[
         "concrete_pouring",
@@ -627,17 +628,17 @@ create_task(
     ],
     trade_category="concrete",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=3,
-    status="blocked",
+    status="pending",
     start_date="2025-09-07",
     due_date="2025-09-09",
     min_estimated_hours=20.0,
     max_estimated_hours=26.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["4"],
-    blocks_tasks=["10"],
+    dependencies=[4],
+    blocks_tasks=[10],
     required_materials=[
         {
             "material": "chemical_resistant_concrete",
@@ -662,7 +663,7 @@ create_task(
     floor=1,
     building_section="Retail Building",
     zone_type="structural",
-    assigned_workers=["6", "3"],  # Carlos Garcia (lead), Michael Rodriguez (crane)
+    assigned_workers=[6, 3],  # Carlos Garcia (lead), Michael Rodriguez (crane)
     required_worker_count=2,
     skill_requirements=[
         "structural_steel_erection",
@@ -671,7 +672,7 @@ create_task(
     ],
     trade_category="steel_erection",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=3,
     status="completed",
     start_date="2025-09-09",
@@ -680,8 +681,8 @@ create_task(
     max_estimated_hours=56.0,
     actual_hours=52.0,
     completion_percentage=100,
-    dependencies=["5"],
-    blocks_tasks=["11", "12"],
+    dependencies=[5],
+    blocks_tasks=[11, 12],
     required_materials=[
         {"material": "structural_steel", "quantity": 25, "unit": "tons"},
         {"material": "bolts", "quantity": 500, "unit": "pieces"},
@@ -701,7 +702,7 @@ create_task(
     floor=1,
     building_section="Restaurant",
     zone_type="structural",
-    assigned_workers=["6", "3"],  # Carlos Garcia, Michael Rodriguez
+    assigned_workers=[6, 3],  # Carlos Garcia, Michael Rodriguez
     required_worker_count=2,
     skill_requirements=[
         "structural_steel_erection",
@@ -710,7 +711,7 @@ create_task(
     ],
     trade_category="steel_erection",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="completed",
     start_date="2025-09-10",
@@ -719,8 +720,8 @@ create_task(
     max_estimated_hours=44.0,
     actual_hours=40.0,
     completion_percentage=100,
-    dependencies=["6"],
-    blocks_tasks=["13"],
+    dependencies=[6],
+    blocks_tasks=[13],
     required_materials=[
         {"material": "structural_steel", "quantity": 18, "unit": "tons"},
         {"material": "kitchen_support_steel", "quantity": 3, "unit": "tons"},
@@ -748,7 +749,7 @@ create_task(
     ],
     trade_category="steel_erection",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="pending",
     start_date="2025-09-14",
@@ -757,8 +758,8 @@ create_task(
     max_estimated_hours=36.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["7"],
-    blocks_tasks=["14"],
+    dependencies=[7],
+    blocks_tasks=[14],
     required_materials=[
         {"material": "galvanized_steel", "quantity": 12, "unit": "tons"},
         {"material": "stainless_fasteners", "quantity": 200, "unit": "pieces"},
@@ -779,7 +780,7 @@ create_task(
     floor=1,
     building_section="Retail Building",
     zone_type="electrical",
-    assigned_workers=["2", "4"],  # Sarah Thompson (lead), David Chen
+    assigned_workers=[2, 4],  # Sarah Thompson (lead), David Chen
     required_worker_count=2,
     skill_requirements=[
         "electrical_installation",
@@ -788,7 +789,7 @@ create_task(
     ],
     trade_category="electrical",
     created_by="project_manager",
-    supervisor_id="2",
+    supervisor_id=2,
     priority=2,
     status="in_progress",
     start_date="2025-09-11",
@@ -797,8 +798,8 @@ create_task(
     max_estimated_hours=72.0,
     actual_hours=35.0,
     completion_percentage=60,
-    dependencies=["8"],
-    blocks_tasks=["15"],
+    dependencies=[8],
+    blocks_tasks=[15],
     required_materials=[
         {"material": "electrical_conduit", "quantity": 800, "unit": "feet"},
         {"material": "electrical_wire", "quantity": 2500, "unit": "feet"},
@@ -818,7 +819,7 @@ create_task(
     floor=1,
     building_section="Restaurant",
     zone_type="electrical",
-    assigned_workers=["2", "4"],  # Sarah Thompson, David Chen
+    assigned_workers=[2, 4],  # Sarah Thompson, David Chen
     required_worker_count=2,
     skill_requirements=[
         "electrical_installation",
@@ -827,7 +828,7 @@ create_task(
     ],
     trade_category="electrical",
     created_by="project_manager",
-    supervisor_id="2",
+    supervisor_id=2,
     priority=3,
     status="in_progress",
     start_date="2025-09-12",
@@ -836,8 +837,8 @@ create_task(
     max_estimated_hours=60.0,
     actual_hours=20.0,
     completion_percentage=40,
-    dependencies=["9"],
-    blocks_tasks=["16"],
+    dependencies=[9],
+    blocks_tasks=[16],
     required_materials=[
         {"material": "heavy_duty_conduit", "quantity": 400, "unit": "feet"},
         {"material": "kitchen_grade_wire", "quantity": 1200, "unit": "feet"},
@@ -866,7 +867,7 @@ create_task(
     ],
     trade_category="electrical",
     created_by="project_manager",
-    supervisor_id="2",
+    supervisor_id=2,
     priority=2,
     status="pending",
     start_date="2025-09-16",
@@ -875,8 +876,8 @@ create_task(
     max_estimated_hours=50.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["10"],
-    blocks_tasks=["17"],
+    dependencies=[10],
+    blocks_tasks=[17],
     required_materials=[
         {"material": "waterproof_conduit", "quantity": 300, "unit": "feet"},
         {"material": "chemical_resistant_wire", "quantity": 800, "unit": "feet"},
@@ -902,7 +903,7 @@ create_task(
     floor=1,
     building_section="Retail Building",
     zone_type="plumbing",
-    assigned_workers=["5"],  # James Wilson
+    assigned_workers=[5],  # James Wilson
     required_worker_count=1,
     skill_requirements=[
         "plumbing_installation",
@@ -911,7 +912,7 @@ create_task(
     ],
     trade_category="plumbing",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="completed",
     start_date="2025-09-13",
@@ -920,8 +921,8 @@ create_task(
     max_estimated_hours=40.0,
     actual_hours=36.0,
     completion_percentage=100,
-    dependencies=["11"],
-    blocks_tasks=["18"],
+    dependencies=[11],
+    blocks_tasks=[18],
     required_materials=[
         {"material": "pvc_pipe", "quantity": 400, "unit": "feet"},
         {"material": "copper_pipe", "quantity": 200, "unit": "feet"},
@@ -941,7 +942,7 @@ create_task(
     floor=1,
     building_section="Restaurant",
     zone_type="plumbing",
-    assigned_workers=["5"],  # James Wilson
+    assigned_workers=[5],  # James Wilson
     required_worker_count=1,
     skill_requirements=[
         "commercial_kitchen_plumbing",
@@ -950,7 +951,7 @@ create_task(
     ],
     trade_category="plumbing",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=3,
     status="in_progress",
     start_date="2025-09-15",
@@ -959,8 +960,8 @@ create_task(
     max_estimated_hours=50.0,
     actual_hours=25.0,
     completion_percentage=60,
-    dependencies=["13"],
-    blocks_tasks=["19"],
+    dependencies=[13],
+    blocks_tasks=[19],
     required_materials=[
         {"material": "grease_trap", "quantity": 1, "unit": "pieces"},
         {"material": "commercial_drains", "quantity": 6, "unit": "pieces"},
@@ -989,7 +990,7 @@ create_task(
     ],
     trade_category="plumbing",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="pending",
     start_date="2025-09-18",
@@ -998,8 +999,8 @@ create_task(
     max_estimated_hours=45.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["14"],
-    blocks_tasks=["20"],
+    dependencies=[14],
+    blocks_tasks=[20],
     required_materials=[
         {"material": "water_treatment_system", "quantity": 1, "unit": "pieces"},
         {"material": "reclaim_pumps", "quantity": 3, "unit": "pieces"},
@@ -1021,12 +1022,12 @@ create_task(
     floor=2,
     building_section="Retail Building",
     zone_type="roofing",
-    assigned_workers=["9"],  # Angela Davis
+    assigned_workers=[9],  # Angela Davis
     required_worker_count=1,
     skill_requirements=["metal_roofing", "waterproofing_membrane", "roof_insulation"],
     trade_category="roofing",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="completed",
     start_date="2025-09-16",
@@ -1035,8 +1036,8 @@ create_task(
     max_estimated_hours=56.0,
     actual_hours=52.0,
     completion_percentage=100,
-    dependencies=["11"],
-    blocks_tasks=["21"],
+    dependencies=[11],
+    blocks_tasks=[21],
     required_materials=[
         {"material": "metal_roofing_panels", "quantity": 3500, "unit": "sq_feet"},
         {"material": "insulation", "quantity": 3500, "unit": "sq_feet"},
@@ -1053,43 +1054,6 @@ create_task(
     notes="Metal roofing installation completed. All seams properly sealed and tested.",
 )
 
-create_task(
-    title="Restaurant Roofing with Kitchen Ventilation Penetrations",
-    description="Install restaurant roofing with integrated kitchen hood penetrations and grease exhaust systems.",
-    room="REST-ROOF",
-    floor=2,
-    building_section="Restaurant",
-    zone_type="roofing",
-    assigned_workers=["9"],  # Angela Davis
-    required_worker_count=1,
-    skill_requirements=[
-        "metal_roofing",
-        "ventilation_penetrations",
-        "grease_exhaust_integration",
-    ],
-    trade_category="roofing",
-    created_by="project_manager",
-    supervisor_id="1",
-    priority=3,
-    status="canceled",
-    start_date="2025-09-18",
-    due_date="2025-09-22",
-    min_estimated_hours=36.0,
-    max_estimated_hours=44.0,
-    actual_hours=8.0,
-    completion_percentage=15,
-    dependencies=["13"],
-    blocks_tasks=["22"],
-    required_materials=[
-        {"material": "metal_roofing_panels", "quantity": 2200, "unit": "sq_feet"},
-        {"material": "kitchen_hood_curbs", "quantity": 2, "unit": "pieces"},
-    ],
-    required_equipment=["metal_cutting_tools", "penetration_sealing_equipment"],
-    weather_dependent=True,
-    noise_level="high",
-    safety_requirements=["fall_protection", "ventilation_safety"],
-    notes="CANCELED: Kitchen hood design changes require roof structure modifications. Rescheduling pending engineering review.",
-)
 
 create_task(
     title="Car Wash Canopy Structure Installation",
@@ -1107,7 +1071,7 @@ create_task(
     ],
     trade_category="steel_erection",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="pending",
     start_date="2025-09-20",
@@ -1116,8 +1080,8 @@ create_task(
     max_estimated_hours=38.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["14"],
-    blocks_tasks=["23"],
+    dependencies=[14],
+    blocks_tasks=[23],
     required_materials=[
         {"material": "canopy_steel", "quantity": 8, "unit": "tons"},
         {"material": "roofing_membrane", "quantity": 1200, "unit": "sq_feet"},
@@ -1139,12 +1103,12 @@ create_task(
     floor=1,
     building_section="Retail Building",
     zone_type="interior",
-    assigned_workers=["6", "10"],  # Carlos Garcia, Tyler Johnson
+    assigned_workers=[6, 10],  # Carlos Garcia, Tyler Johnson
     required_worker_count=2,
     skill_requirements=["framing_wood", "drywall_installation", "interior_layout"],
     trade_category="carpentry",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="in_progress",
     start_date="2025-09-19",
@@ -1153,8 +1117,8 @@ create_task(
     max_estimated_hours=72.0,
     actual_hours=30.0,
     completion_percentage=45,
-    dependencies=["15", "18"],
-    blocks_tasks=["24"],
+    dependencies=[15, 18],
+    blocks_tasks=[24],
     required_materials=[
         {"material": "wood_framing", "quantity": 800, "unit": "linear_feet"},
         {"material": "drywall", "quantity": 4000, "unit": "sq_feet"},
@@ -1174,7 +1138,7 @@ create_task(
     floor=1,
     building_section="Restaurant",
     zone_type="interior",
-    assigned_workers=["6"],  # Carlos Garcia
+    assigned_workers=[6],  # Carlos Garcia
     required_worker_count=1,
     skill_requirements=[
         "commercial_interior_framing",
@@ -1183,7 +1147,7 @@ create_task(
     ],
     trade_category="carpentry",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=3,
     status="in_progress",
     start_date="2025-09-21",
@@ -1192,8 +1156,8 @@ create_task(
     max_estimated_hours=55.0,
     actual_hours=15.0,
     completion_percentage=25,
-    dependencies=["16", "19"],
-    blocks_tasks=["25"],
+    dependencies=[16, 19],
+    blocks_tasks=[25],
     required_materials=[
         {"material": "commercial_framing", "quantity": 400, "unit": "linear_feet"},
         {"material": "fire_rated_drywall", "quantity": 1800, "unit": "sq_feet"},
@@ -1213,12 +1177,12 @@ create_task(
     floor=1,
     building_section="Retail Building",
     zone_type="interior",
-    assigned_workers=["7"],  # Lisa Anderson
+    assigned_workers=[7],  # Lisa Anderson
     required_worker_count=1,
     skill_requirements=["interior_painting", "commercial_painting", "spray_painting"],
     trade_category="painting",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=1,
     status="completed",
     start_date="2025-09-23",
@@ -1227,8 +1191,8 @@ create_task(
     max_estimated_hours=48.0,
     actual_hours=44.0,
     completion_percentage=100,
-    dependencies=["21"],
-    blocks_tasks=["26"],
+    dependencies=[21],
+    blocks_tasks=[26],
     required_materials=[
         {"material": "primer", "quantity": 15, "unit": "gallons"},
         {"material": "interior_paint", "quantity": 20, "unit": "gallons"},
@@ -1248,7 +1212,7 @@ create_task(
     floor=1,
     building_section="Retail Building",
     zone_type="flooring",
-    assigned_workers=["8"],  # Kevin Brown
+    assigned_workers=[8],  # Kevin Brown
     required_worker_count=1,
     skill_requirements=[
         "polished_concrete",
@@ -1257,7 +1221,7 @@ create_task(
     ],
     trade_category="flooring",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=2,
     status="in_progress",
     start_date="2025-09-24",
@@ -1266,8 +1230,8 @@ create_task(
     max_estimated_hours=60.0,
     actual_hours=25.0,
     completion_percentage=40,
-    dependencies=["24"],
-    blocks_tasks=["27"],
+    dependencies=[24],
+    blocks_tasks=[27],
     required_materials=[
         {"material": "concrete_polish", "quantity": 500, "unit": "sq_feet"},
         {"material": "ceramic_tile", "quantity": 400, "unit": "sq_feet"},
@@ -1289,7 +1253,7 @@ create_task(
     floor=1,
     building_section="Retail Building",
     zone_type="electrical",
-    assigned_workers=["4"],  # David Chen
+    assigned_workers=[4],  # David Chen
     required_worker_count=1,
     skill_requirements=[
         "lighting_installation",
@@ -1298,7 +1262,7 @@ create_task(
     ],
     trade_category="electrical",
     created_by="project_manager",
-    supervisor_id="2",
+    supervisor_id=2,
     priority=2,
     status="pending",
     start_date="2025-09-26",
@@ -1307,8 +1271,8 @@ create_task(
     max_estimated_hours=40.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["26"],
-    blocks_tasks=["28"],
+    dependencies=[26],
+    blocks_tasks=[],
     required_materials=[
         {"material": "led_fixtures", "quantity": 40, "unit": "pieces"},
         {"material": "electrical_devices", "quantity": 60, "unit": "pieces"},
@@ -1337,7 +1301,7 @@ create_task(
     ],
     trade_category="mechanical",
     created_by="project_manager",
-    supervisor_id="1",
+    supervisor_id=1,
     priority=3,
     status="pending",
     start_date="2025-09-27",
@@ -1346,8 +1310,8 @@ create_task(
     max_estimated_hours=50.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["25"],
-    blocks_tasks=["29"],
+    dependencies=[25],
+    blocks_tasks=[],
     required_materials=[
         {"material": "fire_suppression_system", "quantity": 1, "unit": "set"},
         {"material": "kitchen_equipment_connections", "quantity": 8, "unit": "pieces"},
@@ -1361,13 +1325,170 @@ create_task(
 )
 
 create_task(
+    title="Restaurant Kitchen Hood and Ventilation Installation",
+    description="Install commercial kitchen hood system, exhaust fans, and ventilation ductwork for restaurant operations.",
+    room="REST-KITCHEN-HOOD",
+    floor=1,
+    building_section="Restaurant",
+    zone_type="mechanical",
+    assigned_workers=[5],  # James Wilson
+    required_worker_count=1,
+    skill_requirements=[
+        "hvac_installation",
+        "ventilation_systems",
+        "commercial_kitchen_ventilation",
+    ],
+    trade_category="hvac",
+    created_by="project_manager",
+    supervisor_id=1,
+    priority=2,
+    status="pending",
+    start_date="2025-09-18",
+    due_date="2025-09-21",
+    min_estimated_hours=20.0,
+    max_estimated_hours=28.0,
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=[16],
+    blocks_tasks=[],
+    required_materials=[
+        {"material": "kitchen_hood", "quantity": 1, "unit": "pieces"},
+        {"material": "exhaust_fan", "quantity": 2, "unit": "pieces"},
+        {"material": "ductwork", "quantity": 80, "unit": "linear_feet"},
+    ],
+    required_equipment=["ductwork_tools", "ventilation_equipment"],
+    weather_dependent=False,
+    noise_level="high",
+    safety_requirements=["ventilation_safety", "kitchen_equipment_safety"],
+    notes="Kitchen hood system required for health department approval.",
+)
+
+create_task(
+    title="Car Wash Equipment Installation and Testing",
+    description="Install car wash machinery, water recycling systems, and test all automated equipment for proper operation.",
+    room="WASH-EQUIPMENT",
+    floor=1,
+    building_section="Car Wash",
+    zone_type="mechanical",
+    assigned_workers=[],  # UNASSIGNED
+    required_worker_count=2,
+    skill_requirements=[
+        "equipment_installation",
+        "water_system_installation",
+        "automated_systems",
+        "equipment_testing",
+    ],
+    trade_category="mechanical",
+    created_by="project_manager",
+    supervisor_id=1,
+    priority=2,
+    status="pending",
+    start_date="2025-09-22",
+    due_date="2025-09-26",
+    min_estimated_hours=32.0,
+    max_estimated_hours=40.0,
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=[17, 20],
+    blocks_tasks=[],
+    required_materials=[
+        {"material": "wash_equipment", "quantity": 1, "unit": "set"},
+        {"material": "water_recycling_system", "quantity": 1, "unit": "pieces"},
+        {"material": "control_systems", "quantity": 1, "unit": "set"},
+    ],
+    required_equipment=["heavy_lifting_equipment", "testing_equipment"],
+    weather_dependent=False,
+    noise_level="high",
+    safety_requirements=["equipment_safety", "water_system_safety"],
+    notes="PENDING ASSIGNMENT: Car wash equipment delivered. Requires specialized installation team.",
+)
+
+create_task(
+    title="Parking Lot and Site Landscaping",
+    description="Complete parking lot paving, striping, landscaping, and site finishing work for all three buildings.",
+    room="SITE-PARKING",
+    floor=0,
+    building_section="Site Wide",
+    zone_type="exterior",
+    assigned_workers=[],  # UNASSIGNED
+    required_worker_count=2,
+    skill_requirements=[
+        "paving_asphalt",
+        "line_striping",
+        "landscaping_installation",
+        "site_finishing",
+    ],
+    trade_category="landscaping",
+    created_by="project_manager",
+    supervisor_id=1,
+    priority=1,
+    status="pending",
+    start_date="2025-09-26",
+    due_date="2025-09-29",
+    min_estimated_hours=24.0,
+    max_estimated_hours=32.0,
+    actual_hours=0.0,
+    completion_percentage=0,
+    dependencies=[17, 25, 26],
+    blocks_tasks=[],
+    required_materials=[
+        {"material": "asphalt", "quantity": 200, "unit": "tons"},
+        {"material": "parking_lot_paint", "quantity": 15, "unit": "gallons"},
+        {"material": "landscaping_plants", "quantity": 50, "unit": "pieces"},
+    ],
+    required_equipment=["paving_equipment", "striping_equipment", "landscaping_tools"],
+    weather_dependent=True,
+    noise_level="high",
+    safety_requirements=["paving_safety", "traffic_control"],
+    notes="PENDING ASSIGNMENT: Final site work to complete project.",
+)
+
+create_task(
+    title="Restaurant Roofing with Kitchen Ventilation Penetrations",
+    description="Install restaurant roofing with integrated kitchen hood penetrations and grease exhaust systems.",
+    room="REST-ROOF",
+    floor=2,
+    building_section="Restaurant",
+    zone_type="roofing",
+    assigned_workers=[9],  # Angela Davis
+    required_worker_count=1,
+    skill_requirements=[
+        "metal_roofing",
+        "ventilation_penetrations",
+        "grease_exhaust_integration",
+    ],
+    trade_category="roofing",
+    created_by=1,
+    supervisor_id=1,
+    priority=3,
+    status="pending",
+    start_date="2025-09-18",
+    due_date="2025-09-22",
+    min_estimated_hours=36.0,
+    max_estimated_hours=44.0,
+    actual_hours=8.0,
+    completion_percentage=15,
+    dependencies=[9],
+    blocks_tasks=[],
+    required_materials=[
+        {"material": "metal_roofing_panels", "quantity": 2200, "unit": "sq_feet"},
+        {"material": "kitchen_hood_curbs", "quantity": 2, "unit": "pieces"},
+    ],
+    required_equipment=["metal_cutting_tools", "penetration_sealing_equipment"],
+    weather_dependent=True,
+    noise_level="high",
+    safety_requirements=["fall_protection", "ventilation_safety"],
+    notes="CANCELED: Kitchen hood design changes require roof structure modifications. Rescheduling pending engineering review.",
+)
+
+create_task(
     title="Site Final Inspection and Cleanup",
     description="Conduct final site inspection, complete punch list items, and perform comprehensive site cleanup.",
     room="SITE-FINAL",
     floor=0,
     building_section="Site Wide",
     zone_type="general",
-    assigned_workers=["1", "10"],  # Robert Martinez, Tyler Johnson
+    assigned_workers=[1, 10],  # Robert Martinez, Tyler Johnson
     required_worker_count=2,
     skill_requirements=[
         "quality_control_inspection",
@@ -1375,17 +1496,17 @@ create_task(
         "final_documentation",
     ],
     trade_category="management",
-    created_by="project_manager",
-    supervisor_id="1",
+    created_by=1,
+    supervisor_id=1,
     priority=3,
     status="pending",
     start_date="2025-09-30",
-    due_date="2025-09-30",
+    due_date="2025-10-01",
     min_estimated_hours=16.0,
     max_estimated_hours=24.0,
     actual_hours=0.0,
     completion_percentage=0,
-    dependencies=["27", "28"],
+    dependencies=[27],
     blocks_tasks=[],
     required_materials=[
         {"material": "cleaning_supplies", "quantity": 1, "unit": "set"},
@@ -1398,177 +1519,6 @@ create_task(
     notes="PENDING: Final inspection scheduled with city inspector. Cleanup crew on standby.",
 )
 
-# =============================================================================
-# CASCADING DELAY SCENARIO - CONTAINER BLOCKAGE
-# =============================================================================
-
-create_task(
-    title="URGENT: Remove Container Blocking Site Entrance",
-    description="Emergency task: A shipping container has been incorrectly placed at the main site entrance, completely blocking truck access. Must coordinate with container company and site security to remove immediately.",
-    room="SITE-ENTRANCE", 
-    floor=0,
-    building_section="Site Wide",
-    zone_type="access",
-    assigned_workers=["1", "10"],  # Robert Martinez (Supervisor), Tyler Johnson
-    required_worker_count=2,
-    skill_requirements=["site_coordination", "emergency_response", "heavy_equipment_coordination"],
-    trade_category="management",
-    created_by="site_foreman",
-    supervisor_id="1", 
-    priority=3,
-    status="blocked",
-    start_date="2025-09-12",
-    due_date="2025-09-12", 
-    min_estimated_hours=3.0,
-    max_estimated_hours=8.0,
-    actual_hours=0.0,
-    completion_percentage=0,
-    dependencies=[],
-    blocks_tasks=["31", "32", "33", "34"],
-    required_materials=[],
-    required_equipment=["mobile_crane", "container_truck"],
-    weather_dependent=False,
-    noise_level="medium",
-    safety_requirements=["traffic_control", "heavy_equipment_safety"],
-    notes="CRITICAL BLOCKER: Container company claims mix-up in delivery schedule. Crane operator unavailable until afternoon. All material deliveries backed up.",
-)
-
-create_task(
-    title="Crane Steel Delivery for Restaurant Extension",
-    description="Receive and position structural steel delivery for restaurant kitchen extension using mobile crane. Critical for maintaining construction schedule.",
-    room="REST-DELIVERY",
-    floor=0, 
-    building_section="Restaurant",
-    zone_type="delivery",
-    assigned_workers=["3"],  # Michael Rodriguez (Crane operator)
-    required_worker_count=1,
-    skill_requirements=["crane_operation_mobile", "material_handling", "steel_positioning"],
-    trade_category="heavy_machinery",
-    created_by="project_manager",
-    supervisor_id="1",
-    priority=3,
-    status="blocked", 
-    start_date="2025-09-12",
-    due_date="2025-09-12",
-    min_estimated_hours=4.0,
-    max_estimated_hours=6.0, 
-    actual_hours=0.0,
-    completion_percentage=0,
-    dependencies=["30"],  # Blocked by container removal
-    blocks_tasks=["32"],
-    required_materials=[
-        {"material": "structural_steel_beams", "quantity": 12, "unit": "pieces"},
-        {"material": "steel_connections", "quantity": 24, "unit": "pieces"}
-    ],
-    required_equipment=["mobile_crane", "rigging_equipment"],
-    weather_dependent=True,
-    noise_level="high", 
-    safety_requirements=["crane_safety", "rigging_safety", "steel_handling"],
-    notes="BLOCKED: Steel delivery truck cannot access site due to container blockage. Supplier threatening to reschedule delivery to next week if not resolved by 2 PM.",
-)
-
-create_task(
-    title="Restaurant Kitchen Steel Installation - Emergency Rush",
-    description="Install structural steel for restaurant kitchen expansion that was delayed by delivery issues. Now critical path item affecting all downstream work.",
-    room="REST-KITCHEN-EXT",
-    floor=1,
-    building_section="Restaurant", 
-    zone_type="structural",
-    assigned_workers=["6", "3"],  # Carlos Garcia, Michael Rodriguez
-    required_worker_count=2,
-    skill_requirements=["structural_steel_erection", "welding_structural", "emergency_installation"],
-    trade_category="steel_erection",
-    created_by="project_manager", 
-    supervisor_id="1",
-    priority=3,
-    status="blocked",
-    start_date="2025-09-12", 
-    due_date="2025-09-13",
-    min_estimated_hours=12.0,
-    max_estimated_hours=16.0,
-    actual_hours=0.0,
-    completion_percentage=0,
-    dependencies=["31"],  # Blocked by steel delivery
-    blocks_tasks=["33"],
-    required_materials=[
-        {"material": "welding_rods", "quantity": 25, "unit": "pounds"},
-        {"material": "structural_bolts", "quantity": 100, "unit": "pieces"}
-    ],
-    required_equipment=["welding_equipment", "fall_protection", "structural_tools"],
-    weather_dependent=False,
-    noise_level="high",
-    safety_requirements=["steel_erection_safety", "welding_safety", "fall_protection"],
-    notes="BLOCKED: Cannot start without steel delivery. Crew has been reassigned to other tasks but must return immediately once steel arrives. Kitchen opening date at risk.",
-)
-
-create_task(
-    title="Restaurant Kitchen Equipment Installation", 
-    description="Install commercial kitchen equipment that requires the new structural steel support. Includes heavy duty ovens, walk-in cooler, and ventilation connections.",
-    room="REST-KITCHEN",
-    floor=1,
-    building_section="Restaurant",
-    zone_type="kitchen",
-    assigned_workers=["5"],  # James Wilson (Plumbing/HVAC)
-    required_worker_count=1, 
-    skill_requirements=["kitchen_equipment_installation", "heavy_equipment_handling", "utility_connections"],
-    trade_category="mechanical",
-    created_by="project_manager",
-    supervisor_id="1",
-    priority=3,
-    status="blocked",
-    start_date="2025-09-13",
-    due_date="2025-09-15",
-    min_estimated_hours=16.0,
-    max_estimated_hours=24.0,
-    actual_hours=0.0,
-    completion_percentage=0,
-    dependencies=["32"],  # Blocked by steel installation
-    blocks_tasks=["34"],
-    required_materials=[
-        {"material": "equipment_connections", "quantity": 8, "unit": "pieces"},
-        {"material": "refrigeration_lines", "quantity": 50, "unit": "feet"},
-        {"material": "gas_connections", "quantity": 4, "unit": "pieces"}
-    ],
-    required_equipment=["equipment_dollies", "lifting_equipment", "connection_tools"],
-    weather_dependent=False,
-    noise_level="medium",
-    safety_requirements=["heavy_lifting", "gas_safety", "equipment_safety"],
-    notes="BLOCKED: Kitchen equipment delivered and staged, but cannot install without structural support completion. Restaurant owner extremely concerned about opening delay.",
-)
-
-create_task(
-    title="Restaurant Final Health Department Inspection",
-    description="Critical final health department inspection for restaurant opening permit. Must be completed before any food service operations can begin.",
-    room="REST-FINAL-INSPECT",
-    floor=1, 
-    building_section="Restaurant",
-    zone_type="inspection",
-    assigned_workers=["1"],  # Robert Martinez (Supervisor)
-    required_worker_count=1,
-    skill_requirements=["inspection_coordination", "health_code_compliance", "documentation"],
-    trade_category="management",
-    created_by="project_manager",
-    supervisor_id="1", 
-    priority=3,
-    status="blocked",
-    start_date="2025-09-16",
-    due_date="2025-09-16",
-    min_estimated_hours=4.0,
-    max_estimated_hours=6.0,
-    actual_hours=0.0,
-    completion_percentage=0,
-    dependencies=["33"],  # Blocked by equipment installation
-    blocks_tasks=[],
-    required_materials=[
-        {"material": "inspection_documentation", "quantity": 1, "unit": "set"},
-        {"material": "compliance_certificates", "quantity": 5, "unit": "pieces"}
-    ],
-    required_equipment=["inspection_tools", "measuring_equipment"],
-    weather_dependent=False,
-    noise_level="low",
-    safety_requirements=["health_code_compliance", "food_safety_standards"],
-    notes="BLOCKED: Health inspector scheduled for Monday morning. If equipment isn't operational by Friday, inspection must be rescheduled for following week, delaying restaurant opening by 10+ days. Owner threatening to cancel contract.",
-)
 
 # =============================================================================
 # DATASET SUMMARY
@@ -1579,19 +1529,19 @@ create_task(
 # - 1 Team Leader (Sarah Thompson)
 # - 8 Workers (7 experienced + 1 junior)
 
-# TOTAL TASKS: 35
+# TOTAL TASKS: 29
 # STATUS BREAKDOWN:
-# - Completed: 9 tasks (26%)
-# - In Progress: 8 tasks (23%)
-# - Pending: 11 tasks (31%) [includes unassigned tasks]
-# - Blocked: 6 tasks (17%) [including cascade scenario]
+# - Completed: 9 tasks (31%)
+# - In Progress: 8 tasks (28%)
+# - Pending: 11 tasks (38%) [includes unassigned tasks]
+# - Blocked: 0 tasks (0%) [clean state for testing]
 # - Canceled: 1 task (3%)
 
 # BUILDINGS COVERED:
 # - Retail Building: 12 tasks
-# - Restaurant: 10 tasks
+# - Restaurant: 8 tasks
 # - Car Wash: 6 tasks
-# - Site-wide: 2 tasks
+# - Site-wide: 3 tasks
 
 # TRADE CATEGORIES REPRESENTED:
 # - Electrical: 6 tasks
@@ -1602,6 +1552,24 @@ create_task(
 # - Painting: 2 tasks
 # - Flooring: 2 tasks
 # - General/Management: 3 tasks
+
+# PHASE STRUCTURE (Ready for Crisis Testing):
+# Phase 1: Site preparation (Tasks 1-4)
+# Phase 2: Concrete foundation (Tasks 5-7)
+# Phase 3: Structural Framing (Tasks 8-10)
+# Phase 4: Electrical Rough-in (Tasks 11-13)
+# Phase 5: Plumbing & HVAC Rough-in (Tasks 14-16)
+# Phase 6: Roofing & Exterior (Tasks 17-19)
+# Phase 7: Interior Finishes (Tasks 20-24)
+# Final: Systems & Inspection (Tasks 25-29)
+
+# LOGICAL DEPENDENCIES FOR TESTING:
+# - Survey (1) blocks all excavation (2-4)
+# - Excavation blocks foundation pours (5-7)
+# - Foundations block structural work (8-10)
+# - Structure blocks rough-ins (11-16)
+# - Rough-ins block finishes (17-24)
+# - Finishes block final systems (25-29)
 
 # REALISTIC SCENARIOS INCLUDED:
 # - Weather delays (Car Wash Foundation)

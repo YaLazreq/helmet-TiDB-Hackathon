@@ -2,6 +2,11 @@
 
 A multi-agent system using LangGraph for automated construction task management with TiDB database.
 
+> Our insight was simple: What if construction sites possessed reflexion, an intelligent system capable of preventing cascade failures through real-time optimization? 
+Helmet embodies this vision through an agentic architecture that transforms construction sites into self-organizing, continuously adaptive systems. By leveraging the voices of workers on the field, their real-time observations, concerns and insights, we feed this critical human intelligence to AI agents that can instantly reorganize the worksite based on what workers are reporting and provide a clear action plan to the construction site supervisor.
+
+> This creates a dynamic feedback loop where field expertise directly drives intelligent orchestration,  automated resolutions completed in ~140 seconds. This enable the site to adapt and optimize in real-time as conditions change and challenges emerge.
+
 ## 🎯 Overview
 
 This project implements an intelligent task management system for the construction industry, using:
@@ -18,21 +23,27 @@ This project implements an intelligent task management system for the constructi
 - **Supervisor**: Central task orchestration and delegation
 - **Planning**: Task planning and scheduling
 - **Conflict**: Resource conflict detection and resolution
-- **Team Builder**: Intelligent team allocation
 - **Notifier**: Automated notifications and alerts
 - **Executor**: Task execution and tracking
 
 ### 🎲 Code Specialties
 
 - **Multi-agent architecture** with LangGraph for complex workflows
-- **Vector database** TiDB for advanced semantic search
+- **Vector database** TiDB for semantic search
 - **MCP protocol** for secure database interaction
 - **Intelligent tracing** with LangSmith for real-time monitoring
-- **Automated conflict management** for resource optimization
 - **RESTful API** with FastAPI for external integration
-- **Multilingual support** (French/English) in interactions
+- **Multilingual support** in interactions
 
 ## 🚀 Installation and Configuration
+
+### Use the project hosted
+
+[Helmet Supervisor App Link](https://google.com)
+
+[Helmet Worker App Link](https://google.com)
+
+### Use locally
 
 ### Prerequisites
 
@@ -62,13 +73,78 @@ TIDB_PASSWORD=your-password
 TIDB_DATABASE=your-database-name
 
 # AI API Keys
-ANTHROPIC_API_KEY=sk-ant-api03-your-key
+ANTHROPIC_API_KEY=""
 
 # LangSmith Configuration (for monitoring)
 LANGSMITH_TRACING="true"
 LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
 LANGSMITH_API_KEY=lsv2_pt_your-langsmith-key
 LANGSMITH_PROJECT="your-project-name"
+```
+
+## 🐳 Running with Docker
+
+### Build and run the application
+
+```bash
+# Build the Docker image
+docker build -t helmet-tidb .
+
+# Run the container with environment variables
+docker run -d \
+  --name helmet-app \
+  -p 8000:8000 \
+  -p 8080:8080 \
+  --env-file .env \
+  helmet-tidb
+```
+
+### Monitor the application
+
+```bash
+# Check container status
+docker ps
+
+# View application logs
+docker logs -f helmet-app
+
+# Health check
+curl http://localhost:8000/health
+```
+
+### Stop the application
+
+```bash
+# Stop and remove the container
+docker stop helmet-app
+docker rm helmet-app
+```
+
+### Docker Compose (Alternative)
+
+Create a `docker-compose.yml` file:
+
+```yaml
+version: '3.8'
+services:
+  helmet:
+    build: .
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+
+Then run:
+
+```bash
+docker-compose up -d
 ```
 
 #### 2.2 Initialize database schema
@@ -89,10 +165,10 @@ Connect to your TiDB interface and verify that the following tables have been cr
 
 - `users`: User and worker management
 - `tasks`: Tasks with geolocation and skills
-- `projects`: Construction projects
-- `task_assignments`: Task assignments
 - `notifications`: Notification system
-- Views: `active_tasks`, `overdue_tasks`, `worker_workload`
+- `messages`: Notification system
+- `task_vectors`: Vector representations of tasks for semantic search
+- `user_vectors`: Vector representations of users for skill matching
 
 ### 3. LangSmith Configuration (Monitoring)
 
@@ -107,27 +183,9 @@ Create an account on [LangSmith](https://smith.langchain.com/) and add your keys
 
 ## 🎮 Usage
 
-### 1. Launch the MCP database server
 
-```bash
-make mcp-db
-```
+!!!!!!!!!!!!!!!!!!!!!!!
 
-This server must run in the background to allow agents to access the database.
-
-### 2. Configure test message
-
-In `main.py`, line 28, replace the message with your worker's message:
-
-```python
-message = "[User ID: 2 - Message Date: Sun. 10 September 2025]: Your message here"
-```
-
-### 3. Execute the main application
-
-```bash
-make main
-```
 
 ### 4. Observe execution in LangSmith
 
@@ -159,39 +217,12 @@ make main
 └── requirements.txt            # Python dependencies
 ```
 
-## 🔧 Available Commands
-
-```bash
-# Initialize database schema
-python src/mcp/mcp_db/schema/execute_schema.py
-
-# Start MCP database server
-make mcp-db
-
-# Launch main application after MCP server
-make main
-```
 
 ## 🧪 Usage Examples
 
 ### Test messages for agents
 
-```python
-# Task assignment
-"[User ID: 2]: Can you find someone to help me on my actual task ?"
-
-# Contact update
-"[User ID: 1]: Update Michael Rodriguez's phone: +1-711-123-4567"
-
-# Site emergency
-"[User ID: 3]: Container blocking main entrance needs urgent removal"
-
-# Project delay
-"[User ID: 3]: Restaurant Foundation Excavation on RETAIL Building is delayed"
-
-# Resource shortage
-"[User ID: 2]: we don't have enough sheath anymore"
-```
+See CRISIS_TEST_SCENARIOS.md for various crisis scenarios to test the agents.
 
 ## 📊 Monitoring with LangSmith
 
