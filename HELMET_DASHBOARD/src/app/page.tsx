@@ -15,23 +15,23 @@ import plan from "../images/plan.png";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const useWebSocket = (url : string) => {
+export const useWebSocket = (url: string) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     const ws = new WebSocket(url);
-    
+
     ws.onopen = () => {
       console.log('WebSocket connecté');
       setSocket(ws);
     };
-    
+
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       setData(message);
     };
-    
+
     ws.onclose = () => {
       console.log('WebSocket fermé');
       setSocket(null);
@@ -50,8 +50,8 @@ export const applyChange = (actionList: string) => {
     message: "[999][User ID: 1 : " + actionList + "]"
   };
   // alert(apiPayload.message);
-   
-  fetch('http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/call_supervisor', {
+
+  fetch('http://localhost:8000/call_supervisor', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ export const applyChange = (actionList: string) => {
 }
 
 export default function Home() {
-  const { data } = useWebSocket('ws://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/ws');
+  const { data } = useWebSocket('http://localhost:8000/ws');
 
   type Task = {
     id: number;
@@ -81,30 +81,30 @@ export default function Home() {
       console.log("Received WebSocket data:", data);
       try {
         if (data?.ding === "task") {
-          const res = await fetch("http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/tasks");
+          const res = await fetch("http://localhost:8000/tasks");
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const { tasks } = await res.json();
 
-            setAllCompletedTasks(tasks.filter((t: Task) => t.status === "completed"));
-            setAllTasks(tasks.filter((t: Task) => t.status !== "completed"));
+          setAllCompletedTasks(tasks.filter((t: Task) => t.status === "completed"));
+          setAllTasks(tasks.filter((t: Task) => t.status !== "completed"));
         }
 
         if (data?.ding === "notification") {
           console.log("Fetching notifications due to WebSocket event");
-          const res = await fetch("http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/notifications");
+          const res = await fetch("http://localhost:8000/notifications");
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const { notifications } = await res.json();
 
-            setAllTrigeredNotifications(
+          setAllTrigeredNotifications(
             notifications.filter((n: Notification) => n.is_triggered)
-            );
-            setAllNotifications(
+          );
+          setAllNotifications(
             notifications.filter((n: Notification) => !n.is_triggered)
-            );
+          );
         }
 
         // if (data?.ding === "news") {
-        //   const res = await fetch("http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/news");
+        //   const res = await fetch("http://localhost:8000/news");
         //   if (!res.ok) throw new Error(`HTTP ${res.status}`);
         //   const { news } = await res.json();
         //   setAllNews(news);
@@ -131,7 +131,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchTasks() {
       try {
-        const response = await fetch('http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/tasks');
+        const response = await fetch('http://localhost:8000/tasks');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -150,7 +150,7 @@ export default function Home() {
 
     async function fetchNotifications() {
       try {
-        const response = await fetch('http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/notifications');
+        const response = await fetch('http://localhost:8000/notifications');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -188,7 +188,7 @@ export default function Home() {
         </section>
         <section className={`flex w-full items-center justify-center text-black text-xs gap-2 ${inter.className} tracking-tighter font-medium mb-10`}>
           <span className="outline-1 outline-black/5 rounded-2xl p-1 pr-2">
-            <FlagIcon className="h-3 w-3 inline-block ml-1 mr-1 mb-0.5"/>
+            <FlagIcon className="h-3 w-3 inline-block ml-1 mr-1 mb-0.5" />
             {LocalisationSite}
           </span>
           <span className="outline-1 outline-black/5 rounded-2xl p-1 pr-2">
@@ -207,7 +207,7 @@ export default function Home() {
             <ClipboardList className="h-5 w-5 mr-2 text-black mt-0.75" />
             Construction Site Tasks
           </header>
-          
+
           {/* TASKS TABLE HEADER */}
           <article className="outline-2 rounded-lg outline-black/5">
             <header className={`grid grid-cols-[2fr_1fr_1fr_1fr] p-3 text-gray-500 ${inter.className} tracking-tighter font-medium text-sm`}>
@@ -218,7 +218,7 @@ export default function Home() {
             </header>
             {/* LIST OF TASKS */}
             <div className="">
-              {allTasks.length > 0 ? (  
+              {allTasks.length > 0 ? (
                 allTasks.map((task: any) => (
                   <TaskRow
                     key={task.id}
@@ -230,22 +230,22 @@ export default function Home() {
                       task.status.toLowerCase() === 'completed'
                         ? 'bg-green-100/50'
                         : task.status.toLowerCase() === 'in_progress'
-                        ? 'bg-blue-100/50'
-                        : task.status.toLowerCase() === 'cancelled'
-                        ? 'bg-red-100/50'
-                        : task.status.toLowerCase() === 'pending'
-                        ? 'bg-yellow-100/50'
-                        : task.status.toLowerCase() === 'blocked'
-                        ? 'bg-black/20'
-                        : ''
-                    }/>
+                          ? 'bg-blue-100/50'
+                          : task.status.toLowerCase() === 'cancelled'
+                            ? 'bg-red-100/50'
+                            : task.status.toLowerCase() === 'pending'
+                              ? 'bg-yellow-100/50'
+                              : task.status.toLowerCase() === 'blocked'
+                                ? 'bg-black/20'
+                                : ''
+                    } />
                 ))
               ) : (
                 <p className="p-3 text-gray-500 border-t-2 border-black/5"> No tasks available.</p>
               )}
             </div>
           </article>
-          
+
           {/* COMPLETED TASKS */}
           <article className="outline-2 rounded-lg outline-black/5">
             <header className={`grid grid-cols-[2fr_1fr_1fr_1fr] p-3 text-gray-500 ${inter.className} tracking-tighter font-medium text-sm`}>
@@ -256,7 +256,7 @@ export default function Home() {
             </header>
             {/* LIST OF TASKS */}
             <div className="">
-              {allCompletedTasks.length > 0 ? (  
+              {allCompletedTasks.length > 0 ? (
                 allCompletedTasks.map((task: any) => (
                   <TaskRow
                     key={task.id}
@@ -268,15 +268,15 @@ export default function Home() {
                       task.status.toLowerCase() === 'completed'
                         ? 'bg-green-100/50'
                         : task.status.toLowerCase() === 'in_progress'
-                        ? 'bg-blue-100/50'
-                        : task.status.toLowerCase() === 'cancelled'
-                        ? 'bg-red-100/50'
-                        : task.status.toLowerCase() === 'pending'
-                        ? 'bg-yellow-100/50'
-                        : task.status.toLowerCase() === 'blocked'
-                        ? 'bg-black/20'
-                        : ''
-                    }/>
+                          ? 'bg-blue-100/50'
+                          : task.status.toLowerCase() === 'cancelled'
+                            ? 'bg-red-100/50'
+                            : task.status.toLowerCase() === 'pending'
+                              ? 'bg-yellow-100/50'
+                              : task.status.toLowerCase() === 'blocked'
+                                ? 'bg-black/20'
+                                : ''
+                    } />
                 ))
               ) : (
                 <p className="p-3 text-gray-500 border-t-2 border-black/5"> No tasks available.</p>
@@ -305,9 +305,9 @@ export default function Home() {
                       </span>
                     </div>
                   </div>
-                  
+
                   {/* LISTE OF NEWS */}
-                  {allNotifications.length > 0 ? (  
+                  {allNotifications.length > 0 ? (
                     allNotifications.map((news: any) => (
                       <div className="flex" key={news.id}>
                         <span className="w-1 mb-4 h-auto mr-4 bg-blue-600 rounded-full"></span>
@@ -319,10 +319,10 @@ export default function Home() {
                         />
                         <section className="flex justify-end items-end w-58 ml-4y">
                           <button className="w-30 h-8 mb-4 bg-blue-600 hover:bg-blue-700 text-white/90 px-4 py-2 rounded-tl-2xl rounded-bl-2xl text-xs font-medium transition-colors" onClick={() => applyChange(news.action_list)}>
-                              Apply Change
+                            Apply Change
                           </button>
                           <button className="w-14 h-8 ml-0.5 pr-12 mr-2 mb-4 bg-gray-400 hover:bg-gray-500 text-white/90 px-4 py-2 rounded-tr-2xl rounded-br-2xl text-xs font-medium transition-colors">
-                              Cancel
+                            Cancel
                           </button>
                         </section>
                       </div>
@@ -330,21 +330,21 @@ export default function Home() {
                   ) : (
                     <p className="p-3 text-gray-500 border-t-2 border-black/5"> No news yet.</p>
                   )}
-                  
+
                 </section>
                 {/* BUTTON */}
               </article>
 
               {/* Notifications */}
-              {allTrigeredNotifications.length > 0 ? (  
+              {allTrigeredNotifications.length > 0 ? (
                 allTrigeredNotifications.map((notification: any) => (
-                    <Notification
-                      key={notification.id}
-                      type={notification.type}
-                      date={new Date(notification.date).toLocaleDateString()}
-                      message={notification.title}
-                      isActive={notification.is_active}
-                    />
+                  <Notification
+                    key={notification.id}
+                    type={notification.type}
+                    date={new Date(notification.date).toLocaleDateString()}
+                    message={notification.title}
+                    isActive={notification.is_active}
+                  />
                 ))
               ) : (
                 <p className="p-3 text-gray-500 border-t-2 border-black/5"> No notifications yet.</p>
@@ -352,13 +352,13 @@ export default function Home() {
 
             </section>
           </section>
-          
+
 
           {/* PROJECT MAP */}
           <section className="rounded-lg overflow-hidden bg-gray-400">
             <div className="relative">
               {/* Map placeholder - you can replace this with an actual map component */}
-                <div className="h-48 relative overflow-hidden">
+              <div className="h-48 relative overflow-hidden">
                 {/* Background image */}
                 <Image src={plan} alt="Project Plan" fill style={{ objectFit: "cover" }} className="absolute inset-0 z-0" priority />
                 {/* Map controls overlay */}

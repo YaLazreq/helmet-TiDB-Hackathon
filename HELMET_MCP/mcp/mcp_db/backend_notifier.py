@@ -16,7 +16,7 @@ def notify_db_update(data: str) -> Dict[str, Any]:
     Raises:
         requests.RequestException: If the request fails
     """
-    url = "http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/notify_db_update"
+    url = "http://localhost:8000/notify_db_update"
 
     try:
         response = requests.post(
