@@ -1,10 +1,11 @@
 # 🚧 Helmet - Intelligent Construction Task Management
+(TIDB Account on : yanis.lazreq.pro@gmail.com)
 
 > An agentic system that transforms construction sites into self-organizing, adaptive systems using real-time worker feedback and AI orchestration.
 
 ## 🎯 Quick Start
 
-> If you want to use our host application, please visit [Worker App](http://34.229.189.179:3000/), [Construction Site Supervisor App](http://dashboard-lb-491753214.us-east-1.elb.amazonaws.com/) for the hosted version.
+> If you want to use our host application, please visit [Worker App](http://34.236.170.225:3000/), [Construction Site Supervisor App](http://dashboard-lb-491753214.us-east-1.elb.amazonaws.com/) for the hosted version.
 
 ### Prerequisites
 - TiDB Cloud database Credentials
