@@ -9,7 +9,7 @@ from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from src.mcp.db_client import connect_db_mcp
+from HELMET_MCP.mcp.db_client import connect_db_mcp
 from run_supervisor import run_supervisor_agent
 
 load_dotenv()
