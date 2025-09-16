@@ -1,16 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  
-  // Désactiver ESLint et TypeScript checks pendant le build
   eslint: {
+    // Désactiver ESLint pendant le build
     ignoreDuringBuilds: true,
   },
   typescript: {
+    // Si vous avez aussi des erreurs TypeScript
     ignoreBuildErrors: true,
   },
-  
-  // Vos autres configurations...
+  experimental: {
+    // Si vous utilisez Turbopack
+    turbo: {
+      resolveAlias: {
+        canvas: './empty-module.js',
+      },
+    },
+  },
+  output: 'standalone', // Important pour Docker
 }
 
 module.exports = nextConfig

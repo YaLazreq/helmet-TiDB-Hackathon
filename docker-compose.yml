@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # Backend Python principal
+  backend:
+    build:
+      context: ./HELMET_BACKEND
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./.env:/app/.env
+      - ./HELMET_MCP:/app/HELMET_MCP  # Montage du dossier MCP
+    restart: unless-stopped
+
+  # Dashboard Next.js
+  dashboard:
+    build:
+      context: ./HELMET_DASHBOARD
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Frontend Next.js
+  frontend:
+    build:
+      context: ./HELMET_FRONTEND
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Service MCP avec ML/AI
+  mcp-service:
+    build:
+      context: ./HELMET_MCP
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    environment:
+      - BACKEND_URL=http://backend:8000
+    volumes:
+      - ./.env:/app/.env
+    depends_on:
+      - backend
+    restart: unless-stopped
+    # Plus de ressources pour les modèles ML
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  shared-data:

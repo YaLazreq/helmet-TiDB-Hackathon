@@ -39,14 +39,14 @@ export default function Home() {
   useEffect(() => {
     // API call to local backend  tasks/id
     const fetchTask = async () => {
-      const response = await fetch(`http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/tasks/${userId}`);
+      const response = await fetch(`http://localhost:8000/tasks/${userId}`);
       const data = await response.json();
       setTask(data.task);
       console.log(data.task);
     };
 
     const fetchAllUsersIDs = async () => {
-      const response = await fetch('http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/all_users');
+      const response = await fetch('http://localhost:8000/all_users');
       const data = await response.json();
       setOtherUserTest(data.users);
       console.log(data.users);
@@ -54,7 +54,7 @@ export default function Home() {
 
     fetchAllUsersIDs();
     fetchTask();
-    
+
     const Id = sessionStorage.getItem("userId");
     if (Id !== null) {
       setUserId(parseInt(Id));
@@ -73,41 +73,41 @@ export default function Home() {
   // const [chatOpened, setChatOpened] = useState(false)
 
   useEffect(() => {
-  setIsFading(true);
+    setIsFading(true);
 
-  const timer = setTimeout(() => {
-    setDisplayText(isListening ? "Je vous écoute" : "Appuyez sur le micro et parlez");
-    setIsFading(false);
-  }, 300);
+    const timer = setTimeout(() => {
+      setDisplayText(isListening ? "Je vous écoute" : "Appuyez sur le micro et parlez");
+      setIsFading(false);
+    }, 300);
 
-  const timerVisible = setTimeout(() => {
-    if (isListening) {
-      setIsTaskVisible(false);
-    } else {
-      setIsTaskVisible(true);
-    }
-  }, 300);
+    const timerVisible = setTimeout(() => {
+      if (isListening) {
+        setIsTaskVisible(false);
+      } else {
+        setIsTaskVisible(true);
+      }
+    }, 300);
 
-  return () => {
-    clearTimeout(timer);
-    clearTimeout(timerVisible);
-  };
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timerVisible);
+    };
   }, [isListening]);
 
-  const handleUserSelect = (userId : number) => {
+  const handleUserSelect = (userId: number) => {
     setUserId(userId);
     sessionStorage.setItem("userId", userId.toString());
     setIsTestMenuOpen(false);
     // Re-fetch the task for the selected user
     const fetchTask = async () => {
-      const response = await fetch(`http://backend-helmet-lb-1240358724.us-east-1.elb.amazonaws.com/tasks/${userId}`);
+      const response = await fetch(`http://localhost:8000/tasks/${userId}`);
       const data = await response.json();
       setTask(data.task);
       console.log(data.task);
     };
     fetchTask();
   }
-  
+
   const toggleDropdown = () => {
     setIsTestMenuOpen(!isTestMenuOpen);
   };
@@ -126,49 +126,49 @@ export default function Home() {
         HELMET
         {/* <BurgerMenu /> */}
         <button onClick={toggleDropdown} className="inline-flex flex-col items-center justify-between w-48 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-        <span>Sélectionner un utilisateur</span>
-        <span>CURRENT ID : {userId}</span>
-        {isTestMenuOpen ? (<ChevronUp className="w-5 h-5 ml-2" />) : (<ChevronDown className="w-5 h-5 ml-2" />)}</button>
+          <span>Sélectionner un utilisateur</span>
+          <span>CURRENT ID : {userId}</span>
+          {isTestMenuOpen ? (<ChevronUp className="w-5 h-5 ml-2" />) : (<ChevronDown className="w-5 h-5 ml-2" />)}</button>
         {isTestMenuOpen && (
-        <div className="absolute right-0 z-50 mt-2 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
-          <div className="py-1" ref={UserTestSelection}>
-            <div className="px-4 py-2 text-sm text-gray-500 border-b">
-              Utilisateurs disponibles
-            </div>
+          <div className="absolute right-0 z-50 mt-2 w-40 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+            <div className="py-1" ref={UserTestSelection}>
+              <div className="px-4 py-2 text-sm text-gray-500 border-b">
+                Utilisateurs disponibles
+              </div>
 
-            {OtherUserTest && OtherUserTest.length > 0 ? (
-              <div className="p-4">
-                {/* Votre code map adapté */}
-                <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
-                  {OtherUserTest.map((user) => (
-                    <div
-                      key={user.id}
-                      onClick={() => handleUserSelect(user.id)}
-                      className="flex items-center gap-4 p-2 hover:bg-gray-100 rounded-md"
-                      title={`${user.first_name} ${user.last_name}`}>
-                      <div className="w-12 h-12 bg-amber-500/10 backdrop-blur-lg shadow-xl rounded-full flex items-center justify-center text-amber-600 font-semibold cursor-pointer hover:bg-amber-500/20 transition-colors duration-200">
-                        {user.id}
+              {OtherUserTest && OtherUserTest.length > 0 ? (
+                <div className="p-4">
+                  {/* Votre code map adapté */}
+                  <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
+                    {OtherUserTest.map((user) => (
+                      <div
+                        key={user.id}
+                        onClick={() => handleUserSelect(user.id)}
+                        className="flex items-center gap-4 p-2 hover:bg-gray-100 rounded-md"
+                        title={`${user.first_name} ${user.last_name}`}>
+                        <div className="w-12 h-12 bg-amber-500/10 backdrop-blur-lg shadow-xl rounded-full flex items-center justify-center text-amber-600 font-semibold cursor-pointer hover:bg-amber-500/20 transition-colors duration-200">
+                          {user.id}
+                        </div>
+                        <div className="text-sm text-gray-700">
+                          {user.first_name} {user.last_name}
+                        </div>
                       </div>
-                      <div className="text-sm text-gray-700">
-                        {user.first_name} {user.last_name}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="p-4 text-sm text-gray-500">
-                Aucun utilisateur disponible
-              </div>
-            )}
+              ) : (
+                <div className="p-4 text-sm text-gray-500">
+                  Aucun utilisateur disponible
+                </div>
+              )}
+            </div>
           </div>
-        </div>
         )}
       </div>
       <div className="flex flex-col justify-center items-center">
-          <TaskComponent task={task} TaskCardRef={TaskCardRef} />
-          {/* {DisplayTaskInfo} */}
-          <div className={`text-3xl pr-15 pl-15 break-words text-center h-10 mb-30 ${styles.textContainer} ${isFading ? styles.fadeOut : ''} ${inter.className}`}>
+        <TaskComponent task={task} TaskCardRef={TaskCardRef} />
+        {/* {DisplayTaskInfo} */}
+        <div className={`text-3xl pr-15 pl-15 break-words text-center h-10 mb-30 ${styles.textContainer} ${isFading ? styles.fadeOut : ''} ${inter.className}`}>
           {displayText}
           {!isTaskVisible ? <span className={styles.dotAnimation}></span> : <span />}
         </div>
@@ -178,7 +178,7 @@ export default function Home() {
         {/* <ArrowRightCircleIcon className="h-15 w-15 text-amber-500 hover:text-amber-600 cursor-pointer" onClick={() => {setChatOpened(!chatOpened)}} /> */}
         <ArrowRightCircleIcon className="h-15 w-15 text-amber-500 hover:text-amber-600 cursor-pointer" onClick={() => router.push('/chat')} />
       </div>
-      
+
     </div>
   );
 }
