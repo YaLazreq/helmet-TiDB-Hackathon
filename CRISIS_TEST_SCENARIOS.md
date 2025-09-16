@@ -2,7 +2,7 @@
 # Hoverville Retail Park Project - Crisis Management
 
 ## SCENARIO 1: CONTAINER BLOCKAGE CRISIS
-**Input to inject:** A shipping container has been abandoned at the main site entrance, blocking all delivery trucks and heavy equipment access.
+**Input to inject:** A shipping container has been abandoned at the main site entrance, it's actually blocking all delivery trucks and heavy equipment access. This is a big problem it's gonna delay everything.
 
 ---
 

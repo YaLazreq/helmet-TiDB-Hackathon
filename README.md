@@ -4,6 +4,8 @@
 
 ## 🎯 Quick Start
 
+> If you want to use our host application, please visit [Worker App](http://34.229.189.179:3000/), [Construction Site Supervisor App](http://dashboard-lb-491753214.us-east-1.elb.amazonaws.com/) for the hosted version.
+
 ### Prerequisites
 - TiDB Cloud database Credentials
 - LangSmith API key (optional for monitoring)
